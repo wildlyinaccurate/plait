@@ -2,18 +2,18 @@ import diff from 'virtual-dom/diff'
 import patch from 'virtual-dom/patch'
 import createElement from 'virtual-dom/create-element'
 
-exports.start = function (config) {
-  let state = config.init()
-  let tree = config.view(state)
+exports.start = function ({ init, update, view }) {
+  let state = init()
+  let tree = view(state)
 
   const rootNode = createElement(tree)
 
   document.body.appendChild(rootNode)
 
   setInterval(() => {
-    state = config.update(state)
+    state = update(state)
 
-    const newTree = config.view(state)
+    const newTree = view(state)
     const patches = diff(tree, newTree)
 
     patch(rootNode, patches)

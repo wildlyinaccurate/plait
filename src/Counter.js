@@ -7,15 +7,7 @@ export function init () {
 }
 
 export function view (state) {
-  return h('div', {
-    style: {
-      textAlign: 'center',
-      lineHeight: (100 + state.count) + 'px',
-      border: '1px solid red',
-      width: (100 + state.count) + 'px',
-      height: (100 + state.count) + 'px'
-    }
-  }, [String(state.count)]);
+  return h('div', [`${state.count} seconds`]);
 }
 
 export function update (state) {
