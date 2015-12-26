@@ -6,7 +6,7 @@
 
 ## The Idea
 
-I've been impressed with the experience of writing reactive apps with [Elm](http://elm-lang.org/). I wanted to find a way to achieve similar architecture with a minimal amount of vanilla JavaScript.
+I've been impressed with the experience of writing reactive apps in [Elm](http://elm-lang.org/). I wanted to find a way to achieve similar architecture with a minimal amount of vanilla JavaScript.
 
 In this project, an app is composed of one or more encapsulated components. Each component implements `view`, which renders the component with a given state; `update`, which updates the state based on a given action; and `init`, which provides the initial state.
 
