@@ -1,23 +1,33 @@
+import { createStore } from 'redux'
 import diff from 'virtual-dom/diff'
 import patch from 'virtual-dom/patch'
 import createElement from 'virtual-dom/create-element'
+import Delegator from 'dom-delegator'
 
 exports.start = function ({ init, update, view }) {
-  let state = init()
-  let tree = view(state)
+  const delegator = Delegator()
 
+  const initialState = init()
+  const store = createStore((state = initialState, action) => {
+    return update(state, action.type)
+  })
+
+  const dispatch = (action) => {
+    return () => {
+      store.dispatch({ type: action })
+    }
+  }
+
+  let tree = view(initialState, dispatch)
   const rootNode = createElement(tree)
-
   document.body.appendChild(rootNode)
 
-  setInterval(() => {
-    state = update(state)
-
-    const newTree = view(state)
+  store.subscribe(() => {
+    const newTree = view(store.getState(), dispatch)
     const patches = diff(tree, newTree)
 
     patch(rootNode, patches)
 
     tree = newTree
-  }, 1000)
+  })
 }
