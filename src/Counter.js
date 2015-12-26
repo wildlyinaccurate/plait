@@ -2,16 +2,37 @@ import h from 'virtual-dom/h'
 
 export function init () {
   return {
-    count: 0
+    value: 0
   }
 }
 
-export function view (state) {
-  return h('div', [`${state.count} seconds`]);
+export function update (state, action) {
+  switch (action) {
+    case 'DECREMENT':
+      return { value: state.value - 1 }
+
+    case 'INCREMENT':
+      return { value: state.value + 1 }
+  }
 }
 
-export function update (state) {
-  return {
-    count: state.count + 1
-  }
+export function view (state, dispatch) {
+  return h(
+    'div',
+    [
+      h(
+        'button',
+        { 'ev-click': dispatch('DECREMENT') },
+        ['-']
+      ),
+
+      `${state.value}`,
+
+      h(
+        'button',
+        { 'ev-click': dispatch('INCREMENT') },
+        ['+']
+      )
+    ]
+  );
 }

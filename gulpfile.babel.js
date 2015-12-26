@@ -9,5 +9,11 @@ gulp.task('js', () => {
   browserify('./index.js')
     .transform('babelify', { presets: ['es2015'] })
     .bundle()
-    .pipe(fs.createWriteStream('app/bundle.js'));
+    .pipe(fs.createWriteStream('app/bundle.js'))
+})
+
+gulp.task('watch', () => {
+  gulp.start('js')
+
+  return gulp.watch('{index.js,src/**/*.js}', ['js'])
 })
