@@ -4,10 +4,12 @@ import patch from 'virtual-dom/patch'
 import createElement from 'virtual-dom/create-element'
 import Delegator from 'dom-delegator'
 
+import Map from './Map'
+
 exports.start = function ({ init, update, view }) {
   const delegator = Delegator()
 
-  const initialState = init()
+  const initialState = new Map(init())
   const store = createStore((state = initialState, action) => {
     return update(state, action)
   })
