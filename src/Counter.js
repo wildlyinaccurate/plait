@@ -9,10 +9,10 @@ export function init () {
 export function update (state, action) {
   switch (action.type) {
     case 'DECREMENT':
-      return { value: state.value - 1 }
+      return state.set('value', state.get('value') - 1)
 
     case 'INCREMENT':
-      return { value: state.value + 1 }
+      return state.set('value', state.get('value') + 1)
   }
 }
 
@@ -26,7 +26,7 @@ export function view (state, dispatch) {
         ['-']
       ),
 
-      `${state.value}`,
+      state.get('value'),
 
       h(
         'button',
