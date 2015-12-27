@@ -9,12 +9,12 @@ exports.start = function ({ init, update, view }) {
 
   const initialState = init()
   const store = createStore((state = initialState, action) => {
-    return update(state, action.type)
+    return update(state, action)
   })
 
   const dispatch = (action) => {
     return () => {
-      store.dispatch({ type: action })
+      store.dispatch(action)
     }
   }
 
