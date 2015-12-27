@@ -7,7 +7,7 @@ export function init () {
 }
 
 export function update (state, action) {
-  switch (action) {
+  switch (action.type) {
     case 'DECREMENT':
       return { value: state.value - 1 }
 
@@ -22,7 +22,7 @@ export function view (state, dispatch) {
     [
       h(
         'button',
-        { 'ev-click': dispatch('DECREMENT') },
+        { 'ev-click': dispatch({ type: 'DECREMENT' }) },
         ['-']
       ),
 
@@ -30,7 +30,7 @@ export function view (state, dispatch) {
 
       h(
         'button',
-        { 'ev-click': dispatch('INCREMENT') },
+        { 'ev-click': dispatch({ type: 'INCREMENT' }) },
         ['+']
       )
     ]
