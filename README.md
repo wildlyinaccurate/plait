@@ -16,7 +16,7 @@ I've been impressed with the experience of writing reactive apps in [Elm](http:/
 
 In this project, an app is composed of one or more encapsulated components. Each component implements `view`, which renders the component with a given state; `update`, which updates the state based on a given action; and `init`, which provides the initial state.
 
-Components render their views with [virtual-dom](https://github.com/Matt-Esch/virtual-dom), with DOM events being transparently handled by [dom-delegator](https://github.com/Raynos/dom-delegator). State is contained and managed with [redux](https://github.com/rackt/redux).
+Components render their views with [virtual-dom](https://github.com/Matt-Esch/virtual-dom), with DOM events being transparently handled by [dom-delegator](https://github.com/Raynos/dom-delegator). State is implemented as an immutable Map, and is contained & managed with [redux](https://github.com/rackt/redux).
 
 ## License
 
