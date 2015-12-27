@@ -4,6 +4,12 @@
     Just a little repository for me to play around with some reactive components. Heavily inspired by <a href="https://github.com/evancz/elm-architecture-tutorial/">The Elm Architecture</a> and Elm's <a href="https://github.com/evancz/start-app"><code>StartApp</code></a>.
 </p>
 
+<p align="center">
+    <a href="https://travis-ci.org/wildlyinaccurate/reactive-playground">
+        <img src="https://travis-ci.org/wildlyinaccurate/reactive-playground.svg?branch=master">
+    </a>
+</p>
+
 ## The Idea
 
 I've been impressed with the experience of writing reactive apps in [Elm](http://elm-lang.org/). I wanted to find a way to achieve a similar architecture with a minimal amount of vanilla JavaScript.
