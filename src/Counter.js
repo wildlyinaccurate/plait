@@ -26,7 +26,11 @@ export function view (state, dispatch) {
         ['-']
       ),
 
-      state.get('value'),
+      h(
+        'span',
+        { id: 'counter' },
+        state.get('value')
+      ),
 
       h(
         'button',

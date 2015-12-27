@@ -3,20 +3,42 @@ import fs from 'fs'
 import gulp from 'gulp'
 import browserify from 'browserify'
 import jasmine from 'gulp-jasmine'
+import cucumber from 'gulp-cucumber'
+import connect from 'gulp-connect'
 
-gulp.task('build', ['js', 'test'])
-gulp.task('default', ['build'])
+gulp.task('build', ['js'])
+gulp.task('test', ['jasmine', 'cucumber'])
+gulp.task('default', ['build', 'test'])
 
 gulp.task('js', () => {
-  browserify('./index.js')
+  return browserify('./index.js')
     .transform('babelify', { presets: ['es2015'] })
     .bundle()
     .pipe(fs.createWriteStream('app/bundle.js'))
 })
 
-gulp.task('test', () => {
+gulp.task('jasmine', () => {
   return gulp.src('test/**/*.js')
     .pipe(jasmine())
+})
+
+gulp.task('connect', () => {
+  connect.server({
+    root: 'app',
+    port: 8888
+  })
+})
+
+gulp.task('cucumber', ['js', 'connect'], (done) => {
+  return gulp.src('features/*')
+    .pipe(
+      cucumber({
+        'steps': 'features/steps/steps.js',
+        'format': 'summary'
+      })
+        .on('end', connect.serverClose)
+        .on('error', done)
+    )
 })
 
 gulp.task('watch', () => {
