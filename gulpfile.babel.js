@@ -4,7 +4,8 @@ import gulp from 'gulp'
 import browserify from 'browserify'
 import jasmine from 'gulp-jasmine'
 
-gulp.task('default', ['js'])
+gulp.task('build', ['js', 'test'])
+gulp.task('default', ['build'])
 
 gulp.task('js', () => {
   browserify('./index.js')
