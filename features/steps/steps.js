@@ -1,9 +1,10 @@
 import Zombie from 'zombie'
 
 module.exports = function () {
-  this.Given(/^I am on the counter app page$/, function (done) {
+  this.Given(/^I am on the counter app page$/, function () {
     this.browser = new Zombie()
-    this.browser.visit(`http://localhost:8888/index.html`, done)
+
+    return this.browser.visit(`http://localhost:8888/index.html`)
   })
 
   this.When(/^I press the "([^"]+)" button$/, function (button) {
@@ -18,6 +19,10 @@ module.exports = function () {
   })
 
   this.Then(/^the counter value should be "([\d]+)"$/, function (value) {
-    return this.browser.assert.text('#counter', value)
+    return this.browser.assert.text('.counter', value)
+  })
+
+  this.Then(/^I should see (\d+) counters?$/, function (count) {
+    return this.browser.assert.elements('.counter', count)
   })
 }
