@@ -2,6 +2,10 @@ import clone from './utils/clone'
 
 class Map {
   constructor (obj) {
+    if (typeof obj !== 'object') {
+      throw new TypeError(obj, 'is not an object')
+    }
+
     this.obj = obj
   }
 
@@ -15,6 +19,7 @@ class Map {
 
   set (prop, val) {
     const obj = this.toObject()
+
     obj[prop] = val
 
     return new Map(obj)
@@ -22,6 +27,10 @@ class Map {
 
   get (prop) {
     return this.obj[prop]
+  }
+
+  update (prop, updater) {
+    return this.set(prop, updater(this.get(prop)))
   }
 
   setIn(path, val) {
