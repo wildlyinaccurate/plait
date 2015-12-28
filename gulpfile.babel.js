@@ -45,8 +45,7 @@ gulp.task('cucumber', ['js', 'connect'], (done) => {
   return gulp.src('features/*')
     .pipe(
       cucumber({
-        'steps': 'features/steps/steps.js',
-        'format': 'summary'
+        'steps': 'features/steps/steps.js'
       })
         .on('end', connect.serverClose)
         .on('error', done)
