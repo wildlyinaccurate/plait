@@ -1,7 +1,11 @@
 import fs from 'fs'
 
 import gulp from 'gulp'
+import source from 'vinyl-source-stream'
+import buffer from 'vinyl-buffer'
+
 import browserify from 'browserify'
+import sourcemaps from 'gulp-sourcemaps'
 import jasmine from 'gulp-jasmine'
 import cucumber from 'gulp-cucumber'
 import connect from 'gulp-connect'
@@ -11,10 +15,18 @@ gulp.task('test', ['jasmine', 'cucumber'])
 gulp.task('default', ['build', 'test'])
 
 gulp.task('js', () => {
-  return browserify('./index.js')
-    .transform('babelify', { presets: ['es2015'] })
-    .bundle()
-    .pipe(fs.createWriteStream('app/bundle.js'))
+  const entry = 'index.js'
+  const b = browserify(entry, {
+    debug: true,
+    transform: ['babelify']
+  })
+
+  return b.bundle()
+    .pipe(source(entry))
+    .pipe(buffer())
+    .pipe(sourcemaps.init({ loadMaps: true }))
+    .pipe(sourcemaps.write('.'))
+    .pipe(gulp.dest('example'))
 })
 
 gulp.task('jasmine', () => {
@@ -24,7 +36,7 @@ gulp.task('jasmine', () => {
 
 gulp.task('connect', () => {
   connect.server({
-    root: 'app',
+    root: 'example',
     port: 8888
   })
 })
