@@ -3,8 +3,45 @@
 <head>
     <meta charset="utf-8">
     <title>Reactive Playground</title>
+
+    <style>
+        body {
+            font-family: sans-serif;
+            padding: 1rem;
+        }
+
+        button {
+            font-size: 0.9rem;
+            padding: 0.5rem;
+        }
+
+        .description {
+            background-color: #f5f5f5;
+            border: 1px solid #d0d0d0;
+            padding: 1rem;
+        }
+
+        .counter {
+            margin-top: 1rem;
+        }
+
+        .counter__value {
+            font-weight: bold;
+            padding: 0 0.5rem;
+        }
+    </style>
 </head>
 <body>
+    <div class="container">
+        <h1>CounterList Example</h1>
+
+        <p class="description">
+            This page is part of my <a href="https://github.com/wildlyinaccurate/reactive-playground">Reactive Playground</a>. It demonstrates a <a href="https://github.com/wildlyinaccurate/reactive-playground/blob/master/src/CounterList.js"><code>CounterList</code></a> component which is composed of <a href="https://github.com/wildlyinaccurate/reactive-playground/blob/master/src/Counter.js"><code>Counter</code></a> components.
+        </p>
+
+        <div id="app"></div>
+    </div>
+
     <script src="index.js"></script>
 </body>
 </html>

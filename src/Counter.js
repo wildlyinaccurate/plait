@@ -19,6 +19,7 @@ export function update (state, action) {
 export function view (state, dispatch) {
   return h(
     'div',
+    { className: 'counter' },
     [
       h(
         'button',
@@ -28,7 +29,7 @@ export function view (state, dispatch) {
 
       h(
         'span',
-        { className: 'counter' },
+        { className: 'counter__value' },
         state.get('value')
       ),
 

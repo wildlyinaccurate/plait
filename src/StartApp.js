@@ -22,7 +22,6 @@ exports.start = function ({ init, update, view }) {
 
   let tree = view(initialState, dispatch)
   const rootNode = createElement(tree)
-  document.body.appendChild(rootNode)
 
   store.subscribe(() => {
     const newTree = view(store.getState(), dispatch)
@@ -32,4 +31,6 @@ exports.start = function ({ init, update, view }) {
 
     tree = newTree
   })
+
+  return rootNode
 }

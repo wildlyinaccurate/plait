@@ -1,4 +1,6 @@
 import { start } from './src/StartApp'
 import { init, update, view } from './src/CounterList'
 
-start({ init, update, view })
+const appNode = start({ init, update, view })
+
+document.getElementById('app').appendChild(appNode)

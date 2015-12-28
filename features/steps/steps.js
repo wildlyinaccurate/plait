@@ -19,7 +19,7 @@ module.exports = function () {
   })
 
   this.Then(/^the counter value should be "([\d]+)"$/, function (value) {
-    return this.browser.assert.text('.counter', value)
+    return this.browser.assert.text('.counter__value', value)
   })
 
   this.Then(/^I should see (\d+) counters?$/, function (count) {
