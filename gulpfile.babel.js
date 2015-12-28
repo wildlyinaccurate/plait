@@ -9,6 +9,7 @@ import sourcemaps from 'gulp-sourcemaps'
 import jasmine from 'gulp-jasmine'
 import cucumber from 'gulp-cucumber'
 import connect from 'gulp-connect'
+import ghPages from 'gulp-gh-pages'
 
 gulp.task('build', ['js'])
 gulp.task('test', ['jasmine', 'cucumber'])
@@ -50,6 +51,11 @@ gulp.task('cucumber', ['js', 'connect'], (done) => {
         .on('end', connect.serverClose)
         .on('error', done)
     )
+})
+
+gulp.task('release', ['build'], () => {
+  return gulp.src('example/*')
+    .pipe(ghPages())
 })
 
 gulp.task('watch', () => {
