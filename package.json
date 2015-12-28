@@ -23,6 +23,9 @@
     "gulp-connect": "^2.3.1",
     "gulp-cucumber": "0.0.14",
     "gulp-jasmine": "^2.2.1",
+    "gulp-sourcemaps": "^1.6.0",
+    "vinyl-buffer": "^1.0.0",
+    "vinyl-source-stream": "^1.1.0",
     "zombie": "^4.2.1"
   }
 }
