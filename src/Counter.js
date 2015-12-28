@@ -28,7 +28,7 @@ export function view (state, dispatch) {
 
       h(
         'span',
-        { id: 'counter' },
+        { className: 'counter' },
         state.get('value')
       ),
 
