@@ -1,4 +1,4 @@
-import clone from './utils/clone'
+import clone from 'ramda/src/clone'
 
 class Map {
   constructor (obj) {
