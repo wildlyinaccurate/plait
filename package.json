@@ -1,13 +1,14 @@
 {
   "name": "oak",
-  "version": "0.0.0",
-  "description": "",
+  "version": "0.1.0",
+  "description": "A minimal reactive JavaScript framework",
   "main": "dist/oak.js",
   "es6": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "gulp test",
+    "prepublish": "gulp js"
   },
-  "author": "",
+  "author": "Joseph Wynn <joseph@wildlyinaccurate.com>",
   "license": "MIT",
   "dependencies": {
     "dom-delegator": "^13.1.0",

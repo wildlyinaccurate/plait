@@ -3496,7 +3496,11 @@ var _StartApp = require('../../StartApp');
 
 var _CounterList = require('./CounterList');
 
-var appNode = (0, _StartApp.start)({ init: _CounterList.init, update: _CounterList.update, view: _CounterList.view });
+var CounterList = _interopRequireWildcard(_CounterList);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+var appNode = (0, _StartApp.start)(CounterList);
 
 document.getElementById('app').appendChild(appNode);
 

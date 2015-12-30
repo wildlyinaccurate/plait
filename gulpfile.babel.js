@@ -53,7 +53,7 @@ gulp.task('connect', () => {
   })
 })
 
-gulp.task('cucumber', ['js', 'connect'], (done) => {
+gulp.task('cucumber', ['examples', 'connect'], (done) => {
   return gulp.src('features/*')
     .pipe(
       cucumber({

@@ -3420,7 +3420,11 @@ var _StartApp = require('../../StartApp');
 
 var _Counter = require('./Counter');
 
-var appNode = (0, _StartApp.start)({ init: _Counter.init, update: _Counter.update, view: _Counter.view });
+var Counter = _interopRequireWildcard(_Counter);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+var appNode = (0, _StartApp.start)(Counter);
 
 document.getElementById('app').appendChild(appNode);
 

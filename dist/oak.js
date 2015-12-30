@@ -3,7 +3,7 @@
 
 var _StartApp = require('./src/StartApp');
 
-var StartApp = _interopRequireWildcard(_StartApp);
+var _StartApp2 = _interopRequireDefault(_StartApp);
 
 var _Map = require('./src/Map');
 
@@ -11,9 +11,7 @@ var _Map2 = _interopRequireDefault(_Map);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-module.exports.StartApp = StartApp;
+module.exports.StartApp = _StartApp2.default;
 module.exports.Map = _Map2.default;
 
 },{"./src/Map":59,"./src/StartApp":60}],2:[function(require,module,exports){
