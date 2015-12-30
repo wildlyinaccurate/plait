@@ -20,6 +20,8 @@ Components render their views with [virtual-dom](https://github.com/Matt-Esch/vi
 
 ## An Example Application
 
+The following is an example of an application composed of a single counter component.
+
 ```js
 import h from 'virtual-dom/h'
 import { StartApp } from 'plait'
