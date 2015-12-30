@@ -14,7 +14,7 @@ import cucumber from 'gulp-cucumber'
 import connect from 'gulp-connect'
 import ghPages from 'gulp-gh-pages'
 
-gulp.task('build', ['compile', 'browserifyExamples'])
+gulp.task('build', ['compile', 'browserify', 'browserifyExamples'])
 gulp.task('test', ['jasmine', 'cucumber'])
 gulp.task('default', ['build', 'test'])
 
@@ -44,7 +44,7 @@ gulp.task('compile', () => {
 })
 
 gulp.task('browserify', ['compile'], () => {
-  return browserifyBuild('lib/index.js', 'dist', 'oak.js')
+  return browserifyBuild('lib/index.js', 'dist', 'plait.js')
 })
 
 gulp.task('browserifyExamples', () => {

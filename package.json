@@ -1,5 +1,5 @@
 {
-  "name": "oak",
+  "name": "plait",
   "version": "0.1.0",
   "description": "A minimal reactive JavaScript framework",
   "main": "lib/index",
