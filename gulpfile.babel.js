@@ -6,6 +6,7 @@ import buffer from 'vinyl-buffer'
 import merge from 'merge-stream'
 import rename from 'gulp-rename'
 
+import babel from 'gulp-babel'
 import browserify from 'browserify'
 import sourcemaps from 'gulp-sourcemaps'
 import jasmine from 'gulp-jasmine'
@@ -13,16 +14,16 @@ import cucumber from 'gulp-cucumber'
 import connect from 'gulp-connect'
 import ghPages from 'gulp-gh-pages'
 
-gulp.task('build', ['js', 'examples'])
+gulp.task('build', ['compile', 'browserifyExamples'])
 gulp.task('test', ['jasmine', 'cucumber'])
 gulp.task('default', ['build', 'test'])
 
-const browserifyBuild = (src, dest, name = src) => {
+const browserifyBuild = (src, dest, name = src, transforms = []) => {
   const b = browserify(src, {
     debug: true,
     standalone: path.basename(name, '.js'),
-    transform: ['babelify'],
-    paths: ['./node_modules', './src']
+    transform: transforms,
+    paths: ['./src']
   })
 
   return b.bundle()
@@ -34,13 +35,21 @@ const browserifyBuild = (src, dest, name = src) => {
     .pipe(gulp.dest(dest))
 }
 
-gulp.task('js', () => {
-  return browserifyBuild('index.js', 'dist', 'oak.js')
+gulp.task('compile', () => {
+  return gulp.src('src/*.js')
+    .pipe(babel({
+      presets: 'es2015'
+    }))
+    .pipe(gulp.dest('lib'))
 })
 
-gulp.task('examples', () => {
-  const counter = browserifyBuild('src/examples/Counter/Main.js', 'examples', 'Counter.js')
-  const counterList = browserifyBuild('src/examples/CounterList/Main.js', 'examples', 'CounterList.js')
+gulp.task('browserify', ['compile'], () => {
+  return browserifyBuild('lib/index.js', 'dist', 'oak.js')
+})
+
+gulp.task('browserifyExamples', () => {
+  const counter = browserifyBuild('examples/src/Counter/Main.js', 'examples', 'Counter.js', ['babelify'])
+  const counterList = browserifyBuild('examples/src/CounterList/Main.js', 'examples', 'CounterList.js', ['babelify'])
 
   return merge(counter, counterList)
 })
@@ -57,26 +66,24 @@ gulp.task('connect', () => {
   })
 })
 
-gulp.task('cucumber', ['examples', 'connect'], (done) => {
+gulp.task('cucumber', ['browserifyExamples', 'connect'], (done) => {
+  const cukes = cucumber({ 'steps': 'features/steps/steps.js' })
+    .on('end', connect.serverClose)
+    .on('error', done)
+
   return gulp.src('features/*')
-    .pipe(
-      cucumber({
-        'steps': 'features/steps/steps.js'
-      })
-        .on('end', connect.serverClose)
-        .on('error', done)
-    )
+    .pipe(cukes)
 })
 
-gulp.task('release', ['build'], () => {
+gulp.task('watch', () => {
+  gulp.start('build')
+
+  return gulp.watch('{index.js,src/**/*.js}', ['build', 'test'])
+})
+
+gulp.task('publishPages', ['build'], () => {
   return gulp.src('examples/*')
     .pipe(ghPages({
       cacheDir: 'node_modules/.publish'
     }))
-})
-
-gulp.task('watch', () => {
-  gulp.start('js')
-
-  return gulp.watch('{index.js,src/**/*.js}', ['build', 'test'])
 })

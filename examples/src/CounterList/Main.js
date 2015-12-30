@@ -1,6 +1,6 @@
 import { start } from 'StartApp'
-import * as Counter from 'examples/Counter/Counter'
+import * as CounterList from './CounterList'
 
-const appNode = start(Counter)
+const appNode = start(CounterList)
 
 document.getElementById('app').appendChild(appNode)

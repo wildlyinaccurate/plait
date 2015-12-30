@@ -2,13 +2,21 @@
   "name": "oak",
   "version": "0.1.0",
   "description": "A minimal reactive JavaScript framework",
-  "main": "dist/oak",
-  "es6": "index.js",
+  "main": "lib/index",
+  "es6": "src/index",
+  "files": [
+    "src/",
+    "lib/",
+    "dist/"
+  ],
   "scripts": {
     "test": "gulp test",
-    "prepublish": "gulp js"
+    "prepublish": "gulp compile"
   },
-  "author": "Joseph Wynn <joseph@wildlyinaccurate.com>",
+  "author": {
+    "name": "Joseph Wynn",
+    "email": "joseph@wildlyinaccurate.com"
+  },
   "license": "MIT",
   "dependencies": {
     "dom-delegator": "^13.1.0",
@@ -21,6 +29,7 @@
     "babelify": "^7.2.0",
     "browserify": "^12.0.1",
     "gulp": "^3.9.0",
+    "gulp-babel": "^6.1.1",
     "gulp-connect": "^2.3.1",
     "gulp-cucumber": "0.0.14",
     "gulp-gh-pages": "^0.5.4",

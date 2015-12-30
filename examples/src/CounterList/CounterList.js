@@ -1,7 +1,7 @@
 import h from 'virtual-dom/h'
 import Map from 'Map'
 
-import * as Counter from 'examples/Counter/Counter'
+import * as Counter from '../Counter/Counter'
 
 
 export function init () {
