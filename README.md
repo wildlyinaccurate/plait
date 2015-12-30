@@ -47,7 +47,6 @@ function update (state, action) {
 function view (state, dispatch) {
   return h(
     'div',
-    { className: 'counter' },
     [
       h(
         'button',
@@ -55,7 +54,7 @@ function view (state, dispatch) {
         ['-']
       ),
 
-      h('span', state.get('count')),
+      h('span', `${state.get('count')}`),
 
       h(
         'button',
