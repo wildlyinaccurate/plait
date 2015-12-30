@@ -23,7 +23,10 @@ export function view (state, dispatch) {
     [
       h(
         'button',
-        { 'ev-click': dispatch({ type: 'DECREMENT' }) },
+        {
+          className: 'decrement',
+          'ev-click': dispatch({ type: 'DECREMENT' })
+        },
         ['-']
       ),
 
@@ -35,7 +38,10 @@ export function view (state, dispatch) {
 
       h(
         'button',
-        { 'ev-click': dispatch({ type: 'INCREMENT' }) },
+        {
+          className: 'increment',
+          'ev-click': dispatch({ type: 'INCREMENT' })
+        },
         ['+']
       )
     ]

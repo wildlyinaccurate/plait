@@ -3404,7 +3404,13 @@ function update(state, action) {
 }
 
 function view(state, dispatch) {
-  return (0, _h2.default)('div', { className: 'counter' }, [(0, _h2.default)('button', { 'ev-click': dispatch({ type: 'DECREMENT' }) }, ['-']), (0, _h2.default)('span', { className: 'counter__value' }, state.get('value')), (0, _h2.default)('button', { 'ev-click': dispatch({ type: 'INCREMENT' }) }, ['+'])]);
+  return (0, _h2.default)('div', { className: 'counter' }, [(0, _h2.default)('button', {
+    className: 'decrement',
+    'ev-click': dispatch({ type: 'DECREMENT' })
+  }, ['-']), (0, _h2.default)('span', { className: 'counter__value' }, state.get('value')), (0, _h2.default)('button', {
+    className: 'increment',
+    'ev-click': dispatch({ type: 'INCREMENT' })
+  }, ['+'])]);
 }
 
 },{"virtual-dom/h":39}],69:[function(require,module,exports){
