@@ -1,7 +1,6 @@
 import fs from 'fs'
 
 import gulp from 'gulp'
-import gutil from 'gulp-util'
 import source from 'vinyl-source-stream'
 import buffer from 'vinyl-buffer'
 import merge from 'merge-stream'
