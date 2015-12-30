@@ -1,8 +1,8 @@
 {
-  "name": "reactive-playground",
+  "name": "oak",
   "version": "0.0.0",
   "description": "",
-  "main": "app/bundle.js",
+  "main": "dist/oak.js",
   "es6": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -24,7 +24,9 @@
     "gulp-cucumber": "0.0.14",
     "gulp-gh-pages": "^0.5.4",
     "gulp-jasmine": "^2.2.1",
+    "gulp-rename": "^1.2.2",
     "gulp-sourcemaps": "^1.6.0",
+    "merge-stream": "^1.0.0",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0",
     "zombie": "^4.2.1"

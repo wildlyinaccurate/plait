@@ -1,6 +1,5 @@
-import { start } from './src/StartApp'
-import { init, update, view } from './src/CounterList'
+import * as StartApp from './src/StartApp'
+import Map from './src/Map'
 
-const appNode = start({ init, update, view })
-
-document.getElementById('app').appendChild(appNode)
+module.exports.StartApp = StartApp
+module.exports.Map = Map

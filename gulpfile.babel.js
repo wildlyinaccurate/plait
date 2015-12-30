@@ -1,8 +1,11 @@
 import fs from 'fs'
 
 import gulp from 'gulp'
+import gutil from 'gulp-util'
 import source from 'vinyl-source-stream'
 import buffer from 'vinyl-buffer'
+import merge from 'merge-stream'
+import rename from 'gulp-rename'
 
 import browserify from 'browserify'
 import sourcemaps from 'gulp-sourcemaps'
@@ -11,23 +14,34 @@ import cucumber from 'gulp-cucumber'
 import connect from 'gulp-connect'
 import ghPages from 'gulp-gh-pages'
 
-gulp.task('build', ['js'])
+gulp.task('build', ['js', 'examples'])
 gulp.task('test', ['jasmine', 'cucumber'])
 gulp.task('default', ['build', 'test'])
 
-gulp.task('js', () => {
-  const entry = 'index.js'
-  const b = browserify(entry, {
+const browserifyBuild = (src, dest, name = src) => {
+  const b = browserify(src, {
     debug: true,
     transform: ['babelify']
   })
 
   return b.bundle()
-    .pipe(source(entry))
+    .pipe(source(src))
+    .pipe(rename(name))
     .pipe(buffer())
     .pipe(sourcemaps.init({ loadMaps: true }))
     .pipe(sourcemaps.write('.'))
-    .pipe(gulp.dest('example'))
+    .pipe(gulp.dest(dest))
+}
+
+gulp.task('js', () => {
+  return browserifyBuild('index.js', 'dist', 'oak.js')
+})
+
+gulp.task('examples', () => {
+  const counter = browserifyBuild('src/examples/Counter/Main.js', 'examples', 'Counter.js')
+  const counterList = browserifyBuild('src/examples/CounterList/Main.js', 'examples', 'CounterList.js')
+
+  return merge(counter, counterList)
 })
 
 gulp.task('jasmine', () => {
@@ -37,7 +51,7 @@ gulp.task('jasmine', () => {
 
 gulp.task('connect', () => {
   connect.server({
-    root: 'example',
+    root: 'examples',
     port: 8888
   })
 })
@@ -54,12 +68,14 @@ gulp.task('cucumber', ['js', 'connect'], (done) => {
 })
 
 gulp.task('release', ['build'], () => {
-  return gulp.src('example/*')
-    .pipe(ghPages())
+  return gulp.src('examples/*')
+    .pipe(ghPages({
+      cacheDir: 'node_modules/.publish'
+    }))
 })
 
 gulp.task('watch', () => {
   gulp.start('js')
 
-  return gulp.watch('{index.js,src/**/*.js}', ['js'])
+  return gulp.watch('{index.js,src/**/*.js}', ['js', 'jasmine'])
 })

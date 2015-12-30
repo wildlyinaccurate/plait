@@ -1,4 +1,6 @@
+import assocPath from 'ramda/src/assocPath'
 import clone from 'ramda/src/clone'
+import path from 'ramda/src/path'
 
 class Map {
   constructor (obj) {
@@ -33,35 +35,15 @@ class Map {
     return this.set(prop, updater(this.get(prop)))
   }
 
-  setIn(path, val) {
-    const obj = this.toObject()
-    const [ref, idx] = resolvePath(path, obj)
-
-    ref[path[idx]] = val
+  setIn(propPath, val) {
+    const obj = assocPath(propPath, val, this.obj)
 
     return new Map(obj)
   }
 
-  getIn(path, val) {
-    const [ref, idx] = resolvePath(path, this.obj)
-
-    return ref[path[idx]]
+  getIn(propPath) {
+    return path(propPath, this.obj)
   }
-}
-
-function resolvePath (path, ref) {
-  let idx = 0
-
-  while (idx < path.length - 1) {
-    if (ref == null) {
-      return
-    }
-
-    ref = ref[path[idx]]
-    idx += 1
-  }
-
-  return [ref, idx]
 }
 
 export default Map
