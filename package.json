@@ -2,7 +2,7 @@
   "name": "oak",
   "version": "0.1.0",
   "description": "A minimal reactive JavaScript framework",
-  "main": "dist/oak.js",
+  "main": "dist/oak",
   "es6": "index.js",
   "scripts": {
     "test": "gulp test",

@@ -1,3 +1,5 @@
+import path from 'path'
+
 import gulp from 'gulp'
 import source from 'vinyl-source-stream'
 import buffer from 'vinyl-buffer'
@@ -18,7 +20,9 @@ gulp.task('default', ['build', 'test'])
 const browserifyBuild = (src, dest, name = src) => {
   const b = browserify(src, {
     debug: true,
-    transform: ['babelify']
+    standalone: path.basename(name, '.js'),
+    transform: ['babelify'],
+    paths: ['./node_modules', './src']
   })
 
   return b.bundle()
@@ -74,5 +78,5 @@ gulp.task('release', ['build'], () => {
 gulp.task('watch', () => {
   gulp.start('js')
 
-  return gulp.watch('{index.js,src/**/*.js}', ['js', 'jasmine'])
+  return gulp.watch('{index.js,src/**/*.js}', ['build', 'test'])
 })

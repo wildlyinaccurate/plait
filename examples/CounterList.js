@@ -1,4 +1,4 @@
-(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.CounterList = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 
 },{}],2:[function(require,module,exports){
 /*!
@@ -3431,11 +3431,11 @@ var _h = require('virtual-dom/h');
 
 var _h2 = _interopRequireDefault(_h);
 
-var _Map = require('../../Map');
+var _Map = require('Map');
 
 var _Map2 = _interopRequireDefault(_Map);
 
-var _Counter = require('../Counter/Counter');
+var _Counter = require('examples/Counter/Counter');
 
 var Counter = _interopRequireWildcard(_Counter);
 
@@ -3493,12 +3493,12 @@ function addCounterButton(state, dispatch) {
   return (0, _h2.default)('button', { 'ev-click': dispatch({ type: 'ADD_COUNTER' }) }, 'Add Counter');
 }
 
-},{"../../Map":66,"../Counter/Counter":68,"virtual-dom/h":39}],70:[function(require,module,exports){
+},{"Map":66,"examples/Counter/Counter":68,"virtual-dom/h":39}],70:[function(require,module,exports){
 'use strict';
 
-var _StartApp = require('../../StartApp');
+var _StartApp = require('StartApp');
 
-var _CounterList = require('./CounterList');
+var _CounterList = require('examples/CounterList/CounterList');
 
 var CounterList = _interopRequireWildcard(_CounterList);
 
@@ -3508,7 +3508,8 @@ var appNode = (0, _StartApp.start)(CounterList);
 
 document.getElementById('app').appendChild(appNode);
 
-},{"../../StartApp":67,"./CounterList":69}]},{},[70])
+},{"StartApp":67,"examples/CounterList/CounterList":69}]},{},[70])(70)
+});
 
 
 //# sourceMappingURL=CounterList.js.map

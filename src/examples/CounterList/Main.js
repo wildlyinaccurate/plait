@@ -1,5 +1,5 @@
-import { start } from '../../StartApp'
-import * as CounterList from './CounterList'
+import { start } from 'StartApp'
+import * as CounterList from 'examples/CounterList/CounterList'
 
 const appNode = start(CounterList)
 
