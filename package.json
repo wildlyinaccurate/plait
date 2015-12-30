@@ -9,6 +9,10 @@
     "lib/",
     "dist/"
   ],
+  "directories": {
+    "example": "examples",
+    "test": "test"
+  },
   "scripts": {
     "test": "gulp test",
     "prepublish": "gulp compile"
@@ -40,5 +44,13 @@
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0",
     "zombie": "^4.2.1"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wildlyinaccurate/plait.git"
+  },
+  "bugs": {
+    "url": "https://github.com/wildlyinaccurate/plait/issues"
+  },
+  "homepage": "https://github.com/wildlyinaccurate/plait#readme"
 }
