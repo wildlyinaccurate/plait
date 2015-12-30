@@ -1,10 +1,10 @@
 import Zombie from 'zombie'
 
 module.exports = function () {
-  this.Given(/^I am on the counter app page$/, function () {
+  this.Given(/^I am on the "([^"]+)" page$/, function (page) {
     this.browser = new Zombie()
 
-    return this.browser.visit(`http://localhost:8888/index.html`)
+    return this.browser.visit(`http://localhost:8888/${page}.html`)
   })
 
   this.When(/^I press the "([^"]+)" button$/, function (button) {
