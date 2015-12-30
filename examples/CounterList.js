@@ -3389,17 +3389,21 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function init() {
   return {
-    value: 0
+    count: 0
   };
 }
 
 function update(state, action) {
   switch (action.type) {
     case 'DECREMENT':
-      return state.set('value', state.get('value') - 1);
+      return state.update('count', function (x) {
+        return x - 1;
+      });
 
     case 'INCREMENT':
-      return state.set('value', state.get('value') + 1);
+      return state.update('count', function (x) {
+        return x + 1;
+      });
   }
 }
 
@@ -3407,7 +3411,7 @@ function view(state, dispatch) {
   return (0, _h2.default)('div', { className: 'counter' }, [(0, _h2.default)('button', {
     className: 'decrement',
     'ev-click': dispatch({ type: 'DECREMENT' })
-  }, ['-']), (0, _h2.default)('span', { className: 'counter__value' }, state.get('value')), (0, _h2.default)('button', {
+  }, ['-']), (0, _h2.default)('span', { className: 'counter__value' }, state.get('count')), (0, _h2.default)('button', {
     className: 'increment',
     'ev-click': dispatch({ type: 'INCREMENT' })
   }, ['+'])]);

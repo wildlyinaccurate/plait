@@ -18,6 +18,55 @@ In Oak.js, an app is composed of one or more encapsulated components. Each compo
 
 Components render their views with [virtual-dom](https://github.com/Matt-Esch/virtual-dom), with DOM events being transparently handled by [dom-delegator](https://github.com/Raynos/dom-delegator). State is implemented as an immutable Map, and is contained & managed with [redux](https://github.com/rackt/redux).
 
+## An Example Application
+
+```js
+import h from 'virtual-dom/h'
+import { StartApp } from 'oak'
+
+const appNode = StartApp.start({ init, update, view })
+
+document.getElementById('app').appendChild(appNode)
+
+function init () {
+  return {
+    count: 0
+  }
+}
+
+function update (state, action) {
+  switch (action.type) {
+    case 'DECREMENT':
+      return state.update('count', x => x - 1)
+
+    case 'INCREMENT':
+      return state.update('count', x => x + 1)
+  }
+}
+
+function view (state, dispatch) {
+  return h(
+    'div',
+    { className: 'counter' },
+    [
+      h(
+        'button',
+        { 'ev-click': dispatch({ type: 'DECREMENT' }) },
+        ['-']
+      ),
+
+      h('span', state.get('count')),
+
+      h(
+        'button',
+        { 'ev-click': dispatch({ type: 'INCREMENT' }) },
+        ['+']
+      )
+    ]
+  )
+}
+```
+
 ## License
 
 The MIT License (MIT)
