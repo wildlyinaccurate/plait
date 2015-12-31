@@ -24,7 +24,7 @@ State is implemented as an immutable Map, and is contained & managed with [redux
 
 The following is an example of an application composed of a single counter component.
 
-```js
+```jsx
 import h from 'virtual-dom/h'
 import { StartApp } from 'plait'
 
