@@ -18,7 +18,7 @@ In Plait, an app is composed of one or more encapsulated components. Each compon
 
 State is implemented as an immutable Map, and is contained & managed with [redux](https://github.com/rackt/redux). Components render their views with [virtual-dom](https://github.com/Matt-Esch/virtual-dom), with DOM events being transparently handled by [dom-delegator](https://github.com/Raynos/dom-delegator).
 
-> **Note:** It's possible to write views in JSX and compile them to JS using [jsx-transform](https://github.com/alexmingoia/jsx-transform) with `factory: 'h'`. See below for an example.
+> **Note:** It's possible to write views in JSX and compile them to JS using [jsx-transform](https://github.com/alexmingoia/jsx-transform) (with `factory: 'h'`). See below for an example.
 
 ## An Example Application
 
