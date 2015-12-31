@@ -35,12 +35,14 @@ export function update (state, action) {
 
 
 export function view (state, dispatch) {
-  return h(
-    'div',
-    [
-      addCounterButton(state, dispatch),
-      counterView(state, dispatch)
-    ]
+  return (
+    <div>
+      <button ev-click={dispatch({ type: 'ADD_COUNTER' })}>
+        Add Counter
+      </button>
+
+      {counterView(state, dispatch)}
+    </div>
   )
 }
 
@@ -54,12 +56,4 @@ function counterView (state, dispatch) {
   return state.get('counters').map((cstate, counterIdx) => {
     return Counter.view(cstate, forwardDispatch({ type: 'MODIFY', counterIdx }))
   })
-}
-
-function addCounterButton (state, dispatch) {
-  return h(
-    'button',
-    { 'ev-click': dispatch({ type: 'ADD_COUNTER' }) },
-    'Add Counter'
-  )
 }

@@ -16,7 +16,9 @@ I've been impressed with the experience of writing reactive apps in [Elm](http:/
 
 In Plait, an app is composed of one or more encapsulated components. Each component implements `view`, which renders the component with a given state; `update`, which updates the state based on a given action; and `init`, which provides the initial state.
 
-Components render their views with [virtual-dom](https://github.com/Matt-Esch/virtual-dom), with DOM events being transparently handled by [dom-delegator](https://github.com/Raynos/dom-delegator). State is implemented as an immutable Map, and is contained & managed with [redux](https://github.com/rackt/redux).
+State is implemented as an immutable Map, and is contained & managed with [redux](https://github.com/rackt/redux). Components render their views with [virtual-dom](https://github.com/Matt-Esch/virtual-dom), with DOM events being transparently handled by [dom-delegator](https://github.com/Raynos/dom-delegator).
+
+> **Note:** It's possible to write views in JSX and compile them to JS using [jsx-transform](https://github.com/alexmingoia/jsx-transform) with `factory: 'h'`. See below for an example.
 
 ## An Example Application
 
@@ -47,23 +49,12 @@ function update (state, action) {
 }
 
 function view (state, dispatch) {
-  return h(
-    'div',
-    [
-      h(
-        'button',
-        { 'ev-click': dispatch({ type: 'DECREMENT' }) },
-        ['-']
-      ),
-
-      h('span', `${state.get('count')}`),
-
-      h(
-        'button',
-        { 'ev-click': dispatch({ type: 'INCREMENT' }) },
-        ['+']
-      )
-    ]
+  return (
+    <div className="counter">
+      <button className="decrement" ev-click={dispatch({ type: 'DECREMENT' })}>-</button>
+      <span className="counter__value">{state.get('count')}</span>
+      <button className="increment" ev-click={dispatch({ type: 'INCREMENT' })}>+</button>
+    </div>
   )
 }
 ```

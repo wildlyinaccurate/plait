@@ -35,13 +35,7 @@ function update(state, action) {
 }
 
 function view(state, dispatch) {
-  return (0, _h2.default)('div', { className: 'counter' }, [(0, _h2.default)('button', {
-    className: 'decrement',
-    'ev-click': dispatch({ type: 'DECREMENT' })
-  }, ['-']), (0, _h2.default)('span', { className: 'counter__value' }, state.get('count')), (0, _h2.default)('button', {
-    className: 'increment',
-    'ev-click': dispatch({ type: 'INCREMENT' })
-  }, ['+'])]);
+  return (0, _h2.default)('div', { className: "counter" }, [(0, _h2.default)('button', { className: "decrement", 'ev-click': dispatch({ type: 'DECREMENT' }) }, ["-"]), (0, _h2.default)('span', { className: "counter__value" }, [state.get('count')]), (0, _h2.default)('button', { className: "increment", 'ev-click': dispatch({ type: 'INCREMENT' }) }, ["+"])]);
 }
 
 },{"virtual-dom/h":43}],2:[function(require,module,exports){
@@ -101,7 +95,7 @@ function update(state, action) {
 }
 
 function view(state, dispatch) {
-  return (0, _h2.default)('div', [addCounterButton(state, dispatch), counterView(state, dispatch)]);
+  return (0, _h2.default)('div', null, [(0, _h2.default)('button', { 'ev-click': dispatch({ type: 'ADD_COUNTER' }) }, ["Add Counter"]), counterView(state, dispatch)]);
 }
 
 function counterView(state, dispatch) {
@@ -114,10 +108,6 @@ function counterView(state, dispatch) {
   return state.get('counters').map(function (cstate, counterIdx) {
     return Counter.view(cstate, forwardDispatch({ type: 'MODIFY', counterIdx: counterIdx }));
   });
-}
-
-function addCounterButton(state, dispatch) {
-  return (0, _h2.default)('button', { 'ev-click': dispatch({ type: 'ADD_COUNTER' }) }, 'Add Counter');
 }
 
 },{"../Counter/Counter":1,"Map":70,"virtual-dom/h":43}],3:[function(require,module,exports){

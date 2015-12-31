@@ -8,12 +8,17 @@ import rename from 'gulp-rename'
 
 import babel from 'gulp-babel'
 import browserify from 'browserify'
+import jsxTransform from 'jsx-transform'
 import uglify from 'gulp-uglify'
 import sourcemaps from 'gulp-sourcemaps'
 import jasmine from 'gulp-jasmine'
 import cucumber from 'gulp-cucumber'
 import connect from 'gulp-connect'
 import ghPages from 'gulp-gh-pages'
+
+const jsxify = jsxTransform.browserifyTransform.configure({
+  factory: 'h'
+})
 
 gulp.task('build', ['compile', 'browserify', 'browserifyExamples', 'minify'])
 gulp.task('test', ['jasmine', 'cucumber'])
@@ -49,8 +54,8 @@ gulp.task('browserify', ['compile'], () => {
 })
 
 gulp.task('browserifyExamples', () => {
-  const counter = browserifyBuild('examples/src/Counter/Main.js', 'examples', 'Counter.js', ['babelify'])
-  const counterList = browserifyBuild('examples/src/CounterList/Main.js', 'examples', 'CounterList.js', ['babelify'])
+  const counter = browserifyBuild('examples/src/Counter/Main.js', 'examples', 'Counter.js', [jsxify, 'babelify'])
+  const counterList = browserifyBuild('examples/src/CounterList/Main.js', 'examples', 'CounterList.js', [jsxify, 'babelify'])
 
   return merge(counter, counterList)
 })

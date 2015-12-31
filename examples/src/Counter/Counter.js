@@ -17,33 +17,11 @@ export function update (state, action) {
 }
 
 export function view (state, dispatch) {
-  return h(
-    'div',
-    { className: 'counter' },
-    [
-      h(
-        'button',
-        {
-          className: 'decrement',
-          'ev-click': dispatch({ type: 'DECREMENT' })
-        },
-        ['-']
-      ),
-
-      h(
-        'span',
-        { className: 'counter__value' },
-        state.get('count')
-      ),
-
-      h(
-        'button',
-        {
-          className: 'increment',
-          'ev-click': dispatch({ type: 'INCREMENT' })
-        },
-        ['+']
-      )
-    ]
+  return (
+    <div className="counter">
+      <button className="decrement" ev-click={dispatch({ type: 'DECREMENT' })}>-</button>
+      <span className="counter__value">{state.get('count')}</span>
+      <button className="increment" ev-click={dispatch({ type: 'INCREMENT' })}>+</button>
+    </div>
   )
 }
