@@ -8,13 +8,14 @@ import rename from 'gulp-rename'
 
 import babel from 'gulp-babel'
 import browserify from 'browserify'
+import uglify from 'gulp-uglify'
 import sourcemaps from 'gulp-sourcemaps'
 import jasmine from 'gulp-jasmine'
 import cucumber from 'gulp-cucumber'
 import connect from 'gulp-connect'
 import ghPages from 'gulp-gh-pages'
 
-gulp.task('build', ['compile', 'browserify', 'browserifyExamples'])
+gulp.task('build', ['compile', 'browserify', 'browserifyExamples', 'minify'])
 gulp.task('test', ['jasmine', 'cucumber'])
 gulp.task('default', ['build', 'test'])
 
@@ -52,6 +53,15 @@ gulp.task('browserifyExamples', () => {
   const counterList = browserifyBuild('examples/src/CounterList/Main.js', 'examples', 'CounterList.js', ['babelify'])
 
   return merge(counter, counterList)
+})
+
+gulp.task('minify', ['browserify'], () => {
+  return gulp.src('dist/plait.js')
+    .pipe(rename('plait.min.js'))
+    .pipe(sourcemaps.init({ loadMaps: true }))
+    .pipe(uglify())
+    .pipe(sourcemaps.write('.'))
+    .pipe(gulp.dest('dist'))
 })
 
 gulp.task('jasmine', () => {
