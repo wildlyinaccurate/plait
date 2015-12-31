@@ -15,7 +15,7 @@
   },
   "scripts": {
     "test": "gulp test",
-    "prepublish": "gulp compile"
+    "prepublish": "gulp build"
   },
   "author": {
     "name": "Joseph Wynn",
