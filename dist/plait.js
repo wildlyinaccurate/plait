@@ -37,14 +37,20 @@ var _Map2 = _interopRequireDefault(_Map);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var delegator = (0, _domDelegator2.default)();
 var createStoreWithMiddleware = (0, _redux.applyMiddleware)(_reduxThunk2.default)(_redux.createStore);
 
-function start(_ref) {
-  var init = _ref.init;
-  var update = _ref.update;
-  var view = _ref.view;
+// Component = {
+//   init : _ -> Object
+//   update : Map -> Action -> Map
+//   view : Map -> (Action -> Action) -> VirtualNode
+// }
 
-  var delegator = (0, _domDelegator2.default)();
+// start :: Component -> Element
+function start(component) {
+  var init = component.init;
+  var update = component.update;
+  var view = component.view;
 
   var _handleInit = handleInit(init);
 
@@ -76,33 +82,32 @@ function start(_ref) {
   var rootNode = (0, _createElement2.default)(tree);
 
   store.subscribe(function () {
-    var newTree = view(store.getState(), dispatch);
-    var patches = (0, _diff2.default)(tree, newTree);
-
-    (0, _patch2.default)(rootNode, patches);
-
-    tree = newTree;
+    tree = patchTree(rootNode, tree, view(store.getState(), dispatch));
   });
 
   return rootNode;
 }
 
-function initializeComponent(_ref2) {
-  var init = _ref2.init;
+// patchTree :: Element -> VirtualNode -> VirtualNode -> VirtualNode
+function patchTree(rootNode, oldTree, newTree) {
+  (0, _patch2.default)(rootNode, (0, _diff2.default)(oldTree, newTree));
+
+  return newTree;
+}
+
+// initializeComponent :: Component -> Map
+function initializeComponent(_ref) {
+  var init = _ref.init;
 
   return handleInit(init)[0];
 }
 
+// handleInit :: (_ -> Object) -> [Map, Maybe Action]
 function handleInit(init) {
-  var res = init();
+  var _res = init();
+  var res = Array.isArray(_res) ? _res : [_res];
 
-  if (Array.isArray(res)) {
-    // [data, action]
-    return [new _Map2.default(res[0]), res[1]];
-  } else {
-    // data
-    return [new _Map2.default(res)];
-  }
+  return [new _Map2.default(res[0]), res[1]];
 }
 },{"./Map":2,"dom-delegator":9,"redux":33,"redux-thunk":31,"virtual-dom/create-element":41,"virtual-dom/diff":42,"virtual-dom/patch":43}],2:[function(require,module,exports){
 'use strict';

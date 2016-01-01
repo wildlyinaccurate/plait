@@ -8,11 +8,21 @@ import Delegator from 'dom-delegator'
 
 import Map from './Map'
 
+
+const delegator = Delegator()
 const createStoreWithMiddleware = applyMiddleware(thunk)(createStore)
 
-export function start ({ init, update, view }) {
-  const delegator = Delegator()
 
+// Component = {
+//   init : _ -> Object
+//   update : Map -> Action -> Map
+//   view : Map -> (Action -> Action) -> VirtualNode
+// }
+
+
+// start :: Component -> Element
+export function start (component) {
+  const { init, update, view } = component
   const [initialState, initialAction] = handleInit(init)
 
   const store = createStoreWithMiddleware((state = initialState, action) => {
@@ -35,29 +45,35 @@ export function start ({ init, update, view }) {
   const rootNode = createElement(tree)
 
   store.subscribe(() => {
-    const newTree = view(store.getState(), dispatch)
-    const patches = diff(tree, newTree)
-
-    patch(rootNode, patches)
-
-    tree = newTree
+    tree = patchTree(
+      rootNode,
+      tree,
+      view(store.getState(), dispatch)
+    )
   })
 
   return rootNode
 }
 
+
+// patchTree :: Element -> VirtualNode -> VirtualNode -> VirtualNode
+function patchTree (rootNode, oldTree, newTree) {
+  patch(rootNode, diff(oldTree, newTree))
+
+  return newTree
+}
+
+
+// initializeComponent :: Component -> Map
 export function initializeComponent ({ init }) {
   return handleInit(init)[0]
 }
 
-function handleInit (init) {
-  const res = init()
 
-  if (Array.isArray(res)) {
-    // [data, action]
-    return [new Map(res[0]), res[1]]
-  } else {
-    // data
-    return [new Map(res)]
-  }
+// handleInit :: (_ -> Object) -> [Map, Maybe Action]
+function handleInit (init) {
+  const _res = init()
+  const res = Array.isArray(_res) ? _res : [_res]
+
+  return [new Map(res[0]), res[1]]
 }
