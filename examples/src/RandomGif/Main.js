@@ -1,4 +1,4 @@
-import { start } from 'StartApp'
+import { start } from 'App'
 import { init, update, view } from './RandomGif'
 
 const appNode = start({

@@ -1,4 +1,4 @@
-import StartApp from './StartApp'
+import App from './App'
 import Map from './Map'
 
-export { StartApp, Map }
+export { App, Map }

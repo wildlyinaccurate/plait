@@ -1,4 +1,4 @@
-import { start } from 'StartApp'
+import { start } from 'App'
 import * as Counter from './Counter'
 
 const appNode = start(Counter)

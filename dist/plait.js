@@ -1,91 +1,6 @@
 (function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.plait = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 'use strict';
 
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _assocPath = require('ramda/src/assocPath');
-
-var _assocPath2 = _interopRequireDefault(_assocPath);
-
-var _clone = require('ramda/src/clone');
-
-var _clone2 = _interopRequireDefault(_clone);
-
-var _path = require('ramda/src/path');
-
-var _path2 = _interopRequireDefault(_path);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _typeof(obj) { return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var Map = (function () {
-  function Map(obj) {
-    _classCallCheck(this, Map);
-
-    if ((typeof obj === 'undefined' ? 'undefined' : _typeof(obj)) !== 'object') {
-      throw new TypeError(obj, 'is not an object');
-    }
-
-    this.obj = obj;
-  }
-
-  _createClass(Map, [{
-    key: 'clone',
-    value: function clone() {
-      return new Map(this.toObject());
-    }
-  }, {
-    key: 'toObject',
-    value: function toObject() {
-      return (0, _clone2.default)(this.obj);
-    }
-  }, {
-    key: 'set',
-    value: function set(prop, val) {
-      var obj = this.toObject();
-
-      obj[prop] = val;
-
-      return new Map(obj);
-    }
-  }, {
-    key: 'get',
-    value: function get(prop) {
-      return this.obj[prop];
-    }
-  }, {
-    key: 'update',
-    value: function update(prop, updater) {
-      return this.set(prop, updater(this.get(prop)));
-    }
-  }, {
-    key: 'setIn',
-    value: function setIn(propPath, val) {
-      var obj = (0, _assocPath2.default)(propPath, val, this.obj);
-
-      return new Map(obj);
-    }
-  }, {
-    key: 'getIn',
-    value: function getIn(propPath) {
-      return (0, _path2.default)(propPath, this.obj);
-    }
-  }]);
-
-  return Map;
-})();
-
-exports.default = Map;
-},{"ramda/src/assocPath":20,"ramda/src/clone":21,"ramda/src/path":29}],2:[function(require,module,exports){
-'use strict';
-
 var _slicedToArray = (function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; })();
 
 var _redux = require('redux');
@@ -175,17 +90,102 @@ function handleInit(init) {
     return [new _Map2.default(init)];
   }
 }
-},{"./Map":1,"dom-delegator":9,"redux":33,"redux-thunk":31,"virtual-dom/create-element":41,"virtual-dom/diff":42,"virtual-dom/patch":43}],3:[function(require,module,exports){
+},{"./Map":2,"dom-delegator":9,"redux":33,"redux-thunk":31,"virtual-dom/create-element":41,"virtual-dom/diff":42,"virtual-dom/patch":43}],2:[function(require,module,exports){
+'use strict';
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _assocPath = require('ramda/src/assocPath');
+
+var _assocPath2 = _interopRequireDefault(_assocPath);
+
+var _clone = require('ramda/src/clone');
+
+var _clone2 = _interopRequireDefault(_clone);
+
+var _path = require('ramda/src/path');
+
+var _path2 = _interopRequireDefault(_path);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _typeof(obj) { return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Map = (function () {
+  function Map(obj) {
+    _classCallCheck(this, Map);
+
+    if ((typeof obj === 'undefined' ? 'undefined' : _typeof(obj)) !== 'object') {
+      throw new TypeError(obj, 'is not an object');
+    }
+
+    this.obj = obj;
+  }
+
+  _createClass(Map, [{
+    key: 'clone',
+    value: function clone() {
+      return new Map(this.toObject());
+    }
+  }, {
+    key: 'toObject',
+    value: function toObject() {
+      return (0, _clone2.default)(this.obj);
+    }
+  }, {
+    key: 'set',
+    value: function set(prop, val) {
+      var obj = this.toObject();
+
+      obj[prop] = val;
+
+      return new Map(obj);
+    }
+  }, {
+    key: 'get',
+    value: function get(prop) {
+      return this.obj[prop];
+    }
+  }, {
+    key: 'update',
+    value: function update(prop, updater) {
+      return this.set(prop, updater(this.get(prop)));
+    }
+  }, {
+    key: 'setIn',
+    value: function setIn(propPath, val) {
+      var obj = (0, _assocPath2.default)(propPath, val, this.obj);
+
+      return new Map(obj);
+    }
+  }, {
+    key: 'getIn',
+    value: function getIn(propPath) {
+      return (0, _path2.default)(propPath, this.obj);
+    }
+  }]);
+
+  return Map;
+})();
+
+exports.default = Map;
+},{"ramda/src/assocPath":20,"ramda/src/clone":21,"ramda/src/path":29}],3:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.Map = exports.StartApp = undefined;
+exports.Map = exports.App = undefined;
 
-var _StartApp = require('./StartApp');
+var _App = require('./App');
 
-var _StartApp2 = _interopRequireDefault(_StartApp);
+var _App2 = _interopRequireDefault(_App);
 
 var _Map = require('./Map');
 
@@ -193,9 +193,9 @@ var _Map2 = _interopRequireDefault(_Map);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.StartApp = _StartApp2.default;
+exports.App = _App2.default;
 exports.Map = _Map2.default;
-},{"./Map":1,"./StartApp":2}],4:[function(require,module,exports){
+},{"./App":1,"./Map":2}],4:[function(require,module,exports){
 
 },{}],5:[function(require,module,exports){
 // shim for using process in browser

@@ -1,7 +1,7 @@
 <h1 align="center">Plait</h1>
 
 <p align="center">
-    A minimal JavaScript framework for building reactive web components. Heavily inspired by <a href="https://github.com/evancz/elm-architecture-tutorial/">The Elm Architecture</a> and Elm's <a href="https://github.com/evancz/start-app"><code>StartApp</code></a>.
+    A minimal JavaScript framework for building reactive web components. Heavily inspired by <a href="https://github.com/evancz/elm-architecture-tutorial/">The Elm Architecture</a> and Elm's <a href="https://github.com/evancz/start-app"><code>App</code></a>.
 </p>
 
 <p align="center">
@@ -26,9 +26,9 @@ The following is an example of an application composed of a single counter compo
 
 ```jsx
 import h from 'virtual-dom/h'
-import { StartApp } from 'plait'
+import { App } from 'plait'
 
-const appNode = StartApp.start({ init, update, view })
+const appNode = App.start({ init, update, view })
 
 document.getElementById('app').appendChild(appNode)
 
