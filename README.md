@@ -1,7 +1,7 @@
 <h1 align="center">Plait</h1>
 
 <p align="center">
-    A minimal JavaScript framework for building reactive web components. Heavily inspired by <a href="https://github.com/evancz/elm-architecture-tutorial/">The Elm Architecture</a> and Elm's <a href="https://github.com/evancz/start-app"><code>App</code></a>.
+    A minimal JavaScript framework for building reactive web components. Heavily inspired by <a href="https://github.com/evancz/elm-architecture-tutorial/">The Elm Architecture</a> and Elm's <a href="https://github.com/evancz/start-app"><code>StartApp</code></a>.
 </p>
 
 <p align="center">
