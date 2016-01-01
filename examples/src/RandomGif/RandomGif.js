@@ -31,7 +31,7 @@ function requestMore () {
   return (dispatch, getState) => {
     const state = getState()
 
-    return fetch(`http://api.giphy.com/v1/gifs/random?api_key=dc6zaTOxFJmzC&tag=${state.get('topic')}`)
+    return fetch(`https://api.giphy.com/v1/gifs/random?api_key=dc6zaTOxFJmzC&tag=${state.get('topic')}`)
       .then(response => response.json())
       .then(json => dispatch(receiveGif(json)))
   }
