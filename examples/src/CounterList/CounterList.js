@@ -1,5 +1,5 @@
 import h from 'virtual-dom/h'
-import Map from 'Map'
+import { initializeComponent } from 'App'
 
 import * as Counter from '../Counter/Counter'
 
@@ -14,15 +14,11 @@ export function init () {
 export function update (state, action) {
   switch (action.type) {
     case 'ADD_COUNTER':
-      return state.update('counters', cs => cs.concat(newCounter()))
+      return state.update('counters', cs => cs.concat(initializeComponent(Counter)))
 
     case 'MODIFY':
       return state.update('counters', cs => cs.map(updateCounter(action)))
   }
-}
-
-function newCounter () {
-  return new Map(Counter.init())
 }
 
 function updateCounter (action) {

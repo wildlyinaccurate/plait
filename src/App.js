@@ -10,10 +10,10 @@ import Map from './Map'
 
 const createStoreWithMiddleware = applyMiddleware(thunk)(createStore)
 
-exports.start = function ({ init, update, view }) {
+export function start ({ init, update, view }) {
   const delegator = Delegator()
 
-  const [initialState, initialAction] = handleInit(init())
+  const [initialState, initialAction] = handleInit(init)
 
   const store = createStoreWithMiddleware((state = initialState, action) => {
     const newState = update(state, action)
@@ -46,12 +46,18 @@ exports.start = function ({ init, update, view }) {
   return rootNode
 }
 
+export function initializeComponent ({ init }) {
+  return handleInit(init)[0]
+}
+
 function handleInit (init) {
-  if (Array.isArray(init)) {
+  const res = init()
+
+  if (Array.isArray(res)) {
     // [data, action]
-    return [new Map(init[0]), init[1]]
+    return [new Map(res[0]), res[1]]
   } else {
     // data
-    return [new Map(init)]
+    return [new Map(res)]
   }
 }
