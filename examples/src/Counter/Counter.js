@@ -1,10 +1,12 @@
 import h from 'virtual-dom/h'
 
+
 export function init () {
   return {
     count: 0
   }
 }
+
 
 export function update (state, action) {
   switch (action.type) {
@@ -15,6 +17,7 @@ export function update (state, action) {
       return state.update('count', x => x + 1)
   }
 }
+
 
 export function view (state, dispatch) {
   return (

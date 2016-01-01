@@ -47,4 +47,18 @@ module.exports = function () {
   this.Then(/^I should see (\d+) counters?$/, function (count) {
     return this.browser.assert.elements('.counter', count)
   })
+
+  this.Then(/^there should be a new cat gif?$/, function (done) {
+    setTimeout(() => {
+      const imgSrc = this.browser.document.querySelector('img').src
+
+      if (imgSrc === this.currentImageSrc || !imgSrc.includes('giphy')) {
+        throw new Error(`${imgSrc} is not a new cat gif`)
+      }
+
+      this.currentImageSrc = imgSrc
+
+      done()
+    }, 1000)
+  })
 }

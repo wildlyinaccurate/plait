@@ -14,23 +14,25 @@ export function init () {
 export function update (state, action) {
   switch (action.type) {
     case 'ADD_COUNTER':
-      const newCounter = new Map(Counter.init())
-
-      return state.update('counters', xs => xs.concat(newCounter))
+      return state.update('counters', cs => cs.concat(newCounter()))
 
     case 'MODIFY':
-      return state.update('counters', (counters) => {
-        return counters.map((cstate, idx) => {
-          if (idx === action.counterIdx) {
-            return Counter.update(cstate, action.counterAction)
-          } else {
-            return cstate
-          }
-        })
-      })
+      return state.update('counters', cs => cs.map(updateCounter(action)))
   }
+}
 
-  return state
+function newCounter () {
+  return new Map(Counter.init())
+}
+
+function updateCounter (action) {
+  return (counterState, idx) => {
+    if (idx === action.counterIdx) {
+      return Counter.update(counterState, action.counterAction)
+    } else {
+      return counterState
+    }
+  }
 }
 
 
@@ -47,8 +49,8 @@ export function view (state, dispatch) {
 }
 
 function counterView (state, dispatch) {
-  const forwardDispatch = (action) => {
-    return (counterAction) => {
+  const forwardDispatch = action => {
+    return counterAction => {
       return dispatch({ type: action.type, counterIdx: action.counterIdx, counterAction })
     }
   }

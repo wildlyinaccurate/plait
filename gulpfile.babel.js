@@ -1,4 +1,5 @@
 import gulp from 'gulp'
+import merge from 'merge-stream'
 import rename from 'gulp-rename'
 import babel from 'gulp-babel'
 import uglify from 'gulp-uglify'
@@ -59,7 +60,9 @@ gulp.task('cucumber', ['buildExamples', 'connect'], (done) => {
 gulp.task('watch', () => {
   gulp.start('build')
 
-  return gulp.watch('{index.js,src/**/*.js}', ['build', 'test'])
+  gulp.watch('src/**/*.js', ['build', 'test'])
+
+  return gulp.watch('examples/src/**/*.js', ['buildExamples', 'cucumber'])
 })
 
 gulp.task('buildExamples', buildExamples)
