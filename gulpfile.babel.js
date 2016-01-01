@@ -1,45 +1,18 @@
-import path from 'path'
-
 import gulp from 'gulp'
-import source from 'vinyl-source-stream'
-import buffer from 'vinyl-buffer'
-import merge from 'merge-stream'
 import rename from 'gulp-rename'
-
 import babel from 'gulp-babel'
-import browserify from 'browserify'
-import jsxTransform from 'jsx-transform'
 import uglify from 'gulp-uglify'
 import sourcemaps from 'gulp-sourcemaps'
 import jasmine from 'gulp-jasmine'
 import cucumber from 'gulp-cucumber'
 import connect from 'gulp-connect'
-import ghPages from 'gulp-gh-pages'
 
-const jsxify = jsxTransform.browserifyTransform.configure({
-  factory: 'h'
-})
+import browserify from './gulp/browserify'
+import { buildExamples, publishExamples } from './gulp/examples'
 
-gulp.task('build', ['compile', 'browserify', 'browserifyExamples', 'minify'])
+gulp.task('build', ['compile', 'browserify', 'buildExamples', 'minify'])
 gulp.task('test', ['jasmine', 'cucumber'])
 gulp.task('default', ['build', 'test'])
-
-const browserifyBuild = (src, dest, name = src, transforms = []) => {
-  const b = browserify(src, {
-    debug: true,
-    standalone: path.basename(name, '.js'),
-    transform: transforms,
-    paths: ['./src']
-  })
-
-  return b.bundle()
-    .pipe(source(src))
-    .pipe(rename(name))
-    .pipe(buffer())
-    .pipe(sourcemaps.init({ loadMaps: true }))
-    .pipe(sourcemaps.write('.'))
-    .pipe(gulp.dest(dest))
-}
 
 gulp.task('compile', () => {
   return gulp.src('src/*.js')
@@ -50,14 +23,7 @@ gulp.task('compile', () => {
 })
 
 gulp.task('browserify', ['compile'], () => {
-  return browserifyBuild('lib/index.js', 'dist', 'plait.js')
-})
-
-gulp.task('browserifyExamples', () => {
-  const counter = browserifyBuild('examples/src/Counter/Main.js', 'examples', 'Counter.js', [jsxify, 'babelify'])
-  const counterList = browserifyBuild('examples/src/CounterList/Main.js', 'examples', 'CounterList.js', [jsxify, 'babelify'])
-
-  return merge(counter, counterList)
+  return browserify('lib/index.js', 'dist', 'plait.js')
 })
 
 gulp.task('minify', ['browserify'], () => {
@@ -76,12 +42,12 @@ gulp.task('jasmine', () => {
 
 gulp.task('connect', () => {
   connect.server({
-    root: 'examples',
+    root: 'examples/dist',
     port: 8888
   })
 })
 
-gulp.task('cucumber', ['browserifyExamples', 'connect'], (done) => {
+gulp.task('cucumber', ['buildExamples', 'connect'], (done) => {
   const cukes = cucumber({ 'steps': 'features/steps/steps.js' })
     .on('end', connect.serverClose)
     .on('error', done)
@@ -96,9 +62,6 @@ gulp.task('watch', () => {
   return gulp.watch('{index.js,src/**/*.js}', ['build', 'test'])
 })
 
-gulp.task('publishPages', ['build'], () => {
-  return gulp.src('examples/*')
-    .pipe(ghPages({
-      cacheDir: 'node_modules/.publish'
-    }))
-})
+gulp.task('buildExamples', buildExamples)
+
+gulp.task('publishExamples', ['build'], publishExamples)
