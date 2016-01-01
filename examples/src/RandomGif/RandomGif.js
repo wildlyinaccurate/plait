@@ -23,7 +23,7 @@ export function update (state, action) {
 function receiveGif (response) {
   return {
     type: 'NEW_GIF',
-    gifUrl: response.data.fixed_height_small_url
+    gifUrl: response.data.fixed_height_small_url.replace(/^http:/, '')
   }
 }
 
