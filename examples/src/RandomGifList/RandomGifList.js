@@ -14,7 +14,6 @@ export function init () {
 
 const appendGifAction = (action, gifAction) => Object.assign({}, action, { gifAction })
 
-
 export function update (state, action, dispatch) {
   switch (action.type) {
     case 'ADD_GIF':
