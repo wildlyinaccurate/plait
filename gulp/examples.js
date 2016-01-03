@@ -5,7 +5,6 @@ import replace from 'gulp-replace'
 import rename from 'gulp-rename'
 import merge from 'merge-stream'
 import jsxTransform from 'jsx-transform'
-import ghPages from 'gulp-gh-pages'
 
 import browserify from './browserify'
 
@@ -39,11 +38,4 @@ export function buildExamples () {
   })
 
   return streams
-}
-
-export function publishExamples () {
-  return gulp.src('examples/dist/*.{css,js,html}')
-    .pipe(ghPages({
-      cacheDir: 'examples/dist/.publish'
-    }))
 }

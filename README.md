@@ -1,14 +1,8 @@
-<h1 align="center">Plait</h1>
+# [Plait](https://wildlyinaccurate.com/plait/)
 
-<p align="center">
-    A minimal JavaScript framework for building reactive web components. Heavily inspired by <a href="https://github.com/evancz/elm-architecture-tutorial/">The Elm Architecture</a> and Elm's <a href="https://github.com/evancz/start-app"><code>StartApp</code></a>.
-</p>
+Plait is a minimal JavaScript framework for building reactive web components. Heavily inspired by <a href="https://github.com/evancz/elm-architecture-tutorial/">The Elm Architecture</a> and Elm's <a href="https://github.com/evancz/start-app"><code>StartApp</code></a>.
 
-<p align="center">
-    <a href="https://travis-ci.org/wildlyinaccurate/plait">
-        <img src="https://travis-ci.org/wildlyinaccurate/plait.svg?branch=master">
-    </a>
-</p>
+[![build status](https://img.shields.io/travis/wildlyinaccurate/plait/master.svg?style=flat-square)](https://travis-ci.org/wildlyinaccurate/plait)
 
 ## The Idea
 
