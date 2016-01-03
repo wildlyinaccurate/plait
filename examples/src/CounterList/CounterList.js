@@ -1,5 +1,5 @@
 import h from 'virtual-dom/h'
-import { initializeComponent } from 'App'
+import { initializeComponent, forwardDispatch } from 'App'
 
 import * as Counter from '../Counter/Counter'
 
@@ -45,13 +45,14 @@ export function view (state, dispatch) {
 }
 
 function counterView (state, dispatch) {
-  const forwardDispatch = action => {
-    return counterAction => {
-      return dispatch({ type: action.type, counterIdx: action.counterIdx, counterAction })
-    }
-  }
-
   return state.get('counters').map((cstate, counterIdx) => {
-    return Counter.view(cstate, forwardDispatch({ type: 'MODIFY', counterIdx }))
+    const modifiedDispatch = forwardDispatch(
+      dispatch,
+      cstate,
+      { type: 'MODIFY', counterIdx },
+      (action, counterAction) => Object.assign({}, action, { counterAction })
+    )
+
+    return Counter.view(cstate, modifiedDispatch)
   })
 }

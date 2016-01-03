@@ -1,7 +1,9 @@
 import Zombie from 'zombie'
 
-const nthOfType = (nth, className) => {
-  return `:nth-of-type(${nth}) > .${className}`
+const nthElement = (browser, nth, className) => {
+  return Array.from(
+    browser.document.querySelectorAll(`.${className}`)
+  )[nth - 1]
 }
 
 module.exports = function () {
@@ -23,12 +25,12 @@ module.exports = function () {
   })
 
   this.When(/^I press the (\d+)(?:st|nd|rd|th) "([^"]+)" button$/, function (nth, className) {
-    return this.browser.pressButton(nthOfType(nth, className))
+    return this.browser.pressButton(nthElement(this.browser, nth, className))
   })
 
   this.When(/^I press the (\d+)(?:st|nd|rd|th) "([^"]+)" button (\d+) times?$/, function (nth, className, times) {
     const n = Number(times)
-    const ps = Array(n).fill(0).map(x => this.browser.pressButton(nthOfType(nth, className)))
+    const ps = Array(n).fill(0).map(x => this.browser.pressButton(nthElement(this.browser, nth, className)))
 
     return Promise.all(ps)
   })
@@ -39,7 +41,7 @@ module.exports = function () {
 
   this.Then(/^the (\d+)(?:st|nd|rd|th) counter value should be "([^"]+)"$/, function (nth, value) {
     return this.browser.assert.text(
-      nthOfType(nth, 'counter__value'),
+      nthElement(this.browser, nth, 'counter__value'),
       value
     )
   })
@@ -59,6 +61,34 @@ module.exports = function () {
       this.currentImageSrc = imgSrc
 
       done()
-    }, 1000)
+    }, 1200)
+  })
+
+  this.When(/^I write "([^"]+)" into the input$/, function (val) {
+    return this.browser.fill('input', val)
+  })
+
+  this.When(/^I hit enter$/, function (done) {
+    const input = this.browser.document.querySelector('input')
+    const ev = this.browser.window.document.createEvent('KeyboardEvent')
+
+    ev.initEvent('keyup', true, true)
+    ev.which = 13
+    ev.keyCode = 13
+    ev.key = 'Enter'
+
+    input.dispatchEvent(ev)
+
+    done()
+  })
+
+  this.Then(/^there should be (\d+) total requests for "([^"]+)" gifs$/, function (n, topic, done) {
+    const gifs = this.browser.resources.filter(res => res.request.url.includes(`&tag=${topic}`))
+
+    if (gifs.length !== Number(n)) {
+      throw new Error(`Expected to see ${n} requests for ${topic} gifs but there were ${gifs.length}`)
+    }
+
+    done()
   })
 }
