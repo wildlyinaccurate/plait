@@ -6,9 +6,13 @@ var _slicedToArray = (function () { function sliceIterator(arr, i) { var _arr = 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.forwardDispatch = undefined;
 exports.start = start;
 exports.initializeComponent = initializeComponent;
-exports.forwardDispatch = forwardDispatch;
+
+var _curry = require('ramda/src/curry');
+
+var _curry2 = _interopRequireDefault(_curry);
 
 var _redux = require('redux');
 
@@ -60,16 +64,22 @@ function start(component) {
   var initialState = _handleInit2[0];
   var initialAction = _handleInit2[1];
 
+  // Initial call to update() will be @@redux/INIT so bogus dispatch() is okay
+
+  var dispatch = function dispatch(x) {
+    return x;
+  };
+
   var store = createStoreWithMiddleware(function () {
     var state = arguments.length <= 0 || arguments[0] === undefined ? initialState : arguments[0];
     var action = arguments[1];
 
-    var newState = update(state, action);
+    var newState = update(state, action, dispatch);
 
     return typeof newState === 'undefined' ? state : newState;
   });
 
-  var dispatch = function dispatch(action) {
+  dispatch = function (action) {
     return function (event) {
       if (event) {
         action.event = event;
@@ -101,10 +111,21 @@ function patchTree(rootNode, oldTree, newTree) {
 }
 
 // initializeComponent :: Component -> Map
-function initializeComponent(_ref) {
+function initializeComponent(_ref, dispatch) {
   var init = _ref.init;
 
-  return handleInit(init)[0];
+  var _handleInit3 = handleInit(init);
+
+  var _handleInit4 = _slicedToArray(_handleInit3, 2);
+
+  var initialState = _handleInit4[0];
+  var initialAction = _handleInit4[1];
+
+  if (dispatch && initialAction) {
+    dispatch(initialState)(initialAction)();
+  }
+
+  return initialState;
 }
 
 // handleInit :: (_ -> Object) -> [Map, Maybe Action]
@@ -115,25 +136,26 @@ function handleInit(init) {
   return [new _Map2.default(res[0]), res[1]];
 }
 
-// forwardDispatch :: Action a => (a -> (_ -> IO ())) -> a -> (a -> a -> a) -> ...
-function forwardDispatch(dispatch, state, action, modifier) {
+var forwardDispatch = exports.forwardDispatch = (0, _curry2.default)(function (action, modifier, dispatch, state) {
   var getState = function getState() {
     return state;
   };
 
   return function (forwardAction) {
+    var modify = modifier.bind(undefined, action, forwardAction);
+
     if (typeof forwardAction === 'function') {
       return dispatch(function () {
-        forwardAction(forwardDispatch(dispatch, state, action, modifier), getState).then(function (dispatch) {
-          return dispatch(modifier(action, forwardAction));
+        forwardAction(forwardDispatch(action, modifier, dispatch, state), getState).then(function (dispatch) {
+          return dispatch(modify());
         });
       });
     } else {
-      return dispatch(modifier(action, forwardAction));
+      return dispatch(modify());
     }
   };
-}
-},{"./Map":2,"dom-delegator":10,"redux":30,"redux-thunk":28,"virtual-dom/create-element":38,"virtual-dom/diff":39,"virtual-dom/patch":40}],2:[function(require,module,exports){
+});
+},{"./Map":2,"dom-delegator":10,"ramda/src/curry":22,"redux":34,"redux-thunk":32,"virtual-dom/create-element":42,"virtual-dom/diff":43,"virtual-dom/patch":44}],2:[function(require,module,exports){
 'use strict';
 
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
@@ -221,7 +243,7 @@ var Map = (function () {
 })();
 
 exports.default = Map;
-},{"./utils/clone":4,"ramda/src/assocPath":21,"ramda/src/path":27}],3:[function(require,module,exports){
+},{"./utils/clone":4,"ramda/src/assocPath":21,"ramda/src/path":31}],3:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -231,7 +253,7 @@ exports.Map = exports.App = undefined;
 
 var _App = require('./App');
 
-var _App2 = _interopRequireDefault(_App);
+var App = _interopRequireWildcard(_App);
 
 var _Map = require('./Map');
 
@@ -239,7 +261,9 @@ var _Map2 = _interopRequireDefault(_Map);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.App = _App2.default;
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+exports.App = App;
 exports.Map = _Map2.default;
 },{"./App":1,"./Map":2}],4:[function(require,module,exports){
 'use strict';
@@ -686,7 +710,7 @@ function Handle() {
     this.type = "dom-delegator-handle"
 }
 
-},{"./add-event.js":8,"./proxy-event.js":12,"./remove-event.js":13,"ev-store":14,"global/document":15,"weakmap-shim/create-store":57}],10:[function(require,module,exports){
+},{"./add-event.js":8,"./proxy-event.js":12,"./remove-event.js":13,"ev-store":14,"global/document":15,"weakmap-shim/create-store":61}],10:[function(require,module,exports){
 var Individual = require("individual")
 var cuid = require("cuid")
 var globalDocument = require("global/document")
@@ -1027,7 +1051,7 @@ module.exports = _curry3(function assoc(prop, val, obj) {
   return result;
 });
 
-},{"./internal/_curry3":24}],21:[function(require,module,exports){
+},{"./internal/_curry3":27}],21:[function(require,module,exports){
 var _curry3 = require('./internal/_curry3');
 var _slice = require('./internal/_slice');
 var assoc = require('./assoc');
@@ -1064,7 +1088,132 @@ module.exports = _curry3(function assocPath(path, val, obj) {
   }
 });
 
-},{"./assoc":20,"./internal/_curry3":24,"./internal/_slice":26}],22:[function(require,module,exports){
+},{"./assoc":20,"./internal/_curry3":27,"./internal/_slice":30}],22:[function(require,module,exports){
+var _curry1 = require('./internal/_curry1');
+var curryN = require('./curryN');
+
+
+/**
+ * Returns a curried equivalent of the provided function. The curried function
+ * has two unusual capabilities. First, its arguments needn't be provided one
+ * at a time. If `f` is a ternary function and `g` is `R.curry(f)`, the
+ * following are equivalent:
+ *
+ *   - `g(1)(2)(3)`
+ *   - `g(1)(2, 3)`
+ *   - `g(1, 2)(3)`
+ *   - `g(1, 2, 3)`
+ *
+ * Secondly, the special placeholder value `R.__` may be used to specify
+ * "gaps", allowing partial application of any combination of arguments,
+ * regardless of their positions. If `g` is as above and `_` is `R.__`, the
+ * following are equivalent:
+ *
+ *   - `g(1, 2, 3)`
+ *   - `g(_, 2, 3)(1)`
+ *   - `g(_, _, 3)(1)(2)`
+ *   - `g(_, _, 3)(1, 2)`
+ *   - `g(_, 2)(1)(3)`
+ *   - `g(_, 2)(1, 3)`
+ *   - `g(_, 2)(_, 3)(1)`
+ *
+ * @func
+ * @memberOf R
+ * @since v0.1.0
+ * @category Function
+ * @sig (* -> a) -> (* -> a)
+ * @param {Function} fn The function to curry.
+ * @return {Function} A new, curried function.
+ * @see R.curryN
+ * @example
+ *
+ *      var addFourNumbers = (a, b, c, d) => a + b + c + d;
+ *
+ *      var curriedAddFourNumbers = R.curry(addFourNumbers);
+ *      var f = curriedAddFourNumbers(1, 2);
+ *      var g = f(3);
+ *      g(4); //=> 10
+ */
+module.exports = _curry1(function curry(fn) {
+  return curryN(fn.length, fn);
+});
+
+},{"./curryN":23,"./internal/_curry1":25}],23:[function(require,module,exports){
+var _arity = require('./internal/_arity');
+var _curry1 = require('./internal/_curry1');
+var _curry2 = require('./internal/_curry2');
+var _curryN = require('./internal/_curryN');
+
+
+/**
+ * Returns a curried equivalent of the provided function, with the specified
+ * arity. The curried function has two unusual capabilities. First, its
+ * arguments needn't be provided one at a time. If `g` is `R.curryN(3, f)`, the
+ * following are equivalent:
+ *
+ *   - `g(1)(2)(3)`
+ *   - `g(1)(2, 3)`
+ *   - `g(1, 2)(3)`
+ *   - `g(1, 2, 3)`
+ *
+ * Secondly, the special placeholder value `R.__` may be used to specify
+ * "gaps", allowing partial application of any combination of arguments,
+ * regardless of their positions. If `g` is as above and `_` is `R.__`, the
+ * following are equivalent:
+ *
+ *   - `g(1, 2, 3)`
+ *   - `g(_, 2, 3)(1)`
+ *   - `g(_, _, 3)(1)(2)`
+ *   - `g(_, _, 3)(1, 2)`
+ *   - `g(_, 2)(1)(3)`
+ *   - `g(_, 2)(1, 3)`
+ *   - `g(_, 2)(_, 3)(1)`
+ *
+ * @func
+ * @memberOf R
+ * @since v0.5.0
+ * @category Function
+ * @sig Number -> (* -> a) -> (* -> a)
+ * @param {Number} length The arity for the returned function.
+ * @param {Function} fn The function to curry.
+ * @return {Function} A new, curried function.
+ * @see R.curry
+ * @example
+ *
+ *      var sumArgs = (...args) => R.sum(args);
+ *
+ *      var curriedAddFourNumbers = R.curryN(4, sumArgs);
+ *      var f = curriedAddFourNumbers(1, 2);
+ *      var g = f(3);
+ *      g(4); //=> 10
+ */
+module.exports = _curry2(function curryN(length, fn) {
+  if (length === 1) {
+    return _curry1(fn);
+  }
+  return _arity(length, _curryN(length, [], fn));
+});
+
+},{"./internal/_arity":24,"./internal/_curry1":25,"./internal/_curry2":26,"./internal/_curryN":28}],24:[function(require,module,exports){
+module.exports = function _arity(n, fn) {
+  /* eslint-disable no-unused-vars */
+  switch (n) {
+    case 0: return function() { return fn.apply(this, arguments); };
+    case 1: return function(a0) { return fn.apply(this, arguments); };
+    case 2: return function(a0, a1) { return fn.apply(this, arguments); };
+    case 3: return function(a0, a1, a2) { return fn.apply(this, arguments); };
+    case 4: return function(a0, a1, a2, a3) { return fn.apply(this, arguments); };
+    case 5: return function(a0, a1, a2, a3, a4) { return fn.apply(this, arguments); };
+    case 6: return function(a0, a1, a2, a3, a4, a5) { return fn.apply(this, arguments); };
+    case 7: return function(a0, a1, a2, a3, a4, a5, a6) { return fn.apply(this, arguments); };
+    case 8: return function(a0, a1, a2, a3, a4, a5, a6, a7) { return fn.apply(this, arguments); };
+    case 9: return function(a0, a1, a2, a3, a4, a5, a6, a7, a8) { return fn.apply(this, arguments); };
+    case 10: return function(a0, a1, a2, a3, a4, a5, a6, a7, a8, a9) { return fn.apply(this, arguments); };
+    default: throw new Error('First argument to _arity must be a non-negative integer no greater than ten');
+  }
+};
+
+},{}],25:[function(require,module,exports){
 var _isPlaceholder = require('./_isPlaceholder');
 
 
@@ -1086,7 +1235,7 @@ module.exports = function _curry1(fn) {
   };
 };
 
-},{"./_isPlaceholder":25}],23:[function(require,module,exports){
+},{"./_isPlaceholder":29}],26:[function(require,module,exports){
 var _curry1 = require('./_curry1');
 var _isPlaceholder = require('./_isPlaceholder');
 
@@ -1116,7 +1265,7 @@ module.exports = function _curry2(fn) {
   };
 };
 
-},{"./_curry1":22,"./_isPlaceholder":25}],24:[function(require,module,exports){
+},{"./_curry1":25,"./_isPlaceholder":29}],27:[function(require,module,exports){
 var _curry1 = require('./_curry1');
 var _curry2 = require('./_curry2');
 var _isPlaceholder = require('./_isPlaceholder');
@@ -1156,14 +1305,56 @@ module.exports = function _curry3(fn) {
   };
 };
 
-},{"./_curry1":22,"./_curry2":23,"./_isPlaceholder":25}],25:[function(require,module,exports){
+},{"./_curry1":25,"./_curry2":26,"./_isPlaceholder":29}],28:[function(require,module,exports){
+var _arity = require('./_arity');
+var _isPlaceholder = require('./_isPlaceholder');
+
+
+/**
+ * Internal curryN function.
+ *
+ * @private
+ * @category Function
+ * @param {Number} length The arity of the curried function.
+ * @param {Array} received An array of arguments received thus far.
+ * @param {Function} fn The function to curry.
+ * @return {Function} The curried function.
+ */
+module.exports = function _curryN(length, received, fn) {
+  return function() {
+    var combined = [];
+    var argsIdx = 0;
+    var left = length;
+    var combinedIdx = 0;
+    while (combinedIdx < received.length || argsIdx < arguments.length) {
+      var result;
+      if (combinedIdx < received.length &&
+          (!_isPlaceholder(received[combinedIdx]) ||
+           argsIdx >= arguments.length)) {
+        result = received[combinedIdx];
+      } else {
+        result = arguments[argsIdx];
+        argsIdx += 1;
+      }
+      combined[combinedIdx] = result;
+      if (!_isPlaceholder(result)) {
+        left -= 1;
+      }
+      combinedIdx += 1;
+    }
+    return left <= 0 ? fn.apply(this, combined)
+                     : _arity(left, _curryN(length, combined, fn));
+  };
+};
+
+},{"./_arity":24,"./_isPlaceholder":29}],29:[function(require,module,exports){
 module.exports = function _isPlaceholder(a) {
   return a != null &&
          typeof a === 'object' &&
          a['@@functional/placeholder'] === true;
 };
 
-},{}],26:[function(require,module,exports){
+},{}],30:[function(require,module,exports){
 /**
  * An optimized, private array `slice` implementation.
  *
@@ -1197,7 +1388,7 @@ module.exports = function _slice(args, from, to) {
   }
 };
 
-},{}],27:[function(require,module,exports){
+},{}],31:[function(require,module,exports){
 var _curry2 = require('./internal/_curry2');
 
 
@@ -1230,7 +1421,7 @@ module.exports = _curry2(function path(paths, obj) {
   return val;
 });
 
-},{"./internal/_curry2":23}],28:[function(require,module,exports){
+},{"./internal/_curry2":26}],32:[function(require,module,exports){
 'use strict';
 
 function thunkMiddleware(_ref) {
@@ -1245,7 +1436,7 @@ function thunkMiddleware(_ref) {
 }
 
 module.exports = thunkMiddleware;
-},{}],29:[function(require,module,exports){
+},{}],33:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -1409,7 +1600,7 @@ function createStore(reducer, initialState) {
     replaceReducer: replaceReducer
   };
 }
-},{"./utils/isPlainObject":35}],30:[function(require,module,exports){
+},{"./utils/isPlainObject":39}],34:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -1441,7 +1632,7 @@ exports.combineReducers = _utilsCombineReducers2['default'];
 exports.bindActionCreators = _utilsBindActionCreators2['default'];
 exports.applyMiddleware = _utilsApplyMiddleware2['default'];
 exports.compose = _utilsCompose2['default'];
-},{"./createStore":29,"./utils/applyMiddleware":31,"./utils/bindActionCreators":32,"./utils/combineReducers":33,"./utils/compose":34}],31:[function(require,module,exports){
+},{"./createStore":33,"./utils/applyMiddleware":35,"./utils/bindActionCreators":36,"./utils/combineReducers":37,"./utils/compose":38}],35:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -1503,7 +1694,7 @@ function applyMiddleware() {
 }
 
 module.exports = exports['default'];
-},{"./compose":34}],32:[function(require,module,exports){
+},{"./compose":38}],36:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -1558,7 +1749,7 @@ function bindActionCreators(actionCreators, dispatch) {
 }
 
 module.exports = exports['default'];
-},{"./mapValues":36}],33:[function(require,module,exports){
+},{"./mapValues":40}],37:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -1693,7 +1884,7 @@ function combineReducers(reducers) {
 module.exports = exports['default'];
 }).call(this,require('_process'))
 
-},{"../createStore":29,"./isPlainObject":35,"./mapValues":36,"./pick":37,"_process":6}],34:[function(require,module,exports){
+},{"../createStore":33,"./isPlainObject":39,"./mapValues":40,"./pick":41,"_process":6}],38:[function(require,module,exports){
 /**
  * Composes single-argument functions from right to left.
  *
@@ -1719,7 +1910,7 @@ function compose() {
 }
 
 module.exports = exports["default"];
-},{}],35:[function(require,module,exports){
+},{}],39:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -1751,7 +1942,7 @@ function isPlainObject(obj) {
 }
 
 module.exports = exports['default'];
-},{}],36:[function(require,module,exports){
+},{}],40:[function(require,module,exports){
 /**
  * Applies a function to every key-value pair inside an object.
  *
@@ -1772,7 +1963,7 @@ function mapValues(obj, fn) {
 }
 
 module.exports = exports["default"];
-},{}],37:[function(require,module,exports){
+},{}],41:[function(require,module,exports){
 /**
  * Picks key-value pairs from an object where values satisfy a predicate.
  *
@@ -1795,22 +1986,22 @@ function pick(obj, fn) {
 }
 
 module.exports = exports["default"];
-},{}],38:[function(require,module,exports){
+},{}],42:[function(require,module,exports){
 var createElement = require("./vdom/create-element.js")
 
 module.exports = createElement
 
-},{"./vdom/create-element.js":42}],39:[function(require,module,exports){
+},{"./vdom/create-element.js":46}],43:[function(require,module,exports){
 var diff = require("./vtree/diff.js")
 
 module.exports = diff
 
-},{"./vtree/diff.js":56}],40:[function(require,module,exports){
+},{"./vtree/diff.js":60}],44:[function(require,module,exports){
 var patch = require("./vdom/patch.js")
 
 module.exports = patch
 
-},{"./vdom/patch.js":45}],41:[function(require,module,exports){
+},{"./vdom/patch.js":49}],45:[function(require,module,exports){
 var isObject = require("is-object")
 var isHook = require("../vnode/is-vhook.js")
 
@@ -1909,7 +2100,7 @@ function getPrototype(value) {
     }
 }
 
-},{"../vnode/is-vhook.js":49,"is-object":19}],42:[function(require,module,exports){
+},{"../vnode/is-vhook.js":53,"is-object":19}],46:[function(require,module,exports){
 var document = require("global/document")
 
 var applyProperties = require("./apply-properties")
@@ -1957,7 +2148,7 @@ function createElement(vnode, opts) {
     return node
 }
 
-},{"../vnode/handle-thunk.js":47,"../vnode/is-vnode.js":50,"../vnode/is-vtext.js":51,"../vnode/is-widget.js":52,"./apply-properties":41,"global/document":15}],43:[function(require,module,exports){
+},{"../vnode/handle-thunk.js":51,"../vnode/is-vnode.js":54,"../vnode/is-vtext.js":55,"../vnode/is-widget.js":56,"./apply-properties":45,"global/document":15}],47:[function(require,module,exports){
 // Maps a virtual DOM tree onto a real DOM tree in an efficient manner.
 // We don't want to read all of the DOM nodes in the tree so we use
 // the in-order tree indexing to eliminate recursion down certain branches.
@@ -2044,7 +2235,7 @@ function ascending(a, b) {
     return a > b ? 1 : -1
 }
 
-},{}],44:[function(require,module,exports){
+},{}],48:[function(require,module,exports){
 var applyProperties = require("./apply-properties")
 
 var isWidget = require("../vnode/is-widget.js")
@@ -2197,7 +2388,7 @@ function replaceRoot(oldRoot, newRoot) {
     return newRoot;
 }
 
-},{"../vnode/is-widget.js":52,"../vnode/vpatch.js":54,"./apply-properties":41,"./update-widget":46}],45:[function(require,module,exports){
+},{"../vnode/is-widget.js":56,"../vnode/vpatch.js":58,"./apply-properties":45,"./update-widget":50}],49:[function(require,module,exports){
 var document = require("global/document")
 var isArray = require("x-is-array")
 
@@ -2279,7 +2470,7 @@ function patchIndices(patches) {
     return indices
 }
 
-},{"./create-element":42,"./dom-index":43,"./patch-op":44,"global/document":15,"x-is-array":59}],46:[function(require,module,exports){
+},{"./create-element":46,"./dom-index":47,"./patch-op":48,"global/document":15,"x-is-array":63}],50:[function(require,module,exports){
 var isWidget = require("../vnode/is-widget.js")
 
 module.exports = updateWidget
@@ -2296,7 +2487,7 @@ function updateWidget(a, b) {
     return false
 }
 
-},{"../vnode/is-widget.js":52}],47:[function(require,module,exports){
+},{"../vnode/is-widget.js":56}],51:[function(require,module,exports){
 var isVNode = require("./is-vnode")
 var isVText = require("./is-vtext")
 var isWidget = require("./is-widget")
@@ -2338,14 +2529,14 @@ function renderThunk(thunk, previous) {
     return renderedThunk
 }
 
-},{"./is-thunk":48,"./is-vnode":50,"./is-vtext":51,"./is-widget":52}],48:[function(require,module,exports){
+},{"./is-thunk":52,"./is-vnode":54,"./is-vtext":55,"./is-widget":56}],52:[function(require,module,exports){
 module.exports = isThunk
 
 function isThunk(t) {
     return t && t.type === "Thunk"
 }
 
-},{}],49:[function(require,module,exports){
+},{}],53:[function(require,module,exports){
 module.exports = isHook
 
 function isHook(hook) {
@@ -2354,7 +2545,7 @@ function isHook(hook) {
        typeof hook.unhook === "function" && !hook.hasOwnProperty("unhook"))
 }
 
-},{}],50:[function(require,module,exports){
+},{}],54:[function(require,module,exports){
 var version = require("./version")
 
 module.exports = isVirtualNode
@@ -2363,7 +2554,7 @@ function isVirtualNode(x) {
     return x && x.type === "VirtualNode" && x.version === version
 }
 
-},{"./version":53}],51:[function(require,module,exports){
+},{"./version":57}],55:[function(require,module,exports){
 var version = require("./version")
 
 module.exports = isVirtualText
@@ -2372,17 +2563,17 @@ function isVirtualText(x) {
     return x && x.type === "VirtualText" && x.version === version
 }
 
-},{"./version":53}],52:[function(require,module,exports){
+},{"./version":57}],56:[function(require,module,exports){
 module.exports = isWidget
 
 function isWidget(w) {
     return w && w.type === "Widget"
 }
 
-},{}],53:[function(require,module,exports){
+},{}],57:[function(require,module,exports){
 module.exports = "2"
 
-},{}],54:[function(require,module,exports){
+},{}],58:[function(require,module,exports){
 var version = require("./version")
 
 VirtualPatch.NONE = 0
@@ -2406,7 +2597,7 @@ function VirtualPatch(type, vNode, patch) {
 VirtualPatch.prototype.version = version
 VirtualPatch.prototype.type = "VirtualPatch"
 
-},{"./version":53}],55:[function(require,module,exports){
+},{"./version":57}],59:[function(require,module,exports){
 var isObject = require("is-object")
 var isHook = require("../vnode/is-vhook")
 
@@ -2466,7 +2657,7 @@ function getPrototype(value) {
   }
 }
 
-},{"../vnode/is-vhook":49,"is-object":19}],56:[function(require,module,exports){
+},{"../vnode/is-vhook":53,"is-object":19}],60:[function(require,module,exports){
 var isArray = require("x-is-array")
 
 var VPatch = require("../vnode/vpatch")
@@ -2895,7 +3086,7 @@ function appendPatch(apply, patch) {
     }
 }
 
-},{"../vnode/handle-thunk":47,"../vnode/is-thunk":48,"../vnode/is-vnode":50,"../vnode/is-vtext":51,"../vnode/is-widget":52,"../vnode/vpatch":54,"./diff-props":55,"x-is-array":59}],57:[function(require,module,exports){
+},{"../vnode/handle-thunk":51,"../vnode/is-thunk":52,"../vnode/is-vnode":54,"../vnode/is-vtext":55,"../vnode/is-widget":56,"../vnode/vpatch":58,"./diff-props":59,"x-is-array":63}],61:[function(require,module,exports){
 var hiddenStore = require('./hidden-store.js');
 
 module.exports = createStore;
@@ -2916,7 +3107,7 @@ function createStore() {
     };
 }
 
-},{"./hidden-store.js":58}],58:[function(require,module,exports){
+},{"./hidden-store.js":62}],62:[function(require,module,exports){
 module.exports = hiddenStore;
 
 function hiddenStore(obj, key) {
@@ -2934,7 +3125,7 @@ function hiddenStore(obj, key) {
     return store;
 }
 
-},{}],59:[function(require,module,exports){
+},{}],63:[function(require,module,exports){
 var nativeIsArray = Array.isArray
 var toString = Object.prototype.toString
 

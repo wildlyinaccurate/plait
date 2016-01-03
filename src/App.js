@@ -1,3 +1,5 @@
+import curry from 'ramda/src/curry'
+
 import { createStore, applyMiddleware } from 'redux'
 import thunk from 'redux-thunk'
 
@@ -25,13 +27,16 @@ export function start (component) {
   const { init, update, view } = component
   const [initialState, initialAction] = handleInit(init)
 
+  // Initial call to update() will be @@redux/INIT so bogus dispatch() is okay
+  let dispatch = x => x
+
   const store = createStoreWithMiddleware((state = initialState, action) => {
-    const newState = update(state, action)
+    const newState = update(state, action, dispatch)
 
     return (typeof newState === 'undefined') ? state : newState
   })
 
-  const dispatch = action => {
+  dispatch = action => {
     return event => {
       if (event) {
         action.event = event
@@ -69,8 +74,14 @@ function patchTree (rootNode, oldTree, newTree) {
 
 
 // initializeComponent :: Component -> Map
-export function initializeComponent ({ init }) {
-  return handleInit(init)[0]
+export function initializeComponent ({ init }, dispatch) {
+  const [initialState, initialAction] = handleInit(init)
+
+  if (dispatch && initialAction) {
+    dispatch(initialState)(initialAction)()
+  }
+
+  return initialState
 }
 
 
@@ -82,18 +93,19 @@ function handleInit (init) {
   return [new Map(res[0]), res[1]]
 }
 
-// forwardDispatch :: Action a => (a -> (_ -> IO ())) -> a -> (a -> a -> a) -> ...
-export function forwardDispatch (dispatch, state, action, modifier) {
+export const forwardDispatch = curry((action, modifier, dispatch, state) => {
   const getState = () => state
 
   return forwardAction => {
+    const modify = modifier.bind(this, action, forwardAction)
+
     if (typeof forwardAction === 'function') {
       return dispatch(() => {
-        forwardAction(forwardDispatch(dispatch, state, action, modifier), getState)
-          .then(dispatch => dispatch(modifier(action, forwardAction)))
+        forwardAction(forwardDispatch(action, modifier, dispatch, state), getState)
+          .then(dispatch => dispatch(modify()))
       })
     } else {
-      return dispatch(modifier(action, forwardAction))
+      return dispatch(modify())
     }
   }
-}
+})
