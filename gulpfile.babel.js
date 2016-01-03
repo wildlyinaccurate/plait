@@ -16,7 +16,7 @@ gulp.task('test', ['jasmine', 'cucumber'])
 gulp.task('default', ['build', 'test'])
 
 gulp.task('compile', () => {
-  return gulp.src('src/*.js')
+  return gulp.src('src/**/*.js')
     .pipe(babel({
       presets: 'es2015'
     }))

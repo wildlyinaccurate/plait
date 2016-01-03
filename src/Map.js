@@ -1,5 +1,5 @@
 import assocPath from 'ramda/src/assocPath'
-import clone from 'ramda/src/clone'
+import clone from './utils/clone'
 import path from 'ramda/src/path'
 
 class Map {
@@ -9,6 +9,7 @@ class Map {
     }
 
     this.obj = obj
+    this['@@Plait/Map'] = 1
   }
 
   clone () {
@@ -28,7 +29,9 @@ class Map {
   }
 
   get (prop) {
-    return this.obj[prop]
+    const obj = this.toObject()
+
+    return obj[prop]
   }
 
   update (prop, updater) {

@@ -31,8 +31,12 @@ export function start (component) {
     return (typeof newState === 'undefined') ? state : newState
   })
 
-  const dispatch = (action) => {
-    return () => {
+  const dispatch = action => {
+    return event => {
+      if (event) {
+        action.event = event
+      }
+
       store.dispatch(action)
     }
   }
@@ -76,4 +80,20 @@ function handleInit (init) {
   const res = Array.isArray(_res) ? _res : [_res]
 
   return [new Map(res[0]), res[1]]
+}
+
+// forwardDispatch :: Action a => (a -> (_ -> IO ())) -> a -> (a -> a -> a) -> ...
+export function forwardDispatch (dispatch, state, action, modifier) {
+  const getState = () => state
+
+  return forwardAction => {
+    if (typeof forwardAction === 'function') {
+      return dispatch(() => {
+        forwardAction(forwardDispatch(dispatch, state, action, modifier), getState)
+          .then(dispatch => dispatch(modifier(action, forwardAction)))
+      })
+    } else {
+      return dispatch(modifier(action, forwardAction))
+    }
+  }
 }
