@@ -8,4 +8,4 @@
   * [Components](/docs/basics/Components.md)
   * [Component Composition](/docs/basics/ComponentComposition.md)
 * [API](/docs/API/README.md)
-  * [`Map`](/docs/API/Map.md)
+  * [Map](/docs/API/Map.md)
