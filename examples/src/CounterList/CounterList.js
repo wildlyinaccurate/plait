@@ -24,7 +24,7 @@ export function update (state, action) {
 function updateCounter (action) {
   return (counterState, idx) => {
     if (idx === action.counterIdx) {
-      return Counter.update(counterState, action.counterAction)
+      return Counter.update(counterState, action.__fwdAction)
     } else {
       return counterState
     }
@@ -48,7 +48,6 @@ function counterView (state, dispatch) {
   return state.get('counters').map((cstate, counterIdx) => {
     const modifiedDispatch = forwardDispatch(
       { type: 'MODIFY', counterIdx },
-      (action, counterAction) => Object.assign({}, action, { counterAction }),
       dispatch,
       cstate
     )

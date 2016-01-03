@@ -94,25 +94,25 @@ function handleInit (init) {
 }
 
 
-// Wrap a dispatcher, allowing actions to be modified before they are dispatched.
+// Wrap a dispatcher, forwarding any actions onto the specified action by attaching
+// them to the __action property.
+//
 // Usually used by parent components to capture actions from child components.
-export const forwardDispatch = curry((action, modifier, dispatch, state) => {
+export const forwardDispatch = curry((action, dispatch, state) => {
   return forwardAction => {
-    const modify = modifier.bind(this, action, forwardAction)
-
     if (typeof forwardAction === 'function') {
       // In order to forward thunks, an intermediate thunk needs to be returned
       // to gain access to the raw `action => <dispatch>` dispatcher rather than
       // the application's wrapped `action => event => <dispatch>` dispatcher.
       return dispatch((rawDispatch) => {
         const getState = () => state
-        const fwd = forwardDispatch(action, modifier, rawDispatch, state)
+        const fwd = forwardDispatch(action, rawDispatch, state)
 
         forwardAction(fwd, getState)
       })
     }
 
-    // Modify and then dispatch a simple action object
-    return dispatch(modify())
+    // Annotate and dispatch a simple action object
+    return dispatch(Object.assign({}, action, { __fwdAction: forwardAction }))
   }
 })

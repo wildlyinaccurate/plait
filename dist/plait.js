@@ -136,12 +136,12 @@ function handleInit(init) {
   return [new _Map2.default(res[0]), res[1]];
 }
 
-// Wrap a dispatcher, allowing actions to be modified before they are dispatched.
+// Wrap a dispatcher, forwarding any actions onto the specified action by attaching
+// them to the __action property.
+//
 // Usually used by parent components to capture actions from child components.
-var forwardDispatch = exports.forwardDispatch = (0, _curry2.default)(function (action, modifier, dispatch, state) {
+var forwardDispatch = exports.forwardDispatch = (0, _curry2.default)(function (action, dispatch, state) {
   return function (forwardAction) {
-    var modify = modifier.bind(undefined, action, forwardAction);
-
     if (typeof forwardAction === 'function') {
       // In order to forward thunks, an intermediate thunk needs to be returned
       // to gain access to the raw `action => <dispatch>` dispatcher rather than
@@ -150,14 +150,14 @@ var forwardDispatch = exports.forwardDispatch = (0, _curry2.default)(function (a
         var getState = function getState() {
           return state;
         };
-        var fwd = forwardDispatch(action, modifier, rawDispatch, state);
+        var fwd = forwardDispatch(action, rawDispatch, state);
 
         forwardAction(fwd, getState);
       });
     }
 
-    // Modify and then dispatch a simple action object
-    return dispatch(modify());
+    // Annotate and dispatch a simple action object
+    return dispatch(Object.assign({}, action, { __fwdAction: forwardAction }));
   };
 });
 },{"./Map":2,"dom-delegator":10,"ramda/src/curry":22,"redux":34,"redux-thunk":32,"virtual-dom/create-element":42,"virtual-dom/diff":43,"virtual-dom/patch":44}],2:[function(require,module,exports){
