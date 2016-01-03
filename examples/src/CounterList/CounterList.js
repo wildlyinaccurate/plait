@@ -47,10 +47,10 @@ export function view (state, dispatch) {
 function counterView (state, dispatch) {
   return state.get('counters').map((cstate, counterIdx) => {
     const modifiedDispatch = forwardDispatch(
-      dispatch,
-      cstate,
       { type: 'MODIFY', counterIdx },
-      (action, counterAction) => Object.assign({}, action, { counterAction })
+      (action, counterAction) => Object.assign({}, action, { counterAction }),
+      dispatch,
+      cstate
     )
 
     return Counter.view(cstate, modifiedDispatch)

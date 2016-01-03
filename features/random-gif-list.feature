@@ -6,19 +6,22 @@ Feature: RandomGifList Component
 
   Scenario: Creating lots of gifs
     Given I am on the "RandomGifList" page
-    # Then there should be a new cat gif # NOT IMPLEMENTED
+
 
     When I write "cats" into the input
     And I hit enter
+    Then there should be a new cat gif
+
     When I press the "More Please!" button
     Then there should be a new cat gif
-    And there should be 1 total requests for "cats" gifs
+    And there should be 2 total requests for "cats" gifs
 
     When I hit enter
-    And I press the 2nd "more" button
-    Then there should be 2 total requests for "cats" gifs
+    Then there should be 3 total requests for "cats" gifs
 
     When I write "dogs" into the input
     And I hit enter
-    When I press the 3rd "more" button
     Then there should be 1 total requests for "dogs" gifs
+
+    When I press the 2nd "more" button
+    Then there should be 4 total requests for "cats" gifs

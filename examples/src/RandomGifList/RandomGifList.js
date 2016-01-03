@@ -12,15 +12,20 @@ export function init () {
 }
 
 
-export function update (state, action) {
+const appendGifAction = (action, gifAction) => Object.assign({}, action, { gifAction })
+
+
+export function update (state, action, dispatch) {
   switch (action.type) {
     case 'ADD_GIF':
       const value = action.event.target.value
 
       if (action.event.key === 'Enter' && value.length) {
-        const randomGif = initializeComponent({
-          init: RandomGif.init(state.get('topic'))
-        })
+        const gifIdx = state.get('gifs').length
+        const randomGif = initializeComponent(
+          { init: RandomGif.init(state.get('topic')) },
+          forwardDispatch({ type: 'MODIFY', gifIdx }, appendGifAction, dispatch)
+        )
 
         return state.update('gifs', gifs => gifs.concat(randomGif))
       } else {
@@ -59,12 +64,10 @@ export function view (state, dispatch) {
 }
 
 function randomGifView (state, dispatch) {
-  const appendGifAction = (action, gifAction) => Object.assign({}, action, { gifAction })
-
   return state.get('gifs').map((gifState, gifIdx) => {
     return (
       <div style="float: left; margin-right: 1rem;">
-        {RandomGif.view(gifState, forwardDispatch(dispatch, gifState, { type: 'MODIFY', gifIdx }, appendGifAction))}
+        {RandomGif.view(gifState, forwardDispatch({ type: 'MODIFY', gifIdx }, appendGifAction, dispatch, gifState))}
       </div>
     )
   })
