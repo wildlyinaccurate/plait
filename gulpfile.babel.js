@@ -1,3 +1,5 @@
+import fs from 'fs'
+
 import gulp from 'gulp'
 import merge from 'merge-stream'
 import rename from 'gulp-rename'
@@ -12,8 +14,10 @@ import browserify from './gulp/browserify'
 import { buildExamples, publishExamples } from './gulp/examples'
 
 gulp.task('build', ['compile', 'browserify', 'buildExamples', 'minify'])
-gulp.task('test', ['jasmine', 'cucumber'])
+gulp.task('test', ['jasmine', 'cucumber', 'maxSize'])
 gulp.task('default', ['build', 'test'])
+
+const MAX_BUILD_SIZE = 40000
 
 gulp.task('compile', () => {
   return gulp.src('src/**/*.js')
@@ -55,6 +59,18 @@ gulp.task('cucumber', ['buildExamples', 'connect'], (done) => {
 
   return gulp.src('features/*')
     .pipe(cukes)
+})
+
+gulp.task('maxSize', ['browserify'], (done) => {
+  fs.stat('dist/plait.min.js', (err, stats) => {
+    const kb = b => Math.floor(b / 1000)
+
+    if (stats.size > MAX_BUILD_SIZE) {
+      done(`plait.min.js is too big (${kb(stats.size)}K > ${kb(MAX_BUILD_SIZE)}K)!`)
+    }
+
+    done()
+  })
 })
 
 gulp.task('watch', () => {
