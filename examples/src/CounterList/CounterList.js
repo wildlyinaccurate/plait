@@ -11,6 +11,14 @@ export function init () {
 }
 
 
+const updateCounter = action => (counterState, idx) => {
+  if (idx === action.counterIdx) {
+    return Counter.update(counterState, action.__fwdAction)
+  } else {
+    return counterState
+  }
+}
+
 export function update (state, action) {
   switch (action.type) {
     case 'ADD_COUNTER':
@@ -18,16 +26,6 @@ export function update (state, action) {
 
     case 'MODIFY':
       return state.update('counters', cs => cs.map(updateCounter(action)))
-  }
-}
-
-function updateCounter (action) {
-  return (counterState, idx) => {
-    if (idx === action.counterIdx) {
-      return Counter.update(counterState, action.__fwdAction)
-    } else {
-      return counterState
-    }
   }
 }
 
