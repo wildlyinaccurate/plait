@@ -1,18 +1,20 @@
 # [Plait](https://wildlyinaccurate.com/plait/)
 
-Plait is a minimal JavaScript framework for building reactive web components, heavily inspired by <a href="https://github.com/evancz/elm-architecture-tutorial/">The Elm Architecture</a> and Elm's <a href="https://github.com/evancz/start-app"><code>StartApp</code></a>.
+Plait is a minimal JavaScript framework for building reactive web components. It is inspired by <a href="https://github.com/evancz/elm-architecture-tutorial/">The Elm Architecture</a> and Elm's <a href="https://github.com/evancz/start-app"><code>StartApp</code></a>.
 
 [![build status](https://img.shields.io/travis/wildlyinaccurate/plait/master.svg?style=flat-square)](https://travis-ci.org/wildlyinaccurate/plait)
 
-## The Idea
+## The Basic Idea
 
-I've been impressed with the experience of writing reactive apps in [Elm](http://elm-lang.org/). I wanted to find a way to achieve a similar architecture with a minimal amount of vanilla JavaScript.
+Inspired by the experience of writing reactive apps in [Elm](http://elm-lang.org/), Plait is an attempt at achieving a similar application architecture with a minimal amount of JavaScript.
 
-In Plait, an app is composed of one or more encapsulated components. Each component implements `view`, which renders the component with a given state; `update`, which updates the state based on a given action; and `init`, which provides the initial state.
+In Plait, an app is composed of one or more encapsulated components. A component is made up of 3 functions: `init`, which provides the component's initial state; `view`, which renders the component at a given state and attaches actions to the UI elements; and `update`, which modifies the component's state based on actions dispatched from the UI.
 
-State is implemented as an immutable Map, and is contained & managed with [redux](https://github.com/rackt/redux). Components render their views with [virtual-dom](https://github.com/Matt-Esch/virtual-dom), with DOM events being transparently handled by [dom-delegator](https://github.com/Raynos/dom-delegator).
+Component state is implemented as an immutable Map. Behind the scenes, the state is contained & managed by [redux](https://github.com/rackt/redux). A component's `update` function is just a Redux [reducer](http://rackt.org/redux/docs/basics/Reducers.html).
 
-> **Note:** It's possible to write views in JSX and compile them to JS using [jsx-transform](https://github.com/alexmingoia/jsx-transform) (with `factory: 'h'`). See below for an example.
+Components views are written in [virtual-hyperscript](https://github.com/Matt-Esch/virtual-dom/blob/master/virtual-hyperscript/README.md) and rendered by [virtual-dom](https://github.com/Matt-Esch/virtual-dom). DOM events are transparently handled by [dom-delegator](https://github.com/Raynos/dom-delegator).
+
+With minimal effort, component views can be written in JSX and compiled to virtual-hyperscript using [jsx-transform](https://github.com/alexmingoia/jsx-transform).
 
 ## An Example Application
 
