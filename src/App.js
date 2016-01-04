@@ -95,7 +95,7 @@ function handleInit (init) {
 
 
 // Wrap a dispatcher, forwarding any actions onto the specified action by attaching
-// them to the __action property.
+// them to the __fwdAction property.
 //
 // Usually used by parent components to capture actions from child components.
 export const forwardDispatch = curry((action, dispatch, state) => {
