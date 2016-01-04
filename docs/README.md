@@ -9,4 +9,4 @@
   * [Creating a Component](/docs/basics/CreatingAComponent.md)
   * [Combining Components](/docs/basics/CombiningComponents.md)
 * [API](/docs/API/README.md)
-  * [Map](/docs/API/Map.md)
+  * [State](/docs/API/State.md)

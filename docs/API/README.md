@@ -1,3 +1,3 @@
 ## API
 
-* [`Map`](Map.md)
+* [`State`](State.md)

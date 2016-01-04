@@ -1,19 +1,20 @@
 import assocPath from 'ramda/src/assocPath'
-import clone from './utils/clone'
 import path from 'ramda/src/path'
 
-class Map {
+import clone from './utils/clone'
+
+class State {
   constructor (obj) {
     if (typeof obj !== 'object') {
       throw new TypeError(obj, 'is not an object')
     }
 
     this.obj = obj
-    this['@@Plait/Map'] = 1
+    this['@@Plait/State'] = 1
   }
 
   clone () {
-    return new Map(this.toObject())
+    return new State(this.toObject())
   }
 
   toObject () {
@@ -25,7 +26,7 @@ class Map {
 
     obj[prop] = val
 
-    return new Map(obj)
+    return new State(obj)
   }
 
   get (prop) {
@@ -41,7 +42,7 @@ class Map {
   setIn(propPath, val) {
     const obj = assocPath(propPath, val, this.obj)
 
-    return new Map(obj)
+    return new State(obj)
   }
 
   getIn(propPath) {
@@ -49,4 +50,4 @@ class Map {
   }
 }
 
-export default Map
+export default State

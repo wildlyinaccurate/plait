@@ -10,7 +10,7 @@ Inspired by the experience of writing reactive apps in [Elm](http://elm-lang.org
 
 In Plait, an app is composed of one or more encapsulated components. A component is made up of 3 functions: `init`, which provides the component's initial state; `view`, which renders the component at a given state and attaches actions to the UI elements; and `update`, which modifies the component's state based on actions dispatched from the UI.
 
-Component state is implemented as an immutable Map. Behind the scenes, the state is contained & managed by [redux](https://github.com/rackt/redux). A component's `update` function is just a Redux [reducer](http://rackt.org/redux/docs/basics/Reducers.html).
+Component state is implemented as an immutable map. Behind the scenes, the state is contained & managed by [redux](https://github.com/rackt/redux). A component's `update` function is just a Redux [reducer](http://rackt.org/redux/docs/basics/Reducers.html).
 
 Components views are written in [virtual-hyperscript](https://github.com/Matt-Esch/virtual-dom/blob/master/virtual-hyperscript/README.md) and rendered by [virtual-dom](https://github.com/Matt-Esch/virtual-dom). DOM events are transparently handled by [dom-delegator](https://github.com/Raynos/dom-delegator).
 

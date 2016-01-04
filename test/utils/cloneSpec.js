@@ -1,5 +1,5 @@
 import clone from '../../src/utils/clone'
-import Map from '../../src/Map'
+import State from '../../src/State'
 
 describe('utils/clone', () => {
 
@@ -44,11 +44,11 @@ describe('utils/clone', () => {
     expect(o2.a.c.d).toBe(2)
   })
 
-  it('clone Map objects', () => {
+  it('clone State objects', () => {
     const o1 = {
-      m: new Map({
+      m: new State({
         a: 1,
-        m: new Map({
+        m: new State({
           b: 1
         })
       })

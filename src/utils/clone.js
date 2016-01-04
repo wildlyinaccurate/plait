@@ -5,7 +5,7 @@ export default function clone (obj) {
     const val = obj[i]
 
     if (typeof val === 'object') {
-      if (val.hasOwnProperty('@@Plait/Map')) {
+      if (val.hasOwnProperty('@@Plait/State')) {
         newObj[i] = val.clone()
       } else {
         newObj[i] = clone(val)

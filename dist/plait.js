@@ -36,9 +36,9 @@ var _domDelegator = require('dom-delegator');
 
 var _domDelegator2 = _interopRequireDefault(_domDelegator);
 
-var _Map = require('./Map');
+var _State = require('./State');
 
-var _Map2 = _interopRequireDefault(_Map);
+var _State2 = _interopRequireDefault(_State);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -47,8 +47,8 @@ var createStoreWithMiddleware = (0, _redux.applyMiddleware)(_reduxThunk2.default
 
 // Component = {
 //   init : _ -> Object
-//   update : Map -> Action -> Map
-//   view : Map -> (Action -> Action) -> VirtualNode
+//   update : State -> Action -> State
+//   view : State -> (Action -> Action) -> VirtualNode
 // }
 
 // start :: Component -> Element
@@ -110,7 +110,7 @@ function patchTree(rootNode, oldTree, newTree) {
   return newTree;
 }
 
-// initializeComponent :: Component -> Map
+// initializeComponent :: Component -> State
 function initializeComponent(_ref, dispatch) {
   var init = _ref.init;
 
@@ -128,12 +128,12 @@ function initializeComponent(_ref, dispatch) {
   return initialState;
 }
 
-// handleInit :: (_ -> Object) -> [Map, Maybe Action]
+// handleInit :: (_ -> Object) -> [State, Maybe Action]
 function handleInit(init) {
   var _res = init();
   var res = Array.isArray(_res) ? _res : [_res];
 
-  return [new _Map2.default(res[0]), res[1]];
+  return [new _State2.default(res[0]), res[1]];
 }
 
 // Wrap a dispatcher, forwarding any actions onto the specified action by attaching
@@ -160,7 +160,7 @@ var forwardDispatch = exports.forwardDispatch = (0, _curry2.default)(function (a
     return dispatch(Object.assign({}, action, { __fwdAction: forwardAction }));
   };
 });
-},{"./Map":2,"dom-delegator":10,"ramda/src/curry":22,"redux":34,"redux-thunk":32,"virtual-dom/create-element":42,"virtual-dom/diff":43,"virtual-dom/patch":44}],2:[function(require,module,exports){
+},{"./State":2,"dom-delegator":10,"ramda/src/curry":22,"redux":34,"redux-thunk":32,"virtual-dom/create-element":42,"virtual-dom/diff":43,"virtual-dom/patch":44}],2:[function(require,module,exports){
 'use strict';
 
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
@@ -173,13 +173,13 @@ var _assocPath = require('ramda/src/assocPath');
 
 var _assocPath2 = _interopRequireDefault(_assocPath);
 
-var _clone = require('./utils/clone');
-
-var _clone2 = _interopRequireDefault(_clone);
-
 var _path = require('ramda/src/path');
 
 var _path2 = _interopRequireDefault(_path);
+
+var _clone = require('./utils/clone');
+
+var _clone2 = _interopRequireDefault(_clone);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -187,22 +187,22 @@ function _typeof(obj) { return obj && typeof Symbol !== "undefined" && obj.const
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var Map = (function () {
-  function Map(obj) {
-    _classCallCheck(this, Map);
+var State = (function () {
+  function State(obj) {
+    _classCallCheck(this, State);
 
     if ((typeof obj === 'undefined' ? 'undefined' : _typeof(obj)) !== 'object') {
       throw new TypeError(obj, 'is not an object');
     }
 
     this.obj = obj;
-    this['@@Plait/Map'] = 1;
+    this['@@Plait/State'] = 1;
   }
 
-  _createClass(Map, [{
+  _createClass(State, [{
     key: 'clone',
     value: function clone() {
-      return new Map(this.toObject());
+      return new State(this.toObject());
     }
   }, {
     key: 'toObject',
@@ -216,7 +216,7 @@ var Map = (function () {
 
       obj[prop] = val;
 
-      return new Map(obj);
+      return new State(obj);
     }
   }, {
     key: 'get',
@@ -235,7 +235,7 @@ var Map = (function () {
     value: function setIn(propPath, val) {
       var obj = (0, _assocPath2.default)(propPath, val, this.obj);
 
-      return new Map(obj);
+      return new State(obj);
     }
   }, {
     key: 'getIn',
@@ -244,33 +244,33 @@ var Map = (function () {
     }
   }]);
 
-  return Map;
+  return State;
 })();
 
-exports.default = Map;
+exports.default = State;
 },{"./utils/clone":4,"ramda/src/assocPath":21,"ramda/src/path":31}],3:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.Map = exports.App = undefined;
+exports.State = exports.App = undefined;
 
 var _App = require('./App');
 
 var App = _interopRequireWildcard(_App);
 
-var _Map = require('./Map');
+var _State = require('./State');
 
-var _Map2 = _interopRequireDefault(_Map);
+var _State2 = _interopRequireDefault(_State);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 exports.App = App;
-exports.Map = _Map2.default;
-},{"./App":1,"./Map":2}],4:[function(require,module,exports){
+exports.State = _State2.default;
+},{"./App":1,"./State":2}],4:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -287,7 +287,7 @@ function clone(obj) {
     var val = obj[i];
 
     if ((typeof val === 'undefined' ? 'undefined' : _typeof(val)) === 'object') {
-      if (val.hasOwnProperty('@@Plait/Map')) {
+      if (val.hasOwnProperty('@@Plait/State')) {
         newObj[i] = val.clone();
       } else {
         newObj[i] = clone(val);
@@ -526,7 +526,7 @@ function addEvent(target, type, handler) {
     }
 }
 
-},{"ev-store":14}],9:[function(require,module,exports){
+},{"ev-store":13}],9:[function(require,module,exports){
 var globalDocument = require("global/document")
 var EvStore = require("ev-store")
 var createStore = require("weakmap-shim/create-store")
@@ -715,7 +715,7 @@ function Handle() {
     this.type = "dom-delegator-handle"
 }
 
-},{"./add-event.js":8,"./proxy-event.js":12,"./remove-event.js":13,"ev-store":14,"global/document":15,"weakmap-shim/create-store":61}],10:[function(require,module,exports){
+},{"./add-event.js":8,"./proxy-event.js":11,"./remove-event.js":12,"ev-store":13,"global/document":16,"weakmap-shim/create-store":61}],10:[function(require,module,exports){
 var Individual = require("individual")
 var cuid = require("cuid")
 var globalDocument = require("global/document")
@@ -777,30 +777,7 @@ function Delegator(opts) {
 Delegator.allocateHandle = DOMDelegator.allocateHandle;
 Delegator.transformHandle = DOMDelegator.transformHandle;
 
-},{"./dom-delegator.js":9,"cuid":7,"global/document":15,"individual":11}],11:[function(require,module,exports){
-(function (global){
-var root = typeof window !== 'undefined' ?
-    window : typeof global !== 'undefined' ?
-    global : {};
-
-module.exports = Individual
-
-function Individual(key, value) {
-    if (root[key]) {
-        return root[key]
-    }
-
-    Object.defineProperty(root, key, {
-        value: value
-        , configurable: true
-    })
-
-    return value
-}
-
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-
-},{}],12:[function(require,module,exports){
+},{"./dom-delegator.js":9,"cuid":7,"global/document":16,"individual":17}],11:[function(require,module,exports){
 var inherits = require("inherits")
 
 var ALL_PROPS = [
@@ -880,7 +857,7 @@ function KeyEvent(ev) {
 
 inherits(KeyEvent, ProxyEvent)
 
-},{"inherits":18}],13:[function(require,module,exports){
+},{"inherits":18}],12:[function(require,module,exports){
 var EvStore = require("ev-store")
 
 module.exports = removeEvent
@@ -901,7 +878,7 @@ function removeEvent(target, type, handler) {
     }
 }
 
-},{"ev-store":14}],14:[function(require,module,exports){
+},{"ev-store":13}],13:[function(require,module,exports){
 'use strict';
 
 var OneVersionConstraint = require('individual/one-version');
@@ -923,27 +900,7 @@ function EvStore(elem) {
     return hash;
 }
 
-},{"individual/one-version":17}],15:[function(require,module,exports){
-(function (global){
-var topLevel = typeof global !== 'undefined' ? global :
-    typeof window !== 'undefined' ? window : {}
-var minDoc = require('min-document');
-
-if (typeof document !== 'undefined') {
-    module.exports = document;
-} else {
-    var doccy = topLevel['__GLOBAL_DOCUMENT_CACHE@4'];
-
-    if (!doccy) {
-        doccy = topLevel['__GLOBAL_DOCUMENT_CACHE@4'] = minDoc;
-    }
-
-    module.exports = doccy;
-}
-
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-
-},{"min-document":5}],16:[function(require,module,exports){
+},{"individual/one-version":15}],14:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -967,7 +924,7 @@ function Individual(key, value) {
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 
-},{}],17:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 'use strict';
 
 var Individual = require('./index.js');
@@ -991,7 +948,50 @@ function OneVersion(moduleName, version, defaultValue) {
     return Individual(key, defaultValue);
 }
 
-},{"./index.js":16}],18:[function(require,module,exports){
+},{"./index.js":14}],16:[function(require,module,exports){
+(function (global){
+var topLevel = typeof global !== 'undefined' ? global :
+    typeof window !== 'undefined' ? window : {}
+var minDoc = require('min-document');
+
+if (typeof document !== 'undefined') {
+    module.exports = document;
+} else {
+    var doccy = topLevel['__GLOBAL_DOCUMENT_CACHE@4'];
+
+    if (!doccy) {
+        doccy = topLevel['__GLOBAL_DOCUMENT_CACHE@4'] = minDoc;
+    }
+
+    module.exports = doccy;
+}
+
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+
+},{"min-document":5}],17:[function(require,module,exports){
+(function (global){
+var root = typeof window !== 'undefined' ?
+    window : typeof global !== 'undefined' ?
+    global : {};
+
+module.exports = Individual
+
+function Individual(key, value) {
+    if (root[key]) {
+        return root[key]
+    }
+
+    Object.defineProperty(root, key, {
+        value: value
+        , configurable: true
+    })
+
+    return value
+}
+
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+
+},{}],18:[function(require,module,exports){
 if (typeof Object.create === 'function') {
   // implementation from standard node.js 'util' module
   module.exports = function inherits(ctor, superCtor) {
@@ -2153,7 +2153,7 @@ function createElement(vnode, opts) {
     return node
 }
 
-},{"../vnode/handle-thunk.js":51,"../vnode/is-vnode.js":54,"../vnode/is-vtext.js":55,"../vnode/is-widget.js":56,"./apply-properties":45,"global/document":15}],47:[function(require,module,exports){
+},{"../vnode/handle-thunk.js":51,"../vnode/is-vnode.js":54,"../vnode/is-vtext.js":55,"../vnode/is-widget.js":56,"./apply-properties":45,"global/document":16}],47:[function(require,module,exports){
 // Maps a virtual DOM tree onto a real DOM tree in an efficient manner.
 // We don't want to read all of the DOM nodes in the tree so we use
 // the in-order tree indexing to eliminate recursion down certain branches.
@@ -2475,7 +2475,7 @@ function patchIndices(patches) {
     return indices
 }
 
-},{"./create-element":46,"./dom-index":47,"./patch-op":48,"global/document":15,"x-is-array":63}],50:[function(require,module,exports){
+},{"./create-element":46,"./dom-index":47,"./patch-op":48,"global/document":16,"x-is-array":63}],50:[function(require,module,exports){
 var isWidget = require("../vnode/is-widget.js")
 
 module.exports = updateWidget

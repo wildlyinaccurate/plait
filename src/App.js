@@ -8,7 +8,7 @@ import patch from 'virtual-dom/patch'
 import createElement from 'virtual-dom/create-element'
 import Delegator from 'dom-delegator'
 
-import Map from './Map'
+import State from './State'
 
 
 const delegator = Delegator()
@@ -17,8 +17,8 @@ const createStoreWithMiddleware = applyMiddleware(thunk)(createStore)
 
 // Component = {
 //   init : _ -> Object
-//   update : Map -> Action -> Map
-//   view : Map -> (Action -> Action) -> VirtualNode
+//   update : State -> Action -> State
+//   view : State -> (Action -> Action) -> VirtualNode
 // }
 
 
@@ -73,7 +73,7 @@ function patchTree (rootNode, oldTree, newTree) {
 }
 
 
-// initializeComponent :: Component -> Map
+// initializeComponent :: Component -> State
 export function initializeComponent ({ init }, dispatch) {
   const [initialState, initialAction] = handleInit(init)
 
@@ -85,12 +85,12 @@ export function initializeComponent ({ init }, dispatch) {
 }
 
 
-// handleInit :: (_ -> Object) -> [Map, Maybe Action]
+// handleInit :: (_ -> Object) -> [State, Maybe Action]
 function handleInit (init) {
   const _res = init()
   const res = Array.isArray(_res) ? _res : [_res]
 
-  return [new Map(res[0]), res[1]]
+  return [new State(res[0]), res[1]]
 }
 
 

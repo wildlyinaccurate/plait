@@ -1,4 +1,4 @@
 import * as App from './App'
-import Map from './Map'
+import State from './State'
 
-export { App, Map }
+export { App, State }
