@@ -1,4 +1,5 @@
 ## Basics
 
-* [Components](Components.md)
-* [Component Composition](ComponentComposition.md)
+* [Getting Started](GettingStarted.md)
+* [Creating a Component](CreatingAComponent.md)
+* [Combining Components](CombiningComponents.md)
