@@ -2,6 +2,19 @@ import State from '../src/State'
 
 describe('State', () => {
 
+  it('should return the correct values', () => {
+    const state1 = new State({ a: 1, b: 2 })
+
+    expect(state1.get('a')).toBe(1)
+    expect(state1.get('b')).toBe(2)
+  })
+
+  it("should return undefined for keys which don't exist", () => {
+    const state1 = new State({ a: 1 })
+
+    expect(state1.get('foo')).toBe(undefined)
+  })
+
   it('is immutable', () => {
     const state1 = new State({ a: 1 })
     const state2 = state1.set('a', 2)
