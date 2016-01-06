@@ -1,6 +1,6 @@
 {
   "gitbook": "2.x.x",
-  "plugins": ["edit-link", "prism", "-highlight", "github"],
+  "plugins": ["edit-link", "prism", "-highlight", "github", "ga"],
   "pluginsConfig": {
     "edit-link": {
       "base": "https://github.com/wildlyinaccurate/plait/tree/master",
@@ -8,6 +8,12 @@
     },
     "github": {
       "url": "https://github.com/wildlyinaccurate/plait"
+    },
+    "ga": {
+      "token": "UA-72072909-1",
+      "configuration": {
+        "siteSpeedSampleRate": 10
+      }
     }
   }
 }
