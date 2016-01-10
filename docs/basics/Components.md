@@ -1,4 +1,4 @@
-# Creating a Component
+# Components
 
 A Plait component is an object with three functions:
 

@@ -1,6 +1,6 @@
 ## Basics
 
 * [Getting Started](GettingStarted.md)
-* [Creating a Component](CreatingAComponent.md)
-* [Understanding Actions](UnderstandingActions.md)
+* [Components](Components.md)
+* [Actions](Actions.md)
 * [Combining Components](CombiningComponents.md)

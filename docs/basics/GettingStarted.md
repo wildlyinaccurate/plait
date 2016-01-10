@@ -1,5 +1,9 @@
 # Getting Started
 
+## Skeleton app
+
+The easiest way to get started with Plait is to clone the [Plait Skeleton App](https://github.com/wildlyinaccurate/plait-skeleton-app).
+
 ## Using npm
 
 The recommended way to use Plait is with a CommonJS module loader like [browserify](http://browserify.org/) or [webpack](https://webpack.github.io/). All of the examples in this documentation are written in [ES2015](http://babeljs.io/docs/learn-es2015/), which is recommended but not necessary.

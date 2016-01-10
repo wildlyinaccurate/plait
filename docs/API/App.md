@@ -17,7 +17,7 @@ Starts a Plait application lifecycle from a root component.
 
 ##### `component` (Object)
 
-A [component object](../basics/CreatingAComponent.md) which has _all_ of the following properties:
+A [component object](../basics/Components.md) which has _all_ of the following properties:
 
 * `init` (Function)
 * `update` (Function)
@@ -38,7 +38,7 @@ Initializes a component. Used to create child components from within a parent co
 
 ##### `component` (Object)
 
-A [component object](../basics/CreatingAComponent.md) which has _at least_ the following properties:
+A [component object](../basics/Components.md) which has _at least_ the following properties:
 
 * `init` (Function)
 
@@ -63,7 +63,7 @@ This function is generally used to create a dispatch function which will be pass
 
 ##### `action` (any)
 
-The [action](../basics/UnderstandingActions.md) which will be dispatched when the forwarded dispatch function is called.
+The [action](../basics/Actions.md) which will be dispatched when the forwarded dispatch function is called.
 
 ##### `dispatch` (Function)
 
