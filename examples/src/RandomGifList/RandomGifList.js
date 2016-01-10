@@ -4,6 +4,9 @@ import { initializeComponent, forwardDispatch } from 'App'
 import * as RandomGif from '../RandomGif/RandomGif'
 
 
+const ENTER_KEY = 13
+
+
 export function init () {
   return {
     topic: '',
@@ -17,7 +20,7 @@ export function update (state, action, dispatch) {
     case 'ADD_GIF':
       const value = action.$event.target.value
 
-      if (action.$event.key === 'Enter' && value.length) {
+      if (action.$event.keyCode === ENTER_KEY && value.length) {
         const gifIdx = state.get('gifs').length
         const randomGif = initializeComponent(
           { init: RandomGif.init(state.get('topic')) },
