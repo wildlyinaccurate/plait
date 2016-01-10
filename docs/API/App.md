@@ -55,7 +55,7 @@ A dispatcher function. This is only required when the return value of `component
 
 ### <a id="forwardDispatch"></a> [`forwardDispatch(action, dispatch, state)`](#forwardDispatch)
 
-Wraps a dispatcher so that any dispatched actions are instead forwarded to the given action. The given action will be annotated with the `__fwdAction` property, containing the originally dispatched action.
+Wraps a dispatcher so that any dispatched actions are instead forwarded to the given action. The given action will be annotated with the `$fwdAction` property, containing the originally dispatched action.
 
 This function is generally used to create a dispatch function which will be passed to the `view` function of child components. It allows the parent component to forward the child component's actions to its own `update` funciton.
 

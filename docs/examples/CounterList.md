@@ -74,7 +74,7 @@ function counterView (state, dispatch) {
 }
 ```
 
-Now, whenever an action is dispatched from a Counter component, it will be sent as a `MODIFY` action containing the index of the Counter. The action will also have a special property, `__fwdAction`, containing the original action sent by the Counter.
+Now, whenever an action is dispatched from a Counter component, it will be sent as a `MODIFY` action containing the index of the Counter. The action will also have a special property, `$fwdAction`, containing the original action sent by the Counter.
 
 Now the CounterList needs to handle the `MODIFY` action, and update its Counter components.
 
@@ -92,7 +92,7 @@ function update (state, action) {
 function updateCounter (action) {
   return (counterState, idx) => {
     if (idx === action.counterIdx) {
-      return Counter.update(counterState, action.__fwdAction)
+      return Counter.update(counterState, action.$fwdAction)
     }
 
     return counterState

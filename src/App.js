@@ -39,7 +39,7 @@ export function start (component) {
   dispatch = action => {
     return event => {
       if (event) {
-        action.event = event
+        action.$event = event
       }
 
       store.dispatch(action)
@@ -95,7 +95,7 @@ function handleInit (init) {
 
 
 // Wrap a dispatcher, forwarding any actions onto the specified action by attaching
-// them to the __fwdAction property.
+// them to the $fwdAction property.
 //
 // Usually used by parent components to capture actions from child components.
 export const forwardDispatch = curry((action, dispatch, state) => {
@@ -113,6 +113,6 @@ export const forwardDispatch = curry((action, dispatch, state) => {
     }
 
     // Annotate and dispatch a simple action object
-    return dispatch(Object.assign({}, action, { __fwdAction: forwardAction }))
+    return dispatch(Object.assign({}, action, { $fwdAction: forwardAction }))
   }
 })

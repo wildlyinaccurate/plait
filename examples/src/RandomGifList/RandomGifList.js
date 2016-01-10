@@ -15,9 +15,9 @@ export function init () {
 export function update (state, action, dispatch) {
   switch (action.type) {
     case 'ADD_GIF':
-      const value = action.event.target.value
+      const value = action.$event.target.value
 
-      if (action.event.key === 'Enter' && value.length) {
+      if (action.$event.key === 'Enter' && value.length) {
         const gifIdx = state.get('gifs').length
         const randomGif = initializeComponent(
           { init: RandomGif.init(state.get('topic')) },
@@ -37,7 +37,7 @@ export function update (state, action, dispatch) {
 function updateGif (action) {
   return (gifState, idx) => {
     if (idx === action.gifIdx) {
-      return RandomGif.update(gifState, action.__fwdAction)
+      return RandomGif.update(gifState, action.$fwdAction)
     } else {
       return gifState
     }

@@ -82,7 +82,7 @@ function start(component) {
   dispatch = function (action) {
     return function (event) {
       if (event) {
-        action.event = event;
+        action.$event = event;
       }
 
       store.dispatch(action);
@@ -137,7 +137,7 @@ function handleInit(init) {
 }
 
 // Wrap a dispatcher, forwarding any actions onto the specified action by attaching
-// them to the __fwdAction property.
+// them to the $fwdAction property.
 //
 // Usually used by parent components to capture actions from child components.
 var forwardDispatch = exports.forwardDispatch = (0, _curry2.default)(function (action, dispatch, state) {
@@ -157,7 +157,7 @@ var forwardDispatch = exports.forwardDispatch = (0, _curry2.default)(function (a
     }
 
     // Annotate and dispatch a simple action object
-    return dispatch(Object.assign({}, action, { __fwdAction: forwardAction }));
+    return dispatch(Object.assign({}, action, { $fwdAction: forwardAction }));
   };
 });
 },{"./State":2,"dom-delegator":10,"ramda/src/curry":22,"redux":34,"redux-thunk":32,"virtual-dom/create-element":42,"virtual-dom/diff":43,"virtual-dom/patch":44}],2:[function(require,module,exports){

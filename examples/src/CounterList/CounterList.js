@@ -13,7 +13,7 @@ export function init () {
 
 const updateCounter = action => (counterState, idx) => {
   if (idx === action.counterIdx) {
-    return Counter.update(counterState, action.__fwdAction)
+    return Counter.update(counterState, action.$fwdAction)
   } else {
     return counterState
   }
