@@ -1,14 +1,13 @@
 import h from 'virtual-dom/h'
 import { start, forwardDispatch, initializeComponent } from 'App'
 
-const [fwd, initComponent] = [forwardDispatch, initializeComponent]
-
 import * as Header from './Header'
 import * as TodoItem from './TodoItem'
 import * as Footer from './Footer'
 
 
 const ENTER_KEY = 13
+const [fwd, initComponent] = [forwardDispatch, initializeComponent]
 
 
 export function init () {
