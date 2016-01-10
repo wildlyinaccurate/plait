@@ -2,16 +2,12 @@
   "gitbook": "2.x.x",
   "plugins": [
     "-highlight",
-    "canonical-link",
     "edit-link",
     "ga",
     "github",
     "prism"
   ],
   "pluginsConfig": {
-    "canonical-link": {
-      "canonicalURL": "https://wildlyinaccurate.com/plait/"
-    },
     "edit-link": {
       "base": "https://github.com/wildlyinaccurate/plait/tree/master",
       "label": "Edit This Page"
