@@ -1,9 +1,19 @@
 import Zombie from 'zombie'
 
+const $qsa = (browser, selector) => {
+  return Array.from(browser.document.querySelectorAll(selector))
+}
+
 const nthElement = (browser, nth, className) => {
-  return Array.from(
-    browser.document.querySelectorAll(`.${className}`)
-  )[nth - 1]
+  return $qsa(browser, `.${className}`)[nth - 1]
+}
+
+const firstTextInput = (browser) => {
+  return $qsa(browser, 'input').filter(i => i.type === 'text')[0]
+}
+
+const elementsWithContent = (browser, selector, text) => {
+  return $qsa(browser, selector).filter(el => el.textContent === text)
 }
 
 module.exports = function () {
@@ -65,11 +75,11 @@ module.exports = function () {
   })
 
   this.When(/^I write "([^"]+)" into the input$/, function (val) {
-    return this.browser.fill('input', val)
+    return this.browser.fill(firstTextInput(this.browser), val)
   })
 
   this.When(/^I hit enter$/, function (done) {
-    const input = this.browser.document.querySelector('input')
+    const input = firstTextInput(this.browser)
     const ev = this.browser.window.document.createEvent('KeyboardEvent')
 
     ev.initEvent('keyup', true, true)
@@ -87,6 +97,16 @@ module.exports = function () {
 
     if (gifs.length !== Number(n)) {
       throw new Error(`Expected to see ${n} requests for ${topic} gifs but there were ${gifs.length}`)
+    }
+
+    done()
+  })
+
+  this.Then(/^I should see a "([^"]+)" todo$/, function (name, done) {
+    const todos = elementsWithContent(this.browser, '.view label', name)
+
+    if (todos.length !== 1) {
+      throw new Error(`Expected to see 1 "${name}" todo but there were ${todos.length}.`)
     }
 
     done()
