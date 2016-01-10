@@ -1,6 +1,6 @@
 # Dynamic List of Counters
 
-* [See the demo](http://wildlyinaccurate.com/plait/examples/CounterList.html)
+* [See the demo](https://wildlyinaccurate.com/plait/examples/CounterList.html)
 * [View the source code](https://github.com/wildlyinaccurate/plait/tree/master/examples/src/CounterList)
 
 The CounterList example shows how small components can be composed to form larger components and eventually entire applications. It demonstrates:

@@ -1,6 +1,6 @@
 # Counter
 
-* [See the demo](http://wildlyinaccurate.com/plait/examples/Counter.html)
+* [See the demo](https://wildlyinaccurate.com/plait/examples/Counter.html)
 * [View the source code](https://github.com/wildlyinaccurate/plait/tree/master/examples/src/Counter)
 
 The Counter example is a very simple component which demonstrates:
