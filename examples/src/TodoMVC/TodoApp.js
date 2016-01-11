@@ -5,17 +5,16 @@ import * as Header from './Header'
 import * as TodoItem from './TodoItem'
 import * as Footer from './Footer'
 
+import { FILTER_ALL, FILTER_ACTIVE, FILTER_COMPLETED } from './filters'
+import merge from './merge'
+
 
 const ENTER_KEY = 13
+
 const [fwd, initComponent] = [forwardDispatch, initializeComponent]
 
-
 export function init () {
-  const initState = {
-    todos: []
-  }
-
-  return merge(initState, Header.init())
+  return merge({ todos: [] }, Header.init(), Footer.init())
 }
 
 
@@ -24,13 +23,11 @@ export function update (state, action) {
     case 'HEADER_ACTION':
       return updateHeader(state, action)
 
+    case 'FOOTER_ACTION':
+      return updateFooter(state, action)
+
     case 'TODO_ITEM_ACTION':
       return updateTodoItems(state, action)
-
-    case 'CLEAR_COMPLETED':
-      return state.update('todos', function(todos) {
-        return todos.filter(todo => !todo.get('completed'))
-      })
 
     case 'TOGGLE_ALL':
       const todoAction = {
@@ -54,6 +51,16 @@ function updateHeader (state, action) {
   } else {
     return Header.update(state, merge(action.$fwdAction, { $event: action.$event }))
   }
+}
+
+function updateFooter (state, action) {
+  if (action.$fwdAction.type === 'CLEAR_COMPLETED') {
+    return state.update('todos', function(todos) {
+      return todos.filter(todo => !todo.get('completed'))
+    })
+  }
+
+  return Footer.update(state, action.$fwdAction)
 }
 
 const updateTodoItem = action => (state, idx) => {
@@ -94,18 +101,12 @@ export function view (state, dispatch) {
 }
 
 function headerView (state, dispatch) {
-  const modifiedDispatch = fwd(
-    { type: 'HEADER_ACTION' },
-    dispatch,
-    state
-  )
-
-  return Header.view(state, modifiedDispatch)
+  return Header.view(state, fwd({ type: 'HEADER_ACTION' }, dispatch, state))
 }
 
 function footerView (state, dispatch) {
   if (state.get('todos').length) {
-    return Footer.view(state, dispatch)
+    return Footer.view(state, fwd({ type: 'FOOTER_ACTION' }, dispatch, state))
   }
 }
 
@@ -125,7 +126,9 @@ function todosView (state, dispatch) {
 }
 
 function todoItemsView (state, dispatch) {
-  return state.get('todos').map((todoState, todoIdx) => {
+  const filteredTodos = filterTodos(state.get('todos'), state.get('filter'))
+
+  return filteredTodos.map((todoState, todoIdx) => {
     const modifiedDispatch = fwd(
       { type: 'TODO_ITEM_ACTION', todoIdx },
       dispatch,
@@ -136,7 +139,19 @@ function todoItemsView (state, dispatch) {
   })
 }
 
+function filterTodos (todos, filter) {
+  return todos.filter(todo => satisfiesFilter(filter, todo))
+}
 
-function merge (obj1, obj2) {
-  return Object.assign({}, obj1, obj2)
+function satisfiesFilter (filter, todo) {
+  switch (filter) {
+    case FILTER_ALL:
+      return true
+
+    case FILTER_COMPLETED:
+      return todo.get('completed')
+
+    case FILTER_ACTIVE:
+      return !todo.get('completed')
+  }
 }
