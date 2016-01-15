@@ -12,7 +12,7 @@ In Plait, an app is composed of one or more encapsulated components. A component
 
 Component state is implemented as an immutable map. Behind the scenes, the state is contained & managed by [Redux](https://github.com/rackt/redux). A component's `update` function is just a Redux [reducer](http://rackt.org/redux/docs/basics/Reducers.html).
 
-Components views are written in [virtual-hyperscript](https://github.com/Matt-Esch/virtual-dom/blob/master/virtual-hyperscript/README.md) and rendered by [virtual-dom](https://github.com/Matt-Esch/virtual-dom). DOM events are transparently handled by [dom-delegator](https://github.com/Raynos/dom-delegator).
+Component views are written in [virtual-hyperscript](https://github.com/Matt-Esch/virtual-dom/blob/master/virtual-hyperscript/README.md) and rendered by [virtual-dom](https://github.com/Matt-Esch/virtual-dom). DOM events are transparently handled by [dom-delegator](https://github.com/Raynos/dom-delegator).
 
 With minimal effort, component views can be written in JSX and compiled to virtual-hyperscript using [jsx-transform](https://github.com/alexmingoia/jsx-transform).
 
