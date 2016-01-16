@@ -12,7 +12,7 @@ function init () {
 function update (state, action) {
   switch (action.type) {
     case 'DEPOSIT':
-      return state.update('balance', x => x + action.amount)
+      return state.update('balance', b => b + action.amount)
   }
 }
 
@@ -31,7 +31,7 @@ function view (state, dispatch) {
 
 This function is called by Plait to retrieve the initial state of a component. You don't need to define all of the state's properties up-front; you only need to provide values for properties which you know you will need to render the component for the first time.
 
-You can also optionally return an action from `init` by returning an array of `[state, action]`. This is useful for doing things like loading some remote data.
+You can also optionally return an action from `init` by returning an array of `[state, action]`. This is useful for doing things like loading remote data.
 
 ## `update`
 
