@@ -1,6 +1,6 @@
 {
   "name": "plait",
-  "version": "0.9.0",
+  "version": "0.10.0",
   "description": "A minimal JavaScript framework for building reactive web components",
   "main": "lib/index.js",
   "jsnext:main": "src/index.js",
