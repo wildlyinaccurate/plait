@@ -15,6 +15,8 @@
   * [TodoMVC App](/docs/examples/TodoMVC.md)
 * [Advanced Topics](/docs/advanced/README.md)
   * [Asynchronous Actions](/docs/advanced/AsynchronousActions.md)
+  * [Static Rendering](/docs/advanced/StaticRendering.md)
 * [API Reference](/docs/API/README.md)
   * [App](/docs/API/App.md)
   * [State](/docs/API/State.md)
+  * [Static](/docs/API/Static.md)
