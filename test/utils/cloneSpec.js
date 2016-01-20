@@ -10,7 +10,7 @@ describe('utils/clone', () => {
     o2.a = 2
 
     expect(o1.a).toBe(1)
-    expect(o2.a).toBe(2)
+    expect(o2).toEqual({ a: 2})
   })
 
   it('clones arrays', () => {

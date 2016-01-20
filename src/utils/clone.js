@@ -1,19 +1,19 @@
 export default function clone (obj) {
-  const newObj = []
+  const newObj = Array.isArray(obj) ? [] : {}
 
-  for (let i in obj) {
-    const val = obj[i]
+  Object.keys(obj).map(k => {
+    const val = obj[k]
 
     if (typeof val === 'object') {
       if (val.hasOwnProperty('@@Plait/State')) {
-        newObj[i] = val.clone()
+        newObj[k] = val.clone()
       } else {
-        newObj[i] = clone(val)
+        newObj[k] = clone(val)
       }
     } else {
-      newObj[i] = val
+      newObj[k] = val
     }
-  }
+  })
 
   return newObj
 }

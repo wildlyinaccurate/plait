@@ -38,6 +38,12 @@ describe('State', () => {
     expect(state2.getIn(['foo', 'baz', 'bing'])).toBe(3)
   })
 
+  it('can be converted back to a regular object', () => {
+    const state = new State({ a: 1, b: 2 })
+
+    expect(state.toObject()).toEqual({ a: 1, b: 2 })
+  })
+
   describe('.update()', () => {
     it('should update the key with the given function', () => {
       const state1 = new State({ a: 1 })
