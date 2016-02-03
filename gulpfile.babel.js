@@ -11,7 +11,7 @@ import cucumber from 'gulp-cucumber'
 import connect from 'gulp-connect'
 
 import browserify from './gulp/browserify'
-import buildExamples from './gulp/examples'
+import buildExamples from './gulp/build-examples'
 
 gulp.task('build', ['compile', 'browserify', 'buildExamples', 'minify'])
 gulp.task('test', ['jasmine', 'cucumber', 'maxSize'])

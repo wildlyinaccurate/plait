@@ -26,7 +26,7 @@ function buildPage (example) {
     .pipe(gulp.dest(dest))
 }
 
-export function buildExamples () {
+export default function buildExamples () {
   const transforms = [jsxify, 'babelify']
   const streams = merge(copyExamples())
 
