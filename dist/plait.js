@@ -160,7 +160,7 @@ var forwardDispatch = exports.forwardDispatch = (0, _curry2.default)(function (a
     return dispatch(Object.assign({}, action, { $fwdAction: forwardAction }));
   };
 });
-},{"./State":2,"dom-delegator":10,"ramda/src/curry":22,"redux":38,"redux-thunk":32,"virtual-dom/create-element":42,"virtual-dom/diff":43,"virtual-dom/patch":44}],2:[function(require,module,exports){
+},{"./State":2,"dom-delegator":10,"ramda/src/curry":22,"redux":38,"redux-thunk":32,"virtual-dom/create-element":43,"virtual-dom/diff":44,"virtual-dom/patch":45}],2:[function(require,module,exports){
 'use strict';
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
@@ -714,7 +714,7 @@ function Handle() {
     this.type = "dom-delegator-handle"
 }
 
-},{"./add-event.js":8,"./proxy-event.js":11,"./remove-event.js":12,"ev-store":13,"global/document":16,"weakmap-shim/create-store":61}],10:[function(require,module,exports){
+},{"./add-event.js":8,"./proxy-event.js":11,"./remove-event.js":12,"ev-store":13,"global/document":16,"weakmap-shim/create-store":62}],10:[function(require,module,exports){
 var Individual = require("individual")
 var cuid = require("cuid")
 var globalDocument = require("global/document")
@@ -1443,17 +1443,16 @@ module.exports = thunkMiddleware;
 },{}],33:[function(require,module,exports){
 'use strict';
 
-exports.__esModule = true;
-
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-exports['default'] = applyMiddleware;
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+exports.__esModule = true;
+exports["default"] = applyMiddleware;
 
 var _compose = require('./compose');
 
 var _compose2 = _interopRequireDefault(_compose);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 /**
  * Creates a store enhancer that applies middleware to the dispatch method
@@ -1471,7 +1470,6 @@ var _compose2 = _interopRequireDefault(_compose);
  * @param {...Function} middlewares The middleware chain to be applied.
  * @returns {Function} A store enhancer applying the middleware.
  */
-
 function applyMiddleware() {
   for (var _len = arguments.length, middlewares = Array(_len), _key = 0; _key < _len; _key++) {
     middlewares[_key] = arguments[_key];
@@ -1492,7 +1490,7 @@ function applyMiddleware() {
       chain = middlewares.map(function (middleware) {
         return middleware(middlewareAPI);
       });
-      _dispatch = _compose2['default'].apply(undefined, chain)(store.dispatch);
+      _dispatch = _compose2["default"].apply(undefined, chain)(store.dispatch);
 
       return _extends({}, store, {
         dispatch: _dispatch
@@ -1500,20 +1498,11 @@ function applyMiddleware() {
     };
   };
 }
-
-module.exports = exports['default'];
 },{"./compose":36}],34:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
-exports['default'] = bindActionCreators;
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-var _utilsMapValues = require('./utils/mapValues');
-
-var _utilsMapValues2 = _interopRequireDefault(_utilsMapValues);
-
+exports["default"] = bindActionCreators;
 function bindActionCreator(actionCreator, dispatch) {
   return function () {
     return dispatch(actionCreator.apply(undefined, arguments));
@@ -1541,46 +1530,44 @@ function bindActionCreator(actionCreator, dispatch) {
  * function as `actionCreators`, the return value will also be a single
  * function.
  */
-
 function bindActionCreators(actionCreators, dispatch) {
   if (typeof actionCreators === 'function') {
     return bindActionCreator(actionCreators, dispatch);
   }
 
-  if (typeof actionCreators !== 'object' || actionCreators === null || actionCreators === undefined) {
+  if (typeof actionCreators !== 'object' || actionCreators === null) {
     throw new Error('bindActionCreators expected an object or a function, instead received ' + (actionCreators === null ? 'null' : typeof actionCreators) + '. ' + 'Did you write "import ActionCreators from" instead of "import * as ActionCreators from"?');
   }
 
-  return _utilsMapValues2['default'](actionCreators, function (actionCreator) {
-    return bindActionCreator(actionCreator, dispatch);
-  });
+  var keys = Object.keys(actionCreators);
+  var boundActionCreators = {};
+  for (var i = 0; i < keys.length; i++) {
+    var key = keys[i];
+    var actionCreator = actionCreators[key];
+    if (typeof actionCreator === 'function') {
+      boundActionCreators[key] = bindActionCreator(actionCreator, dispatch);
+    }
+  }
+  return boundActionCreators;
 }
-
-module.exports = exports['default'];
-},{"./utils/mapValues":40}],35:[function(require,module,exports){
+},{}],35:[function(require,module,exports){
 (function (process){
 'use strict';
 
 exports.__esModule = true;
-exports['default'] = combineReducers;
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+exports["default"] = combineReducers;
 
 var _createStore = require('./createStore');
 
-var _utilsIsPlainObject = require('./utils/isPlainObject');
+var _isPlainObject = require('lodash/isPlainObject');
 
-var _utilsIsPlainObject2 = _interopRequireDefault(_utilsIsPlainObject);
+var _isPlainObject2 = _interopRequireDefault(_isPlainObject);
 
-var _utilsMapValues = require('./utils/mapValues');
+var _warning = require('./utils/warning');
 
-var _utilsMapValues2 = _interopRequireDefault(_utilsMapValues);
+var _warning2 = _interopRequireDefault(_warning);
 
-var _utilsPick = require('./utils/pick');
-
-var _utilsPick2 = _interopRequireDefault(_utilsPick);
-
-/* eslint-disable no-console */
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function getUndefinedStateErrorMessage(key, action) {
   var actionType = action && action.type;
@@ -1597,8 +1584,8 @@ function getUnexpectedStateShapeWarningMessage(inputState, reducers, action) {
     return 'Store does not have a valid reducer. Make sure the argument passed ' + 'to combineReducers is an object whose values are reducers.';
   }
 
-  if (!_utilsIsPlainObject2['default'](inputState)) {
-    return 'The ' + argumentName + ' has unexpected type of "' + ({}).toString.call(inputState).match(/\s([a-z|A-Z]+)/)[1] + '". Expected argument to be an object with the following ' + ('keys: "' + reducerKeys.join('", "') + '"');
+  if (!(0, _isPlainObject2["default"])(inputState)) {
+    return 'The ' + argumentName + ' has unexpected type of "' + {}.toString.call(inputState).match(/\s([a-z|A-Z]+)/)[1] + '". Expected argument to be an object with the following ' + ('keys: "' + reducerKeys.join('", "') + '"');
   }
 
   var unexpectedKeys = Object.keys(inputState).filter(function (key) {
@@ -1642,21 +1629,27 @@ function assertReducerSanity(reducers) {
  * @returns {Function} A reducer function that invokes every reducer inside the
  * passed object, and builds a state object with the same shape.
  */
-
 function combineReducers(reducers) {
-  var finalReducers = _utilsPick2['default'](reducers, function (val) {
-    return typeof val === 'function';
-  });
-  var sanityError;
+  var reducerKeys = Object.keys(reducers);
+  var finalReducers = {};
+  for (var i = 0; i < reducerKeys.length; i++) {
+    var key = reducerKeys[i];
+    if (typeof reducers[key] === 'function') {
+      finalReducers[key] = reducers[key];
+    }
+  }
+  var finalReducerKeys = Object.keys(finalReducers);
 
+  var sanityError;
   try {
     assertReducerSanity(finalReducers);
   } catch (e) {
     sanityError = e;
   }
 
-  return function combination(state, action) {
-    if (state === undefined) state = {};
+  return function combination() {
+    var state = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+    var action = arguments[1];
 
     if (sanityError) {
       throw sanityError;
@@ -1665,30 +1658,34 @@ function combineReducers(reducers) {
     if (process.env.NODE_ENV !== 'production') {
       var warningMessage = getUnexpectedStateShapeWarningMessage(state, finalReducers, action);
       if (warningMessage) {
-        console.error(warningMessage);
+        (0, _warning2["default"])(warningMessage);
       }
     }
 
     var hasChanged = false;
-    var finalState = _utilsMapValues2['default'](finalReducers, function (reducer, key) {
+    var nextState = {};
+    for (var i = 0; i < finalReducerKeys.length; i++) {
+      var key = finalReducerKeys[i];
+      var reducer = finalReducers[key];
       var previousStateForKey = state[key];
       var nextStateForKey = reducer(previousStateForKey, action);
       if (typeof nextStateForKey === 'undefined') {
         var errorMessage = getUndefinedStateErrorMessage(key, action);
         throw new Error(errorMessage);
       }
+      nextState[key] = nextStateForKey;
       hasChanged = hasChanged || nextStateForKey !== previousStateForKey;
-      return nextStateForKey;
-    });
-
-    return hasChanged ? finalState : state;
+    }
+    return hasChanged ? nextState : state;
   };
 }
-
-module.exports = exports['default'];
 }).call(this,require('_process'))
 
-},{"./createStore":37,"./utils/isPlainObject":39,"./utils/mapValues":40,"./utils/pick":41,"_process":6}],36:[function(require,module,exports){
+},{"./createStore":37,"./utils/warning":39,"_process":6,"lodash/isPlainObject":42}],36:[function(require,module,exports){
+"use strict";
+
+exports.__esModule = true;
+exports["default"] = compose;
 /**
  * Composes single-argument functions from right to left.
  *
@@ -1696,11 +1693,6 @@ module.exports = exports['default'];
  * @returns {Function} A function obtained by composing functions from right to
  * left. For example, compose(f, g, h) is identical to arg => f(g(h(arg))).
  */
-"use strict";
-
-exports.__esModule = true;
-exports["default"] = compose;
-
 function compose() {
   for (var _len = arguments.length, funcs = Array(_len), _key = 0; _key < _len; _key++) {
     funcs[_key] = arguments[_key];
@@ -1708,7 +1700,7 @@ function compose() {
 
   return function () {
     if (funcs.length === 0) {
-      return arguments[0];
+      return arguments.length <= 0 ? undefined : arguments[0];
     }
 
     var last = funcs[funcs.length - 1];
@@ -1719,19 +1711,18 @@ function compose() {
     }, last.apply(undefined, arguments));
   };
 }
-
-module.exports = exports["default"];
 },{}],37:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
-exports['default'] = createStore;
+exports.ActionTypes = undefined;
+exports["default"] = createStore;
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+var _isPlainObject = require('lodash/isPlainObject');
 
-var _utilsIsPlainObject = require('./utils/isPlainObject');
+var _isPlainObject2 = _interopRequireDefault(_isPlainObject);
 
-var _utilsIsPlainObject2 = _interopRequireDefault(_utilsIsPlainObject);
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 /**
  * These are private action types reserved by Redux.
@@ -1739,11 +1730,10 @@ var _utilsIsPlainObject2 = _interopRequireDefault(_utilsIsPlainObject);
  * If the current state is undefined, you must return the initial state.
  * Do not reference these action types directly in your code.
  */
-var ActionTypes = {
+var ActionTypes = exports.ActionTypes = {
   INIT: '@@redux/INIT'
 };
 
-exports.ActionTypes = ActionTypes;
 /**
  * Creates a Redux store that holds the state tree.
  * The only way to change the data in the store is to call `dispatch()` on it.
@@ -1769,7 +1759,6 @@ exports.ActionTypes = ActionTypes;
  * @returns {Store} A Redux store that lets you read the state, dispatch actions
  * and subscribe to changes.
  */
-
 function createStore(reducer, initialState, enhancer) {
   if (typeof initialState === 'function' && typeof enhancer === 'undefined') {
     enhancer = initialState;
@@ -1790,8 +1779,15 @@ function createStore(reducer, initialState, enhancer) {
 
   var currentReducer = reducer;
   var currentState = initialState;
-  var listeners = [];
+  var currentListeners = [];
+  var nextListeners = currentListeners;
   var isDispatching = false;
+
+  function ensureCanMutateNextListeners() {
+    if (nextListeners === currentListeners) {
+      nextListeners = currentListeners.slice();
+    }
+  }
 
   /**
    * Reads the state tree managed by the store.
@@ -1806,16 +1802,34 @@ function createStore(reducer, initialState, enhancer) {
    * Adds a change listener. It will be called any time an action is dispatched,
    * and some part of the state tree may potentially have changed. You may then
    * call `getState()` to read the current state tree inside the callback.
-   * Note, the listener should not expect to see all states changes, as the
-   * state might have been updated multiple times before the listener is
-   * notified.
+   *
+   * You may call `dispatch()` from a change listener, with the following
+   * caveats:
+   *
+   * 1. The subscriptions are snapshotted just before every `dispatch()` call.
+   * If you subscribe or unsubscribe while the listeners are being invoked, this
+   * will not have any effect on the `dispatch()` that is currently in progress.
+   * However, the next `dispatch()` call, whether nested or not, will use a more
+   * recent snapshot of the subscription list.
+   *
+   * 2. The listener should not expect to see all states changes, as the state
+   * might have been updated multiple times during a nested `dispatch()` before
+   * the listener is called. It is, however, guaranteed that all subscribers
+   * registered before the `dispatch()` started will be called with the latest
+   * state by the time it exits.
    *
    * @param {Function} listener A callback to be invoked on every dispatch.
    * @returns {Function} A function to remove this change listener.
    */
   function subscribe(listener) {
-    listeners.push(listener);
+    if (typeof listener !== 'function') {
+      throw new Error('Expected listener to be a function.');
+    }
+
     var isSubscribed = true;
+
+    ensureCanMutateNextListeners();
+    nextListeners.push(listener);
 
     return function unsubscribe() {
       if (!isSubscribed) {
@@ -1823,8 +1837,10 @@ function createStore(reducer, initialState, enhancer) {
       }
 
       isSubscribed = false;
-      var index = listeners.indexOf(listener);
-      listeners.splice(index, 1);
+
+      ensureCanMutateNextListeners();
+      var index = nextListeners.indexOf(listener);
+      nextListeners.splice(index, 1);
     };
   }
 
@@ -1854,7 +1870,7 @@ function createStore(reducer, initialState, enhancer) {
    * return something else (for example, a Promise you can await).
    */
   function dispatch(action) {
-    if (!_utilsIsPlainObject2['default'](action)) {
+    if (!(0, _isPlainObject2["default"])(action)) {
       throw new Error('Actions must be plain objects. ' + 'Use custom middleware for async actions.');
     }
 
@@ -1873,9 +1889,11 @@ function createStore(reducer, initialState, enhancer) {
       isDispatching = false;
     }
 
-    listeners.slice().forEach(function (listener) {
-      return listener();
-    });
+    var listeners = currentListeners = nextListeners;
+    for (var i = 0; i < listeners.length; i++) {
+      listeners[i]();
+    }
+
     return action;
   }
 
@@ -1890,6 +1908,10 @@ function createStore(reducer, initialState, enhancer) {
    * @returns {void}
    */
   function replaceReducer(nextReducer) {
+    if (typeof nextReducer !== 'function') {
+      throw new Error('Expected the nextReducer to be a function.');
+    }
+
     currentReducer = nextReducer;
     dispatch({ type: ActionTypes.INIT });
   }
@@ -1906,13 +1928,12 @@ function createStore(reducer, initialState, enhancer) {
     replaceReducer: replaceReducer
   };
 }
-},{"./utils/isPlainObject":39}],38:[function(require,module,exports){
+},{"lodash/isPlainObject":42}],38:[function(require,module,exports){
 (function (process){
 'use strict';
 
 exports.__esModule = true;
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+exports.compose = exports.applyMiddleware = exports.bindActionCreators = exports.combineReducers = exports.createStore = undefined;
 
 var _createStore = require('./createStore');
 
@@ -1934,117 +1955,192 @@ var _compose = require('./compose');
 
 var _compose2 = _interopRequireDefault(_compose);
 
+var _warning = require('./utils/warning');
+
+var _warning2 = _interopRequireDefault(_warning);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
 /*
 * This is a dummy function to check if the function name has been altered by minification.
 * If the function has been minified and NODE_ENV !== 'production', warn the user.
 */
 function isCrushed() {}
 
-if (isCrushed.name !== 'isCrushed' && process.env.NODE_ENV !== 'production') {
-  /*eslint-disable no-console */
-  console.error('You are currently using minified code outside of NODE_ENV === \'production\'. ' + 'This means that you are running a slower development build of Redux. ' + 'You can use loose-envify (https://github.com/zertosh/loose-envify) for browserify ' + 'or DefinePlugin for webpack (http://stackoverflow.com/questions/30030031) ' + 'to ensure you have the correct code for your production build.');
-  /*eslint-enable */
+if (process.env.NODE_ENV !== 'production' && typeof isCrushed.name === 'string' && isCrushed.name !== 'isCrushed') {
+  (0, _warning2["default"])('You are currently using minified code outside of NODE_ENV === \'production\'. ' + 'This means that you are running a slower development build of Redux. ' + 'You can use loose-envify (https://github.com/zertosh/loose-envify) for browserify ' + 'or DefinePlugin for webpack (http://stackoverflow.com/questions/30030031) ' + 'to ensure you have the correct code for your production build.');
 }
 
-exports.createStore = _createStore2['default'];
-exports.combineReducers = _combineReducers2['default'];
-exports.bindActionCreators = _bindActionCreators2['default'];
-exports.applyMiddleware = _applyMiddleware2['default'];
-exports.compose = _compose2['default'];
+exports.createStore = _createStore2["default"];
+exports.combineReducers = _combineReducers2["default"];
+exports.bindActionCreators = _bindActionCreators2["default"];
+exports.applyMiddleware = _applyMiddleware2["default"];
+exports.compose = _compose2["default"];
 }).call(this,require('_process'))
 
-},{"./applyMiddleware":33,"./bindActionCreators":34,"./combineReducers":35,"./compose":36,"./createStore":37,"_process":6}],39:[function(require,module,exports){
+},{"./applyMiddleware":33,"./bindActionCreators":34,"./combineReducers":35,"./compose":36,"./createStore":37,"./utils/warning":39,"_process":6}],39:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
-exports['default'] = isPlainObject;
-var fnToString = function fnToString(fn) {
-  return Function.prototype.toString.call(fn);
-};
-var objStringValue = fnToString(Object);
+exports["default"] = warning;
+/**
+ * Prints a warning in the console if it exists.
+ *
+ * @param {String} message The warning message.
+ * @returns {void}
+ */
+function warning(message) {
+  /* eslint-disable no-console */
+  if (typeof console !== 'undefined' && typeof console.error === 'function') {
+    console.error(message);
+  }
+  /* eslint-enable no-console */
+  try {
+    // This error was thrown as a convenience so that you can use this stack
+    // to find the callsite that caused this warning to fire.
+    throw new Error(message);
+    /* eslint-disable no-empty */
+  } catch (e) {}
+  /* eslint-enable no-empty */
+}
+},{}],40:[function(require,module,exports){
+/**
+ * Checks if `value` is a host object in IE < 9.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a host object, else `false`.
+ */
+function isHostObject(value) {
+  // Many host objects are `Object` objects that can coerce to strings
+  // despite having improperly defined `toString` methods.
+  var result = false;
+  if (value != null && typeof value.toString != 'function') {
+    try {
+      result = !!(value + '');
+    } catch (e) {}
+  }
+  return result;
+}
+
+module.exports = isHostObject;
+
+},{}],41:[function(require,module,exports){
+/**
+ * Checks if `value` is object-like. A value is object-like if it's not `null`
+ * and has a `typeof` result of "object".
+ *
+ * @static
+ * @memberOf _
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
+ * @example
+ *
+ * _.isObjectLike({});
+ * // => true
+ *
+ * _.isObjectLike([1, 2, 3]);
+ * // => true
+ *
+ * _.isObjectLike(_.noop);
+ * // => false
+ *
+ * _.isObjectLike(null);
+ * // => false
+ */
+function isObjectLike(value) {
+  return !!value && typeof value == 'object';
+}
+
+module.exports = isObjectLike;
+
+},{}],42:[function(require,module,exports){
+var isHostObject = require('./_isHostObject'),
+    isObjectLike = require('./isObjectLike');
+
+/** `Object#toString` result references. */
+var objectTag = '[object Object]';
+
+/** Used for built-in method references. */
+var objectProto = Object.prototype;
+
+/** Used to resolve the decompiled source of functions. */
+var funcToString = Function.prototype.toString;
+
+/** Used to infer the `Object` constructor. */
+var objectCtorString = funcToString.call(Object);
 
 /**
- * @param {any} obj The object to inspect.
- * @returns {boolean} True if the argument appears to be a plain object.
+ * Used to resolve the [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
+ * of values.
  */
+var objectToString = objectProto.toString;
 
-function isPlainObject(obj) {
-  if (!obj || typeof obj !== 'object') {
+/** Built-in value references. */
+var getPrototypeOf = Object.getPrototypeOf;
+
+/**
+ * Checks if `value` is a plain object, that is, an object created by the
+ * `Object` constructor or one with a `[[Prototype]]` of `null`.
+ *
+ * @static
+ * @memberOf _
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a plain object, else `false`.
+ * @example
+ *
+ * function Foo() {
+ *   this.a = 1;
+ * }
+ *
+ * _.isPlainObject(new Foo);
+ * // => false
+ *
+ * _.isPlainObject([1, 2, 3]);
+ * // => false
+ *
+ * _.isPlainObject({ 'x': 0, 'y': 0 });
+ * // => true
+ *
+ * _.isPlainObject(Object.create(null));
+ * // => true
+ */
+function isPlainObject(value) {
+  if (!isObjectLike(value) || objectToString.call(value) != objectTag || isHostObject(value)) {
     return false;
   }
-
-  var proto = typeof obj.constructor === 'function' ? Object.getPrototypeOf(obj) : Object.prototype;
-
+  var proto = objectProto;
+  if (typeof value.constructor == 'function') {
+    proto = getPrototypeOf(value);
+  }
   if (proto === null) {
     return true;
   }
-
-  var constructor = proto.constructor;
-
-  return typeof constructor === 'function' && constructor instanceof constructor && fnToString(constructor) === objStringValue;
+  var Ctor = proto.constructor;
+  return (typeof Ctor == 'function' &&
+    Ctor instanceof Ctor && funcToString.call(Ctor) == objectCtorString);
 }
 
-module.exports = exports['default'];
-},{}],40:[function(require,module,exports){
-/**
- * Applies a function to every key-value pair inside an object.
- *
- * @param {Object} obj The source object.
- * @param {Function} fn The mapper function that receives the value and the key.
- * @returns {Object} A new object that contains the mapped values for the keys.
- */
-"use strict";
+module.exports = isPlainObject;
 
-exports.__esModule = true;
-exports["default"] = mapValues;
-
-function mapValues(obj, fn) {
-  return Object.keys(obj).reduce(function (result, key) {
-    result[key] = fn(obj[key], key);
-    return result;
-  }, {});
-}
-
-module.exports = exports["default"];
-},{}],41:[function(require,module,exports){
-/**
- * Picks key-value pairs from an object where values satisfy a predicate.
- *
- * @param {Object} obj The object to pick from.
- * @param {Function} fn The predicate the values must satisfy to be copied.
- * @returns {Object} The object with the values that satisfied the predicate.
- */
-"use strict";
-
-exports.__esModule = true;
-exports["default"] = pick;
-
-function pick(obj, fn) {
-  return Object.keys(obj).reduce(function (result, key) {
-    if (fn(obj[key])) {
-      result[key] = obj[key];
-    }
-    return result;
-  }, {});
-}
-
-module.exports = exports["default"];
-},{}],42:[function(require,module,exports){
+},{"./_isHostObject":40,"./isObjectLike":41}],43:[function(require,module,exports){
 var createElement = require("./vdom/create-element.js")
 
 module.exports = createElement
 
-},{"./vdom/create-element.js":46}],43:[function(require,module,exports){
+},{"./vdom/create-element.js":47}],44:[function(require,module,exports){
 var diff = require("./vtree/diff.js")
 
 module.exports = diff
 
-},{"./vtree/diff.js":60}],44:[function(require,module,exports){
+},{"./vtree/diff.js":61}],45:[function(require,module,exports){
 var patch = require("./vdom/patch.js")
 
 module.exports = patch
 
-},{"./vdom/patch.js":49}],45:[function(require,module,exports){
+},{"./vdom/patch.js":50}],46:[function(require,module,exports){
 var isObject = require("is-object")
 var isHook = require("../vnode/is-vhook.js")
 
@@ -2143,7 +2239,7 @@ function getPrototype(value) {
     }
 }
 
-},{"../vnode/is-vhook.js":53,"is-object":19}],46:[function(require,module,exports){
+},{"../vnode/is-vhook.js":54,"is-object":19}],47:[function(require,module,exports){
 var document = require("global/document")
 
 var applyProperties = require("./apply-properties")
@@ -2191,7 +2287,7 @@ function createElement(vnode, opts) {
     return node
 }
 
-},{"../vnode/handle-thunk.js":51,"../vnode/is-vnode.js":54,"../vnode/is-vtext.js":55,"../vnode/is-widget.js":56,"./apply-properties":45,"global/document":16}],47:[function(require,module,exports){
+},{"../vnode/handle-thunk.js":52,"../vnode/is-vnode.js":55,"../vnode/is-vtext.js":56,"../vnode/is-widget.js":57,"./apply-properties":46,"global/document":16}],48:[function(require,module,exports){
 // Maps a virtual DOM tree onto a real DOM tree in an efficient manner.
 // We don't want to read all of the DOM nodes in the tree so we use
 // the in-order tree indexing to eliminate recursion down certain branches.
@@ -2278,7 +2374,7 @@ function ascending(a, b) {
     return a > b ? 1 : -1
 }
 
-},{}],48:[function(require,module,exports){
+},{}],49:[function(require,module,exports){
 var applyProperties = require("./apply-properties")
 
 var isWidget = require("../vnode/is-widget.js")
@@ -2431,7 +2527,7 @@ function replaceRoot(oldRoot, newRoot) {
     return newRoot;
 }
 
-},{"../vnode/is-widget.js":56,"../vnode/vpatch.js":58,"./apply-properties":45,"./update-widget":50}],49:[function(require,module,exports){
+},{"../vnode/is-widget.js":57,"../vnode/vpatch.js":59,"./apply-properties":46,"./update-widget":51}],50:[function(require,module,exports){
 var document = require("global/document")
 var isArray = require("x-is-array")
 
@@ -2513,7 +2609,7 @@ function patchIndices(patches) {
     return indices
 }
 
-},{"./create-element":46,"./dom-index":47,"./patch-op":48,"global/document":16,"x-is-array":63}],50:[function(require,module,exports){
+},{"./create-element":47,"./dom-index":48,"./patch-op":49,"global/document":16,"x-is-array":64}],51:[function(require,module,exports){
 var isWidget = require("../vnode/is-widget.js")
 
 module.exports = updateWidget
@@ -2530,7 +2626,7 @@ function updateWidget(a, b) {
     return false
 }
 
-},{"../vnode/is-widget.js":56}],51:[function(require,module,exports){
+},{"../vnode/is-widget.js":57}],52:[function(require,module,exports){
 var isVNode = require("./is-vnode")
 var isVText = require("./is-vtext")
 var isWidget = require("./is-widget")
@@ -2572,14 +2668,14 @@ function renderThunk(thunk, previous) {
     return renderedThunk
 }
 
-},{"./is-thunk":52,"./is-vnode":54,"./is-vtext":55,"./is-widget":56}],52:[function(require,module,exports){
+},{"./is-thunk":53,"./is-vnode":55,"./is-vtext":56,"./is-widget":57}],53:[function(require,module,exports){
 module.exports = isThunk
 
 function isThunk(t) {
     return t && t.type === "Thunk"
 }
 
-},{}],53:[function(require,module,exports){
+},{}],54:[function(require,module,exports){
 module.exports = isHook
 
 function isHook(hook) {
@@ -2588,7 +2684,7 @@ function isHook(hook) {
        typeof hook.unhook === "function" && !hook.hasOwnProperty("unhook"))
 }
 
-},{}],54:[function(require,module,exports){
+},{}],55:[function(require,module,exports){
 var version = require("./version")
 
 module.exports = isVirtualNode
@@ -2597,7 +2693,7 @@ function isVirtualNode(x) {
     return x && x.type === "VirtualNode" && x.version === version
 }
 
-},{"./version":57}],55:[function(require,module,exports){
+},{"./version":58}],56:[function(require,module,exports){
 var version = require("./version")
 
 module.exports = isVirtualText
@@ -2606,17 +2702,17 @@ function isVirtualText(x) {
     return x && x.type === "VirtualText" && x.version === version
 }
 
-},{"./version":57}],56:[function(require,module,exports){
+},{"./version":58}],57:[function(require,module,exports){
 module.exports = isWidget
 
 function isWidget(w) {
     return w && w.type === "Widget"
 }
 
-},{}],57:[function(require,module,exports){
+},{}],58:[function(require,module,exports){
 module.exports = "2"
 
-},{}],58:[function(require,module,exports){
+},{}],59:[function(require,module,exports){
 var version = require("./version")
 
 VirtualPatch.NONE = 0
@@ -2640,7 +2736,7 @@ function VirtualPatch(type, vNode, patch) {
 VirtualPatch.prototype.version = version
 VirtualPatch.prototype.type = "VirtualPatch"
 
-},{"./version":57}],59:[function(require,module,exports){
+},{"./version":58}],60:[function(require,module,exports){
 var isObject = require("is-object")
 var isHook = require("../vnode/is-vhook")
 
@@ -2700,7 +2796,7 @@ function getPrototype(value) {
   }
 }
 
-},{"../vnode/is-vhook":53,"is-object":19}],60:[function(require,module,exports){
+},{"../vnode/is-vhook":54,"is-object":19}],61:[function(require,module,exports){
 var isArray = require("x-is-array")
 
 var VPatch = require("../vnode/vpatch")
@@ -3129,7 +3225,7 @@ function appendPatch(apply, patch) {
     }
 }
 
-},{"../vnode/handle-thunk":51,"../vnode/is-thunk":52,"../vnode/is-vnode":54,"../vnode/is-vtext":55,"../vnode/is-widget":56,"../vnode/vpatch":58,"./diff-props":59,"x-is-array":63}],61:[function(require,module,exports){
+},{"../vnode/handle-thunk":52,"../vnode/is-thunk":53,"../vnode/is-vnode":55,"../vnode/is-vtext":56,"../vnode/is-widget":57,"../vnode/vpatch":59,"./diff-props":60,"x-is-array":64}],62:[function(require,module,exports){
 var hiddenStore = require('./hidden-store.js');
 
 module.exports = createStore;
@@ -3150,7 +3246,7 @@ function createStore() {
     };
 }
 
-},{"./hidden-store.js":62}],62:[function(require,module,exports){
+},{"./hidden-store.js":63}],63:[function(require,module,exports){
 module.exports = hiddenStore;
 
 function hiddenStore(obj, key) {
@@ -3168,7 +3264,7 @@ function hiddenStore(obj, key) {
     return store;
 }
 
-},{}],63:[function(require,module,exports){
+},{}],64:[function(require,module,exports){
 var nativeIsArray = Array.isArray
 var toString = Object.prototype.toString
 
