@@ -11,7 +11,7 @@ import cucumber from 'gulp-cucumber'
 import connect from 'gulp-connect'
 
 import browserify from './gulp/browserify'
-import { buildExamples, publishExamples } from './gulp/examples'
+import buildExamples from './gulp/examples'
 
 gulp.task('build', ['compile', 'browserify', 'buildExamples', 'minify'])
 gulp.task('test', ['jasmine', 'cucumber', 'maxSize'])
@@ -82,5 +82,3 @@ gulp.task('watch', () => {
 })
 
 gulp.task('buildExamples', buildExamples)
-
-gulp.task('publishExamples', ['build'], publishExamples)
