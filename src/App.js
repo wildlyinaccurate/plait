@@ -15,14 +15,6 @@ const delegator = Delegator()
 const createStoreWithMiddleware = applyMiddleware(thunk)(createStore)
 
 
-// Component = {
-//   init : _ -> Object
-//   update : State -> Action -> State
-//   view : State -> (Action -> Action) -> VirtualNode
-// }
-
-
-// start :: Component -> Element
 export function start (component) {
   const { init, update, view } = component
   const [initialState, initialAction] = handleInit(init)
@@ -36,15 +28,7 @@ export function start (component) {
     return (typeof newState === 'undefined') ? state : newState
   })
 
-  dispatch = action => {
-    return event => {
-      if (event) {
-        action.$event = event
-      }
-
-      store.dispatch(action)
-    }
-  }
+  dispatch = makeDispatcher(store)
 
   if (initialAction) {
     store.dispatch(initialAction)
@@ -65,7 +49,22 @@ export function start (component) {
 }
 
 
-// patchTree :: Element -> VirtualNode -> VirtualNode -> VirtualNode
+// Create a dispatcher function for the given store. Dispatchers act as a curried
+// interface to store.dispatch, allowing views to express the _intent to dispatch_
+// without immediately triggering a dispatch.
+function makeDispatcher (store) {
+  return action => {
+    return event => {
+      if (event) {
+        action.$event = event
+      }
+
+      store.dispatch(action)
+    }
+  }
+}
+
+
 function patchTree (rootNode, oldTree, newTree) {
   patch(rootNode, diff(oldTree, newTree))
 
@@ -73,7 +72,6 @@ function patchTree (rootNode, oldTree, newTree) {
 }
 
 
-// initializeComponent :: Component -> State
 export function initializeComponent ({ init }, dispatch) {
   const [initialState, initialAction] = handleInit(init)
 
@@ -85,7 +83,6 @@ export function initializeComponent ({ init }, dispatch) {
 }
 
 
-// handleInit :: (_ -> Object) -> [State, Maybe Action]
 function handleInit (init) {
   const _res = init()
   const res = Array.isArray(_res) ? _res : [_res]

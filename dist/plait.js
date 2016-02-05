@@ -45,13 +45,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var delegator = (0, _domDelegator2.default)();
 var createStoreWithMiddleware = (0, _redux.applyMiddleware)(_reduxThunk2.default)(_redux.createStore);
 
-// Component = {
-//   init : _ -> Object
-//   update : State -> Action -> State
-//   view : State -> (Action -> Action) -> VirtualNode
-// }
-
-// start :: Component -> Element
 function start(component) {
   var init = component.init;
   var update = component.update;
@@ -79,15 +72,7 @@ function start(component) {
     return typeof newState === 'undefined' ? state : newState;
   });
 
-  dispatch = function dispatch(action) {
-    return function (event) {
-      if (event) {
-        action.$event = event;
-      }
-
-      store.dispatch(action);
-    };
-  };
+  dispatch = makeDispatcher(store);
 
   if (initialAction) {
     store.dispatch(initialAction);
@@ -103,14 +88,27 @@ function start(component) {
   return rootNode;
 }
 
-// patchTree :: Element -> VirtualNode -> VirtualNode -> VirtualNode
+// Create a dispatcher function for the given store. Dispatchers act as a curried
+// interface to store.dispatch, allowing views to express the _intent to dispatch_
+// without immediately triggering a dispatch.
+function makeDispatcher(store) {
+  return function (action) {
+    return function (event) {
+      if (event) {
+        action.$event = event;
+      }
+
+      store.dispatch(action);
+    };
+  };
+}
+
 function patchTree(rootNode, oldTree, newTree) {
   (0, _patch2.default)(rootNode, (0, _diff2.default)(oldTree, newTree));
 
   return newTree;
 }
 
-// initializeComponent :: Component -> State
 function initializeComponent(_ref, dispatch) {
   var init = _ref.init;
 
@@ -128,7 +126,6 @@ function initializeComponent(_ref, dispatch) {
   return initialState;
 }
 
-// handleInit :: (_ -> Object) -> [State, Maybe Action]
 function handleInit(init) {
   var _res = init();
   var res = Array.isArray(_res) ? _res : [_res];
