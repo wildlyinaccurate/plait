@@ -18,7 +18,8 @@
     "prepublish": "gulp build",
     "docs:clean": "rm -rf _book",
     "docs:prepare": "gitbook install",
-    "docs:build": "npm run docs:prepare && gitbook build -g wildlyinaccurate/plait && gulp buildExamples && cp examples/dist/* _book/examples",
+    "docs:spellcheck": "./node_modules/.bin/mdspell docs/**/*.md",
+    "docs:build": "npm run docs:spellcheck && npm run docs:prepare && gitbook build -g wildlyinaccurate/plait && gulp buildExamples && cp examples/dist/* _book/examples",
     "docs:watch": "npm run docs:prepare && gitbook serve",
     "docs:publish": "npm run docs:clean && npm run docs:build && cd _book && git init && git commit --allow-empty -m 'update book' && git checkout -b gh-pages && touch .nojekyll && git add . && git commit -am 'update book' && git push git@github.com:wildlyinaccurate/plait gh-pages --force"
   },
@@ -52,6 +53,7 @@
     "gulp-uglify": "^1.5.1",
     "isomorphic-fetch": "^2.2.1",
     "jsx-transform": "^2.3.0",
+    "markdown-spellcheck": "^0.9.0",
     "merge-stream": "^1.0.0",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0",

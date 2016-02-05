@@ -11,7 +11,7 @@ The App object is the bread and butter of a Plait application. Even so, its API 
 
 ### <a id="start"></a> [`start(component)`](#start)
 
-Starts a Plait application lifecycle from a root component.
+Starts a Plait application life cycle from a root component.
 
 #### Arguments
 
@@ -57,7 +57,7 @@ A dispatcher function. This is only required when the return value of `component
 
 Wraps a dispatcher so that any dispatched actions are instead forwarded to the given action. The given action will be annotated with the `$fwdAction` property, containing the originally dispatched action.
 
-This function is generally used to create a dispatch function which will be passed to the `view` function of child components. It allows the parent component to forward the child component's actions to its own `update` funciton.
+This function is generally used to create a dispatch function which will be passed to the `view` function of child components. It allows the parent component to forward the child component's actions to its own `update` function.
 
 #### Arguments
 
