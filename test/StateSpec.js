@@ -23,6 +23,15 @@ describe('State', () => {
     expect(state2.get('a')).toBe(2)
   })
 
+  it('is actually immutable', () => {
+    const obj = { a: 1 }
+    const state = new State(obj)
+
+    obj.a = 2
+
+    expect(state.get('a')).toBe(1)
+  })
+
   it('is deeply immutable', () => {
     const state1 = new State({
       foo: {

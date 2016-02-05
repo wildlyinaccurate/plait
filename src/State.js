@@ -9,7 +9,7 @@ class State {
       throw new TypeError(obj, 'is not an object')
     }
 
-    this.obj = obj
+    this.obj = clone(obj)
     this['@@Plait/State'] = 1
   }
 
