@@ -1,6 +1,8 @@
 # Components
 
-A Plait component is an object with three functions:
+A Plait application is made up of components which represent small, self-contained pieces of functionality. A component has a state (or a _model_, if you prefer), a view, and an updater which it uses to modify its state.
+
+Writing a component is simple, since a component is just a plain JavaScript object with three functions:
 
 ```js
 function init () {
@@ -35,11 +37,11 @@ You can also optionally return an action from `init` by returning an array of `[
 
 ## `update`
 
-The `update` function is responsible for modifying a component's state. It is given the component's current state and an *action*.
+The `update` function is responsible for modifying a component's state. It is given the component's current state and an _action_.
 
 An action is just a plain JavaScript object which you can pass around your components to describe changes. All actions must have a `type` property, but other than that, their structure is entirely up to you.
 
-This function is **pure**, which means that rather than directly modifying the state, it returns a *copy* of the state. Plait makes this simple because a component's state is always wrapped in a [`State`](../API/State.md) object.
+This function is **pure**, which means that rather than directly modifying the state, it returns a _copy_ of the state. Plait makes this simple because a component's state is always wrapped in a [`State`](../API/State.md) object.
 
 > **Note:** A Plait component's `update` function might be familiar if you have used Redux -- it is essentially a [reducer](http://rackt.org/redux/docs/basics/Reducers.html).
 
