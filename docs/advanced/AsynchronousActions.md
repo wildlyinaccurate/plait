@@ -6,7 +6,7 @@ Components can perform asynchronous actions by dispatching a [thunk](https://en.
 
 A thunk is just a function which can dispatch an action. You can do anything you like inside the function, and dispatch the action at any point. Some common use cases are:
 
-* Fetching data asynchronously
+* Fetching data
 * Performing animations
 * Setting timeouts
 
@@ -15,11 +15,15 @@ Thunks take two arguments:
 * `dispatch` (Function) - a regular dispatcher function.
 * `getState` (Function) - a function which returns the current state of the component
 
+Since a thunk can dispatch an action, it is possible to chain asynchronous actions. This allows for much more complex scenarios where you need fine grained control over how actions flow through your component.
+
 ## Examples
 
 Below are some examples of how to use asynchronous actions. The [RandomGif example](../examples/RandomGif.md) also makes use of asynchronous actions.
 
 ### Wait before dispatching an action
+
+In this example, the `HELLO` action is dispatched one second after the Hello! button is clicked.
 
 ```jsx
 // Thunks can be dispatched in the normal way from view()
@@ -38,6 +42,8 @@ function hello () {
 ```
 
 ### Fetching data before dispatching an action
+
+In this example, the `RECEIVE_GIF` action is dispatched after the response from a `fetch` is returned.
 
 ```jsx
 // Use dispatch() in the view to dispatch a thunk
