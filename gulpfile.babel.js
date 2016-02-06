@@ -8,6 +8,8 @@ import uglify from 'gulp-uglify'
 import sourcemaps from 'gulp-sourcemaps'
 import eslint from 'gulp-eslint'
 import jasmine from 'gulp-jasmine'
+import istanbul from 'gulp-istanbul'
+import { Report, Collector } from 'istanbul'
 import cucumber from 'gulp-cucumber'
 import connect from 'gulp-connect'
 
@@ -15,7 +17,7 @@ import browserify from './gulp/browserify'
 import buildExamples from './gulp/build-examples'
 
 gulp.task('build', ['compile', 'browserify', 'buildExamples', 'minify'])
-gulp.task('test', ['lint', 'jasmine', 'testExamples', 'maxSize'])
+gulp.task('test', ['lint', 'jasmine', 'testExamples', 'maxSize', 'coverage'])
 gulp.task('default', ['build', 'test'])
 
 const MAX_BUILD_SIZE = 35000
@@ -60,13 +62,33 @@ gulp.task('connect', () => {
   })
 })
 
-gulp.task('testExamples', ['buildExamples', 'connect'], (done) => {
+gulp.task('instrument', ['buildExamples'], () => {
+  return gulp.src('examples/dist/*.js')
+    .pipe(istanbul({
+      coverageVariable: '__coverage__',
+      embedSource: true
+    }))
+    .pipe(gulp.dest('examples/dist'))
+})
+
+gulp.task('testExamples', ['instrument', 'buildExamples', 'connect'], (done) => {
   const cukes = cucumber({ 'steps': 'features/steps/steps.js' })
     .on('end', connect.serverClose)
     .on('error', done)
 
   return gulp.src('features/*')
     .pipe(cukes)
+})
+
+gulp.task('coverage', ['cucumber'], (done) => {
+  const report = Report.create('lcov')
+  const collector = new Collector()
+  const coverage = require('./.coverage/raw.json')
+
+  collector.add(coverage)
+  report.on('done', function () { console.log('done'); });
+  report.writeReport(collector);
+  done()
 })
 
 gulp.task('maxSize', ['browserify'], (done) => {
