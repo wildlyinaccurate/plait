@@ -6,12 +6,12 @@ import thunk from 'redux-thunk'
 import diff from 'virtual-dom/diff'
 import patch from 'virtual-dom/patch'
 import createElement from 'virtual-dom/create-element'
-import Delegator from 'dom-delegator'
 
 import State from './State'
+import * as delegator from './dom/delegator'
 
 
-Delegator()
+delegator.listen()
 
 const createStoreWithMiddleware = applyMiddleware(thunk)(createStore)
 
