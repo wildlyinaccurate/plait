@@ -20,12 +20,6 @@
       2,
       "never"
     ],
-    "no-unused-vars": [
-      2,
-      {
-      "varsIgnorePattern": "^React$"
-      }
-    ],
     "arrow-parens": [
       2,
       "as-needed"
