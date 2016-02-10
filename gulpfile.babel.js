@@ -6,6 +6,7 @@ import rename from 'gulp-rename'
 import babel from 'gulp-babel'
 import uglify from 'gulp-uglify'
 import sourcemaps from 'gulp-sourcemaps'
+import eslint from 'gulp-eslint'
 import jasmine from 'gulp-jasmine'
 import cucumber from 'gulp-cucumber'
 import connect from 'gulp-connect'
@@ -14,7 +15,7 @@ import browserify from './gulp/browserify'
 import buildExamples from './gulp/build-examples'
 
 gulp.task('build', ['compile', 'browserify', 'buildExamples', 'minify'])
-gulp.task('test', ['jasmine', 'cucumber', 'maxSize'])
+gulp.task('test', ['lint', 'jasmine', 'cucumber', 'maxSize'])
 gulp.task('default', ['build', 'test'])
 
 const MAX_BUILD_SIZE = 40000
@@ -38,6 +39,13 @@ gulp.task('minify', ['browserify'], () => {
     .pipe(uglify())
     .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest('dist'))
+})
+
+gulp.task('lint', () => {
+  return gulp.src('src/**/*.js')
+    .pipe(eslint())
+    .pipe(eslint.format())
+    .pipe(eslint.failAfterError())
 })
 
 gulp.task('jasmine', () => {

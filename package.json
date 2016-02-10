@@ -46,6 +46,7 @@
     "gulp-babel": "^6.1.1",
     "gulp-connect": "^2.3.1",
     "gulp-cucumber": "0.0.15",
+    "gulp-eslint": "^1.1.1",
     "gulp-jasmine": "^2.2.1",
     "gulp-rename": "^1.2.2",
     "gulp-replace": "^0.5.4",

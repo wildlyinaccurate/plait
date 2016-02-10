@@ -11,7 +11,8 @@ import Delegator from 'dom-delegator'
 import State from './State'
 
 
-const delegator = Delegator()
+Delegator()
+
 const createStoreWithMiddleware = applyMiddleware(thunk)(createStore)
 
 
@@ -101,7 +102,7 @@ export const forwardDispatch = curry((action, dispatch, state) => {
       // In order to forward thunks, an intermediate thunk needs to be returned
       // to gain access to the raw `action => <dispatch>` dispatcher rather than
       // the application's wrapped `action => event => <dispatch>` dispatcher.
-      return dispatch((rawDispatch) => {
+      return dispatch(rawDispatch => {
         const getState = () => state
         const fwd = forwardDispatch(action, rawDispatch, state)
 

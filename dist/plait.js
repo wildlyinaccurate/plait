@@ -42,7 +42,8 @@ var _State2 = _interopRequireDefault(_State);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var delegator = (0, _domDelegator2.default)();
+(0, _domDelegator2.default)();
+
 var createStoreWithMiddleware = (0, _redux.applyMiddleware)(_reduxThunk2.default)(_redux.createStore);
 
 function start(component) {
