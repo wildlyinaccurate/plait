@@ -14,12 +14,12 @@
     "test": "test"
   },
   "scripts": {
-    "test": "gulp test",
-    "prepublish": "gulp build",
+    "test": "./node_modules/.bin/gulp test",
+    "prepublish": "./node_modules/.bin/gulp build",
     "docs:clean": "rm -rf _book",
     "docs:prepare": "gitbook install",
     "docs:spellcheck": "./node_modules/.bin/mdspell docs/**/*.md",
-    "docs:build": "npm run docs:spellcheck && npm run docs:prepare && gitbook build -g wildlyinaccurate/plait && gulp buildExamples && cp examples/dist/* _book/examples",
+    "docs:build": "npm run docs:spellcheck && npm run docs:prepare && gitbook build -g wildlyinaccurate/plait && ./node_modules/.bin/gulp buildExamples && cp examples/dist/* _book/examples",
     "docs:watch": "npm run docs:prepare && gitbook serve",
     "docs:publish": "npm run docs:clean && npm run docs:build && cd _book && git init && git commit --allow-empty -m 'update book' && git checkout -b gh-pages && touch .nojekyll && git add . && git commit -am 'update book' && git push git@github.com:wildlyinaccurate/plait gh-pages --force"
   },
