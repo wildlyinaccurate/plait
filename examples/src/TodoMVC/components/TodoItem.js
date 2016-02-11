@@ -1,11 +1,14 @@
 import h from 'virtual-dom/h'
 
+import { wasEnterKey, wasKeyEvent } from '../utils/input'
+
 
 export function init (title) {
   return function () {
     return {
       title,
-      completed: false
+      completed: false,
+      editing: false
     }
   }
 }
@@ -15,22 +18,45 @@ export function update (state, action) {
   switch (action.type) {
     case 'SET_COMPLETED':
       return state.set('completed', action.completed)
+
+    case 'START_EDIT':
+      setTimeout(
+        () => action.$event.currentTarget.querySelector('.edit').focus(),
+        20
+      )
+
+      return state.set('editing', true)
+
+    case 'STOP_EDIT':
+      if (!wasKeyEvent(action.$event) || wasEnterKey(action.$event)) {
+        return state.set('editing', false)
+      } else {
+        return state.set('title', action.$event.target.value)
+      }
   }
 }
 
 
 export function view (state, dispatch) {
-  const itemClass = state.get('completed') ? 'completed' : ''
+  const itemClasses = [
+    state.get('completed') ? 'completed' : '',
+    state.get('editing') ? 'editing' : ''
+  ].join(' ')
 
   return (
-    <li className={itemClass}>
+    <li className={itemClasses} ev-dblclick={dispatch({ type: 'START_EDIT' })}>
       <div className="view">
         {checkboxView(state, dispatch)}
         <label>{state.get('title')}</label>
         <button className="destroy" ev-click={dispatch({ type: 'DELETE' })}></button>
       </div>
 
-      <input className="edit" value="Create a TodoMVC template" />
+      <input
+        className="edit"
+        ev-blur={dispatch({ type: 'STOP_EDIT' })}
+        ev-keyup={dispatch({ type: 'STOP_EDIT' })}
+        value={state.get('title')}
+      />
     </li>
   )
 }
@@ -43,6 +69,6 @@ function checkboxView (state, dispatch) {
   }
 }
 
-function setCompleted(completed) {
+function setCompleted (completed) {
   return { type: 'SET_COMPLETED', completed }
 }

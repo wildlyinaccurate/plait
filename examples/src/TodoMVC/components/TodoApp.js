@@ -5,11 +5,10 @@ import * as Header from './Header'
 import * as TodoItem from './TodoItem'
 import * as Footer from './Footer'
 
+import { wasEnterKey } from '../utils/input'
 import { FILTER_ALL, FILTER_ACTIVE, FILTER_COMPLETED } from '../utils/filters'
 import merge from '../utils/merge'
 
-
-const ENTER_KEY = 13
 
 const [fwd, initComponent] = [App.forwardDispatch, App.initializeComponent]
 
@@ -44,7 +43,7 @@ export function update (state, action) {
 function updateHeader (state, action) {
   const value = action.$event.target.value.trim()
 
-  if (action.$event.keyCode === ENTER_KEY && value.length) {
+  if (wasEnterKey(action.$event) && value.length) {
     const newTodo = initComponent({ init: TodoItem.init(value) })
 
     return state.update('todos', todos => todos.concat(newTodo)).set('inputValue', '')
