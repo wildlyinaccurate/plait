@@ -3,7 +3,6 @@ Feature: TodoMVC App
   I want to track my tasks
   Because I like to be organised
 
-
   Scenario: Managing Todos
     Given I am on the "TodoMVC" page
 

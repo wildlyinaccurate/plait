@@ -15,7 +15,7 @@ import browserify from './gulp/browserify'
 import buildExamples from './gulp/build-examples'
 
 gulp.task('build', ['compile', 'browserify', 'buildExamples', 'minify'])
-gulp.task('test', ['lint', 'jasmine', 'cucumber', 'maxSize'])
+gulp.task('test', ['lint', 'jasmine', 'testExamples', 'maxSize'])
 gulp.task('default', ['build', 'test'])
 
 const MAX_BUILD_SIZE = 40000
@@ -60,7 +60,7 @@ gulp.task('connect', () => {
   })
 })
 
-gulp.task('cucumber', ['buildExamples', 'connect'], (done) => {
+gulp.task('testExamples', ['buildExamples', 'connect'], (done) => {
   const cukes = cucumber({ 'steps': 'features/steps/steps.js' })
     .on('end', connect.serverClose)
     .on('error', done)

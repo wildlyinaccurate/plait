@@ -3,7 +3,6 @@ Feature: CounterList Component
   I want to create lots of counters
   Because I have so many things to count
 
-
   Scenario: Creating counters
     Given I am on the "CounterList" page
     When I press the "Add Counter" button

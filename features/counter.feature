@@ -3,7 +3,6 @@ Feature: Counter Component
   I want to increment and decrement a counter
   Because I want to count something
 
-
   Scenario: Pressing buttons
     Given I am on the "Counter" page
 

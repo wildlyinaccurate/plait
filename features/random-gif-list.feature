@@ -3,10 +3,8 @@ Feature: RandomGifList Component
   I want to see potentially infinite funny animal gifs
   Because I am infinitely bored
 
-
   Scenario: Creating lots of gifs
     Given I am on the "RandomGifList" page
-
 
     When I write "cats" into the input
     And I hit enter
