@@ -13,3 +13,14 @@ export const firstTextInput = (browser) => {
 export const elementsWithContent = (browser, selector, text) => {
   return $qsa(browser, selector).filter(el => el.textContent === text)
 }
+
+export const pressEnter = (browser, element) => {
+  const ev = browser.window.document.createEvent('KeyboardEvent')
+
+  ev.initEvent('keyup', true, true)
+  ev.which = 13
+  ev.keyCode = 13
+  ev.key = 'Enter'
+
+  element.dispatchEvent(ev)
+}

@@ -1,6 +1,6 @@
 import Zombie from 'zombie'
 
-import { firstTextInput, nthElement } from './utils'
+import { firstTextInput, nthElement, pressEnter } from './utils'
 
 
 module.exports = function () {
@@ -38,14 +38,8 @@ module.exports = function () {
 
   this.When(/^I hit enter$/, function (done) {
     const input = firstTextInput(this.browser)
-    const ev = this.browser.window.document.createEvent('KeyboardEvent')
 
-    ev.initEvent('keyup', true, true)
-    ev.which = 13
-    ev.keyCode = 13
-    ev.key = 'Enter'
-
-    input.dispatchEvent(ev)
+    pressEnter(this.browser, input)
 
     done()
   })
