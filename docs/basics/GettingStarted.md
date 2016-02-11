@@ -34,7 +34,7 @@ To install Plait, run:
 $ npm install --save plait
 ```
 
-To bundle your application with browserify:
+To bundle your application with Browserify:
 
 ```
 $ npm install --save-dev babelify babel-preset-es2015
