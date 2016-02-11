@@ -1,5 +1,5 @@
 import { start } from 'App'
-import * as TodoApp from './TodoApp'
+import * as TodoApp from './components/TodoApp'
 
 
 document.head.appendChild(stylesheet('https://cdn.rawgit.com/tastejs/todomvc-common/master/base.css'))

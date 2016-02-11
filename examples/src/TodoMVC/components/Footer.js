@@ -1,6 +1,6 @@
 import h from 'virtual-dom/h'
 
-import { FILTER_ALL, FILTER_ACTIVE, FILTER_COMPLETED } from './filters'
+import { FILTER_ALL, FILTER_ACTIVE, FILTER_COMPLETED } from '../utils/filters'
 
 
 export function init () {
@@ -32,13 +32,13 @@ export function view (state, dispatch) {
 
       <ul className="filters">
         <li>
-          {filterLink(state, dispatch, FILTER_ALL)}
+          {filterButton(state, dispatch, FILTER_ALL)}
         </li>
         <li>
-          {filterLink(state, dispatch, FILTER_ACTIVE)}
+          {filterButton(state, dispatch, FILTER_ACTIVE)}
         </li>
         <li>
-          {filterLink(state, dispatch, FILTER_COMPLETED)}
+          {filterButton(state, dispatch, FILTER_COMPLETED)}
         </li>
       </ul>
 
@@ -47,14 +47,13 @@ export function view (state, dispatch) {
   )
 }
 
-function filterLink (state, dispatch, filter) {
-  const href = `#/${filter.toLowerCase()}`
+function filterButton (state, dispatch, filter) {
   const className = state.get('filter') === filter ? 'selected' : ''
 
   return (
-    <a className={className} href={href} ev-click={dispatch({ type: 'CHANGE_FILTER', filter })}>
+    <button className={className} ev-click={dispatch({ type: 'CHANGE_FILTER', filter })}>
       {filter}
-    </a>
+    </button>
   )
 }
 

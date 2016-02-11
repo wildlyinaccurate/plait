@@ -21,15 +21,16 @@ export function view (state, dispatch) {
 
   return (
     <header className="header">
-      <h1>todos</h1>
+      <h1>{'todos'}</h1>
 
       <input
+        autofocus
         className="new-todo"
+        ev-change={dispatchChangeAction}
+        ev-keyup={dispatchChangeAction}
         placeholder="What needs to be done?"
         value={state.get('inputValue')}
-        ev-keyup={dispatchChangeAction}
-        ev-change={dispatchChangeAction}
-        autofocus />
+      />
     </header>
   )
 }

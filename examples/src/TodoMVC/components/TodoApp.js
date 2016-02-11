@@ -1,17 +1,17 @@
 import h from 'virtual-dom/h'
-import { start, forwardDispatch, initializeComponent } from 'App'
+import * as App from 'App'
 
 import * as Header from './Header'
 import * as TodoItem from './TodoItem'
 import * as Footer from './Footer'
 
-import { FILTER_ALL, FILTER_ACTIVE, FILTER_COMPLETED } from './filters'
-import merge from './merge'
+import { FILTER_ALL, FILTER_ACTIVE, FILTER_COMPLETED } from '../utils/filters'
+import merge from '../utils/merge'
 
 
 const ENTER_KEY = 13
 
-const [fwd, initComponent] = [forwardDispatch, initializeComponent]
+const [fwd, initComponent] = [App.forwardDispatch, App.initializeComponent]
 
 export function init () {
   return merge({ todos: [] }, Header.init(), Footer.init())
@@ -92,9 +92,15 @@ export function view (state, dispatch) {
       </section>
 
       <footer className="info">
-          <p>Double-click to edit a todo</p>
-          <p>Created by <a href="https://wildlyinaccurate.com/">Joseph Wynn</a></p>
-          <p>Part of <a href="http://todomvc.com">TodoMVC</a></p>
+        <p>Double-click to edit a todo</p>
+
+        <p>
+          Created by <a href="https://wildlyinaccurate.com/">Joseph Wynn</a>
+        </p>
+
+        <p>
+          Part of <a href="http://todomvc.com">TodoMVC</a>
+        </p>
       </footer>
     </div>
   )
@@ -114,8 +120,11 @@ function todosView (state, dispatch) {
   if (state.get('todos').length) {
     return (
       <section className="main">
-        <input className="toggle-all" type="checkbox" ev-change={dispatch({ type: 'TOGGLE_ALL' })} />
-        <label htmlFor="toggle-all">Mark all as complete</label>
+        <input className="toggle-all" ev-change={dispatch({ type: 'TOGGLE_ALL' })} type="checkbox" />
+
+        <label htmlFor="toggle-all">
+          Mark all as complete
+        </label>
 
         <ul className="todo-list">
           {todoItemsView(state, dispatch)}

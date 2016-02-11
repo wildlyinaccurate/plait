@@ -37,9 +37,9 @@ export function view (state, dispatch) {
 
 function checkboxView (state, dispatch) {
   if (state.get('completed')) {
-    return <input className="toggle" type="checkbox" ev-change={dispatch(setCompleted(false))} checked />
+    return <input checked className="toggle" ev-change={dispatch(setCompleted(false))} type="checkbox" />
   } else {
-    return <input className="toggle" type="checkbox" ev-change={dispatch(setCompleted(true))} />
+    return <input className="toggle" ev-change={dispatch(setCompleted(true))} type="checkbox" />
   }
 }
 
