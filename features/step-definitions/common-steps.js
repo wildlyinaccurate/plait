@@ -1,6 +1,6 @@
 import Zombie from 'zombie'
 
-import { nthElement, firstTextInput } from './utils'
+import { firstTextInput, nthElement } from './utils'
 
 
 module.exports = function () {
