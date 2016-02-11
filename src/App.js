@@ -58,6 +58,10 @@ function makeDispatcher (store) {
     return event => {
       if (event) {
         action.$event = event
+
+        if (action.$fwdAction) {
+          action.$fwdAction.$event = event
+        }
       }
 
       store.dispatch(action)

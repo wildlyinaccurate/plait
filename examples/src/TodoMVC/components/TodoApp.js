@@ -49,7 +49,7 @@ function updateHeader (state, action) {
 
     return state.update('todos', todos => todos.concat(newTodo)).set('inputValue', '')
   } else {
-    return Header.update(state, merge(action.$fwdAction, { $event: action.$event }))
+    return Header.update(state, action.$fwdAction)
   }
 }
 
