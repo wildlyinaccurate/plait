@@ -81,12 +81,4 @@ gulp.task('maxSize', ['browserify'], (done) => {
   })
 })
 
-gulp.task('watch', () => {
-  gulp.start('build')
-
-  gulp.watch('src/**/*.js', ['build', 'test'])
-
-  return gulp.watch('examples/src/**/*.js', ['buildExamples', 'cucumber'])
-})
-
 gulp.task('buildExamples', buildExamples)
