@@ -36,15 +36,15 @@ Feature: TodoMVC App
     And I create some todos
 
     When I mark the 2nd todo as complete
-    And I press the "Active" button
+    And I click the "Active" link
     Then I should see a "First Todo" todo
     But I should not see a "Second Todo" todo
 
-    When I press the "Completed" button
+    When I click the "Completed" link
     Then I should see a "Second Todo" todo
     But I should not see a "First Todo" todo
 
-    When I press the "All" button
+    When I click the "All" link
     Then I should see a "First Todo" todo
     And I should see a "Second Todo" todo
 

@@ -1,6 +1,6 @@
 import Zombie from 'zombie'
 
-import { firstTextInput, nthElement, pressEnter } from './utils'
+import { elementsWithContent, firstTextInput, nthElement, pressEnter } from './utils'
 
 
 module.exports = function () {
@@ -8,6 +8,12 @@ module.exports = function () {
     this.browser = new Zombie()
 
     return this.browser.visit(`http://localhost:8888/${page}.html`)
+  })
+
+  this.When(/^I click the "([^"]+)" link$/, function (text) {
+    const link = elementsWithContent(this.browser, 'a', text)[0]
+
+    return this.browser.click(link)
   })
 
   this.When(/^I press the "([^"]+)" button$/, function (button) {

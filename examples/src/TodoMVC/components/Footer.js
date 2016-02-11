@@ -32,13 +32,13 @@ export function view (state, dispatch) {
 
       <ul className="filters">
         <li>
-          {filterButton(state, dispatch, FILTER_ALL)}
+          {filterLink(state, dispatch, FILTER_ALL)}
         </li>
         <li>
-          {filterButton(state, dispatch, FILTER_ACTIVE)}
+          {filterLink(state, dispatch, FILTER_ACTIVE)}
         </li>
         <li>
-          {filterButton(state, dispatch, FILTER_COMPLETED)}
+          {filterLink(state, dispatch, FILTER_COMPLETED)}
         </li>
       </ul>
 
@@ -47,13 +47,14 @@ export function view (state, dispatch) {
   )
 }
 
-function filterButton (state, dispatch, filter) {
+function filterLink (state, dispatch, filter) {
+  const href = `#/${filter.toLowerCase()}`
   const className = state.get('filter') === filter ? 'selected' : ''
 
   return (
-    <button className={className} ev-click={dispatch({ type: 'CHANGE_FILTER', filter })}>
+    <a className={className} ev-click={dispatch({ type: 'CHANGE_FILTER', filter })} href={href}>
       {filter}
-    </button>
+    </a>
   )
 }
 

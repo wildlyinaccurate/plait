@@ -1,5 +1,5 @@
 export const $qsa = (browser, selector) => {
-  return Array.from(browser.document.querySelectorAll(selector))
+  return Array.from(browser.querySelectorAll(selector))
 }
 
 export const nthElement = (browser, nth, className) => {
