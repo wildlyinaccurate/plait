@@ -62,8 +62,8 @@ gulp.task('connect', () => {
   })
 })
 
-gulp.task('instrument', ['buildExamples'], () => {
-  return gulp.src('examples/dist/*.js')
+gulp.task('instrument', ['copyDist'], () => {
+  return gulp.src('examples/dist/plait.js')
     .pipe(istanbul({
       coverageVariable: '__coverage__',
       embedSource: true
@@ -76,7 +76,7 @@ gulp.task('testExamples', ['instrument', 'buildExamples', 'connect'], (done) => 
     .on('end', connect.serverClose)
     .on('error', done)
 
-  return gulp.src('features/*')
+  return gulp.src('features/counter-list.feature')
     .pipe(cukes)
 })
 

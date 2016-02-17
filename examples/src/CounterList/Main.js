@@ -1,7 +1,6 @@
-import { start } from 'App'
 import * as CounterList from './CounterList'
 
-const appNode = start(CounterList)
+const appNode = plait.App.start(CounterList)
 
 document.getElementById('app').appendChild(appNode)
 

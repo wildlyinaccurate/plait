@@ -1,7 +1,8 @@
 import h from 'virtual-dom/h'
-import { initializeComponent, forwardDispatch } from 'App'
 
 import * as Counter from '../Counter/Counter'
+
+const { initializeComponent, forwardDispatch } = plait.App
 
 
 export function init () {

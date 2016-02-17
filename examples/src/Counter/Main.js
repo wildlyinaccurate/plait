@@ -1,7 +1,6 @@
-import { start } from 'App'
 import * as Counter from './Counter'
 
-const appNode = start(Counter)
+const appNode = plait.App.start(Counter)
 
 document.getElementById('app').appendChild(appNode)
 

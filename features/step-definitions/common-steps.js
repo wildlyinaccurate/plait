@@ -4,10 +4,20 @@ import { elementsWithContent, firstTextInput, nthElement, pressEnter } from '../
 
 module.exports = function () {
   this.After(function (ev, done) {
-    const coverage = JSON.stringify(this.browser.window.__coverage__)
+    const coverage = this.browser.window.__coverage__
+    const coverageDir = '.coverage'
+    const coverageFile = '.coverage/raw.json'
 
-    fs.mkdir('.coverage', () => {
-      fs.writeFile('.coverage/raw.json', coverage, done)
+    fs.mkdir(coverageDir, () => {
+      fs.exists(coverageFile, exists => {
+        if (exists) {
+          const prevCoverage = JSON.parse(fs.readFileSync(coverageFile))
+
+          Object.assign(coverage, prevCoverage)
+        }
+
+        fs.writeFile(coverageFile, JSON.stringify(coverage), done)
+      })
     })
   })
 
