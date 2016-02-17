@@ -1,7 +1,6 @@
 import fs from 'fs'
 
 import gulp from 'gulp'
-import merge from 'merge-stream'
 import rename from 'gulp-rename'
 import babel from 'gulp-babel'
 import uglify from 'gulp-uglify'
@@ -42,7 +41,7 @@ gulp.task('minify', ['browserify'], () => {
 })
 
 gulp.task('lint', () => {
-  return gulp.src('{src,features}/**/*.js')
+  return gulp.src(['src/**/*.js', 'features/**/*.js', 'gulpfile.babel.js', 'gulp/*.js'])
     .pipe(eslint())
     .pipe(eslint.format())
     .pipe(eslint.failAfterError())
@@ -60,7 +59,7 @@ gulp.task('connect', () => {
   })
 })
 
-gulp.task('testExamples', ['buildExamples', 'connect'], (done) => {
+gulp.task('testExamples', ['buildExamples', 'connect'], done => {
   const cukes = cucumber({ 'steps': 'features/steps/steps.js' })
     .on('end', connect.serverClose)
     .on('error', done)
@@ -69,7 +68,7 @@ gulp.task('testExamples', ['buildExamples', 'connect'], (done) => {
     .pipe(cukes)
 })
 
-gulp.task('maxSize', ['browserify'], (done) => {
+gulp.task('maxSize', ['browserify'], done => {
   fs.stat('dist/plait.min.js', (err, stats) => {
     const kb = b => Math.floor(b / 1000)
 

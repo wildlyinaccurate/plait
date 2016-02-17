@@ -32,7 +32,7 @@ export default function buildExamples () {
 
   const examples = fs.readdirSync(src).filter(f => fs.statSync(`${src}/${f}`).isDirectory())
 
-  examples.forEach((example) => {
+  examples.forEach(example => {
     streams.add(browserify(`${src}/${example}/Main.js`, dest, `${example}.js`, transforms))
     streams.add(buildPage(example))
   })
