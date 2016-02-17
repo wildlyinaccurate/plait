@@ -1,5 +1,6 @@
 import Zombie from 'zombie'
 
+import { times, partial } from 'ramda'
 import { elementsWithContent, firstTextInput, nthElement, pressEnter } from '../support/utils'
 
 module.exports = function () {
@@ -19,9 +20,9 @@ module.exports = function () {
     return this.browser.pressButton(button)
   })
 
-  this.When(/^I press the "([^"]+)" button (\d+) times?$/, function (button, times) {
-    const n = Number(times)
-    const ps = Array(n).fill(0).map(x => this.browser.pressButton(button))
+  this.When(/^I press the "([^"]+)" button (\d+) times?$/, function (button, n) {
+    const pressButton = partial(this.browser.pressButton, [button])
+    const ps = times(pressButton, Number(n))
 
     return Promise.all(ps)
   })
@@ -30,9 +31,9 @@ module.exports = function () {
     return this.browser.pressButton(nthElement(this.browser, nth, className))
   })
 
-  this.When(/^I press the (\d+)(?:st|nd|rd|th) "([^"]+)" button (\d+) times?$/, function (nth, className, times) {
-    const n = Number(times)
-    const ps = Array(n).fill(0).map(x => this.browser.pressButton(nthElement(this.browser, nth, className)))
+  this.When(/^I press the (\d+)(?:st|nd|rd|th) "([^"]+)" button (\d+) times?$/, function (nth, className, n) {
+    const pressButton = partial(this.browser.pressButton, [nthElement(this.browser, nth, className)])
+    const ps = times(pressButton, Number(n))
 
     return Promise.all(ps)
   })

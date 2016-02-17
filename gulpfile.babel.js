@@ -42,7 +42,7 @@ gulp.task('minify', ['browserify'], () => {
 })
 
 gulp.task('lint', () => {
-  return gulp.src('src/**/*.js')
+  return gulp.src('{src,features}/**/*.js')
     .pipe(eslint())
     .pipe(eslint.format())
     .pipe(eslint.failAfterError())
