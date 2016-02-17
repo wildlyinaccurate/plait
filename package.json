@@ -14,8 +14,9 @@
     "test": "test"
   },
   "scripts": {
-    "test": "./node_modules/.bin/gulp test",
-    "prepublish": "./node_modules/.bin/gulp build",
+    "build": "gulp build",
+    "test": "gulp test",
+    "prepublish": "npm run build",
     "docs:clean": "rm -rf _book",
     "docs:prepare": "gitbook install",
     "docs:spellcheck": "./node_modules/.bin/mdspell docs/**/*.md",
