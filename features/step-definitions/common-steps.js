@@ -1,11 +1,17 @@
-import Zombie from 'zombie'
+import fs from 'fs'
 
 import { elementsWithContent, firstTextInput, nthElement, pressEnter } from '../support/utils'
 
 module.exports = function () {
-  this.Given(/^I am on the "([^"]+)" page$/, function (page) {
-    this.browser = new Zombie()
+  this.After(function (ev, done) {
+    const coverage = JSON.stringify(this.browser.window.__coverage__)
 
+    fs.mkdir('.coverage', () => {
+      fs.writeFile('.coverage/raw.json', coverage, done)
+    })
+  })
+
+  this.Given(/^I am on the "([^"]+)" page$/, function (page) {
     return this.browser.visit(`http://localhost:8888/${page}.html`)
   })
 

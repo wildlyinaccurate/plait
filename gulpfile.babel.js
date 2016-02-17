@@ -80,7 +80,7 @@ gulp.task('testExamples', ['instrument', 'buildExamples', 'connect'], (done) => 
     .pipe(cukes)
 })
 
-gulp.task('coverage', ['cucumber'], (done) => {
+gulp.task('coverage', ['testExamples'], (done) => {
   const report = Report.create('lcov')
   const collector = new Collector()
   const coverage = require('./.coverage/raw.json')
@@ -103,4 +103,9 @@ gulp.task('maxSize', ['browserify'], (done) => {
   })
 })
 
-gulp.task('buildExamples', buildExamples)
+gulp.task('copyDist', ['browserify'], () => {
+  return gulp.src('dist/plait.js')
+    .pipe(gulp.dest('examples/dist'))
+})
+
+gulp.task('buildExamples', ['copyDist'], buildExamples)
