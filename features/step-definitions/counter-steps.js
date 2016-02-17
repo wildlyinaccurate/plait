@@ -1,4 +1,4 @@
-import { nthElement } from './utils'
+import { nthElement } from '../support/utils'
 
 module.exports = function () {
   this.Then(/^the counter value should be "([^"]+)"$/, function (value) {

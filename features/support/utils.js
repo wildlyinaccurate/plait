@@ -6,7 +6,7 @@ export const nthElement = (browser, nth, className) => {
   return $qsa(browser, `.${className}`)[nth - 1]
 }
 
-export const firstTextInput = (browser) => {
+export const firstTextInput = browser => {
   return $qsa(browser, 'input').filter(i => i.type === 'text')[0]
 }
 

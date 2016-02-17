@@ -1,4 +1,4 @@
-import { elementsWithContent, firstTextInput, nthElement, pressEnter } from './utils'
+import { elementsWithContent, firstTextInput, nthElement, pressEnter } from '../support/utils'
 
 module.exports = function () {
   this.When(/^I create some todos$/, function (done) {

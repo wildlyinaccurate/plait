@@ -1,7 +1,6 @@
 import Zombie from 'zombie'
 
-import { elementsWithContent, firstTextInput, nthElement, pressEnter } from './utils'
-
+import { elementsWithContent, firstTextInput, nthElement, pressEnter } from '../support/utils'
 
 module.exports = function () {
   this.Given(/^I am on the "([^"]+)" page$/, function (page) {
