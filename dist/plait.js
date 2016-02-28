@@ -127,7 +127,6 @@ function initializeComponent(_ref, dispatch) {
   var initialState = _handleInit4[0];
   var initialAction = _handleInit4[1];
 
-
   if (dispatch && initialAction) {
     dispatch(initialState)(initialAction)();
   }
@@ -166,7 +165,7 @@ var forwardDispatch = exports.forwardDispatch = (0, _curry2.default)(function (a
     return dispatch(Object.assign({}, action, { $fwdAction: forwardAction }));
   };
 });
-},{"./State":2,"./dom/delegator":3,"ramda/src/curry":24,"redux":40,"redux-thunk":34,"virtual-dom/create-element":42,"virtual-dom/diff":43,"virtual-dom/patch":44}],2:[function(require,module,exports){
+},{"./State":2,"./dom/delegator":3,"ramda/src/curry":21,"redux":37,"redux-thunk":31,"virtual-dom/create-element":42,"virtual-dom/diff":43,"virtual-dom/patch":44}],2:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -254,7 +253,7 @@ var State = function () {
 }();
 
 exports.default = State;
-},{"./utils/clone":6,"ramda/src/assocPath":23,"ramda/src/path":33}],3:[function(require,module,exports){
+},{"./utils/clone":6,"ramda/src/assocPath":20,"ramda/src/path":30}],3:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -865,129 +864,6 @@ module.exports = function isObject(x) {
 };
 
 },{}],19:[function(require,module,exports){
-/**
- * Checks if `value` is a host object in IE < 9.
- *
- * @private
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is a host object, else `false`.
- */
-function isHostObject(value) {
-  // Many host objects are `Object` objects that can coerce to strings
-  // despite having improperly defined `toString` methods.
-  var result = false;
-  if (value != null && typeof value.toString != 'function') {
-    try {
-      result = !!(value + '');
-    } catch (e) {}
-  }
-  return result;
-}
-
-module.exports = isHostObject;
-
-},{}],20:[function(require,module,exports){
-/**
- * Checks if `value` is object-like. A value is object-like if it's not `null`
- * and has a `typeof` result of "object".
- *
- * @static
- * @memberOf _
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
- * @example
- *
- * _.isObjectLike({});
- * // => true
- *
- * _.isObjectLike([1, 2, 3]);
- * // => true
- *
- * _.isObjectLike(_.noop);
- * // => false
- *
- * _.isObjectLike(null);
- * // => false
- */
-function isObjectLike(value) {
-  return !!value && typeof value == 'object';
-}
-
-module.exports = isObjectLike;
-
-},{}],21:[function(require,module,exports){
-var isHostObject = require('./_isHostObject'),
-    isObjectLike = require('./isObjectLike');
-
-/** `Object#toString` result references. */
-var objectTag = '[object Object]';
-
-/** Used for built-in method references. */
-var objectProto = Object.prototype;
-
-/** Used to resolve the decompiled source of functions. */
-var funcToString = Function.prototype.toString;
-
-/** Used to infer the `Object` constructor. */
-var objectCtorString = funcToString.call(Object);
-
-/**
- * Used to resolve the [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
- * of values.
- */
-var objectToString = objectProto.toString;
-
-/** Built-in value references. */
-var getPrototypeOf = Object.getPrototypeOf;
-
-/**
- * Checks if `value` is a plain object, that is, an object created by the
- * `Object` constructor or one with a `[[Prototype]]` of `null`.
- *
- * @static
- * @memberOf _
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is a plain object, else `false`.
- * @example
- *
- * function Foo() {
- *   this.a = 1;
- * }
- *
- * _.isPlainObject(new Foo);
- * // => false
- *
- * _.isPlainObject([1, 2, 3]);
- * // => false
- *
- * _.isPlainObject({ 'x': 0, 'y': 0 });
- * // => true
- *
- * _.isPlainObject(Object.create(null));
- * // => true
- */
-function isPlainObject(value) {
-  if (!isObjectLike(value) ||
-      objectToString.call(value) != objectTag || isHostObject(value)) {
-    return false;
-  }
-  var proto = objectProto;
-  if (typeof value.constructor == 'function') {
-    proto = getPrototypeOf(value);
-  }
-  if (proto === null) {
-    return true;
-  }
-  var Ctor = proto.constructor;
-  return (typeof Ctor == 'function' &&
-    Ctor instanceof Ctor && funcToString.call(Ctor) == objectCtorString);
-}
-
-module.exports = isPlainObject;
-
-},{"./_isHostObject":19,"./isObjectLike":20}],22:[function(require,module,exports){
 var _curry3 = require('./internal/_curry3');
 
 
@@ -1020,7 +896,7 @@ module.exports = _curry3(function assoc(prop, val, obj) {
   return result;
 });
 
-},{"./internal/_curry3":29}],23:[function(require,module,exports){
+},{"./internal/_curry3":26}],20:[function(require,module,exports){
 var _curry3 = require('./internal/_curry3');
 var _slice = require('./internal/_slice');
 var assoc = require('./assoc');
@@ -1057,7 +933,7 @@ module.exports = _curry3(function assocPath(path, val, obj) {
   }
 });
 
-},{"./assoc":22,"./internal/_curry3":29,"./internal/_slice":32}],24:[function(require,module,exports){
+},{"./assoc":19,"./internal/_curry3":26,"./internal/_slice":29}],21:[function(require,module,exports){
 var _curry1 = require('./internal/_curry1');
 var curryN = require('./curryN');
 
@@ -1107,7 +983,7 @@ module.exports = _curry1(function curry(fn) {
   return curryN(fn.length, fn);
 });
 
-},{"./curryN":25,"./internal/_curry1":27}],25:[function(require,module,exports){
+},{"./curryN":22,"./internal/_curry1":24}],22:[function(require,module,exports){
 var _arity = require('./internal/_arity');
 var _curry1 = require('./internal/_curry1');
 var _curry2 = require('./internal/_curry2');
@@ -1163,7 +1039,7 @@ module.exports = _curry2(function curryN(length, fn) {
   return _arity(length, _curryN(length, [], fn));
 });
 
-},{"./internal/_arity":26,"./internal/_curry1":27,"./internal/_curry2":28,"./internal/_curryN":30}],26:[function(require,module,exports){
+},{"./internal/_arity":23,"./internal/_curry1":24,"./internal/_curry2":25,"./internal/_curryN":27}],23:[function(require,module,exports){
 module.exports = function _arity(n, fn) {
   /* eslint-disable no-unused-vars */
   switch (n) {
@@ -1182,7 +1058,7 @@ module.exports = function _arity(n, fn) {
   }
 };
 
-},{}],27:[function(require,module,exports){
+},{}],24:[function(require,module,exports){
 var _isPlaceholder = require('./_isPlaceholder');
 
 
@@ -1204,7 +1080,7 @@ module.exports = function _curry1(fn) {
   };
 };
 
-},{"./_isPlaceholder":31}],28:[function(require,module,exports){
+},{"./_isPlaceholder":28}],25:[function(require,module,exports){
 var _curry1 = require('./_curry1');
 var _isPlaceholder = require('./_isPlaceholder');
 
@@ -1234,7 +1110,7 @@ module.exports = function _curry2(fn) {
   };
 };
 
-},{"./_curry1":27,"./_isPlaceholder":31}],29:[function(require,module,exports){
+},{"./_curry1":24,"./_isPlaceholder":28}],26:[function(require,module,exports){
 var _curry1 = require('./_curry1');
 var _curry2 = require('./_curry2');
 var _isPlaceholder = require('./_isPlaceholder');
@@ -1274,7 +1150,7 @@ module.exports = function _curry3(fn) {
   };
 };
 
-},{"./_curry1":27,"./_curry2":28,"./_isPlaceholder":31}],30:[function(require,module,exports){
+},{"./_curry1":24,"./_curry2":25,"./_isPlaceholder":28}],27:[function(require,module,exports){
 var _arity = require('./_arity');
 var _isPlaceholder = require('./_isPlaceholder');
 
@@ -1316,14 +1192,14 @@ module.exports = function _curryN(length, received, fn) {
   };
 };
 
-},{"./_arity":26,"./_isPlaceholder":31}],31:[function(require,module,exports){
+},{"./_arity":23,"./_isPlaceholder":28}],28:[function(require,module,exports){
 module.exports = function _isPlaceholder(a) {
   return a != null &&
          typeof a === 'object' &&
          a['@@functional/placeholder'] === true;
 };
 
-},{}],32:[function(require,module,exports){
+},{}],29:[function(require,module,exports){
 /**
  * An optimized, private array `slice` implementation.
  *
@@ -1357,7 +1233,7 @@ module.exports = function _slice(args, from, to) {
   }
 };
 
-},{}],33:[function(require,module,exports){
+},{}],30:[function(require,module,exports){
 var _curry2 = require('./internal/_curry2');
 
 
@@ -1390,7 +1266,7 @@ module.exports = _curry2(function path(paths, obj) {
   return val;
 });
 
-},{"./internal/_curry2":28}],34:[function(require,module,exports){
+},{"./internal/_curry2":25}],31:[function(require,module,exports){
 'use strict';
 
 function thunkMiddleware(_ref) {
@@ -1405,7 +1281,7 @@ function thunkMiddleware(_ref) {
 }
 
 module.exports = thunkMiddleware;
-},{}],35:[function(require,module,exports){
+},{}],32:[function(require,module,exports){
 'use strict';
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
@@ -1463,7 +1339,7 @@ function applyMiddleware() {
     };
   };
 }
-},{"./compose":38}],36:[function(require,module,exports){
+},{"./compose":35}],33:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -1515,7 +1391,7 @@ function bindActionCreators(actionCreators, dispatch) {
   }
   return boundActionCreators;
 }
-},{}],37:[function(require,module,exports){
+},{}],34:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -1646,7 +1522,7 @@ function combineReducers(reducers) {
 }
 }).call(this,require('_process'))
 
-},{"./createStore":39,"./utils/warning":41,"_process":8,"lodash/isPlainObject":21}],38:[function(require,module,exports){
+},{"./createStore":36,"./utils/warning":38,"_process":8,"lodash/isPlainObject":41}],35:[function(require,module,exports){
 "use strict";
 
 exports.__esModule = true;
@@ -1676,7 +1552,7 @@ function compose() {
     }, last.apply(undefined, arguments));
   };
 }
-},{}],39:[function(require,module,exports){
+},{}],36:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -1893,7 +1769,7 @@ function createStore(reducer, initialState, enhancer) {
     replaceReducer: replaceReducer
   };
 }
-},{"lodash/isPlainObject":21}],40:[function(require,module,exports){
+},{"lodash/isPlainObject":41}],37:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -1943,7 +1819,7 @@ exports.applyMiddleware = _applyMiddleware2["default"];
 exports.compose = _compose2["default"];
 }).call(this,require('_process'))
 
-},{"./applyMiddleware":35,"./bindActionCreators":36,"./combineReducers":37,"./compose":38,"./createStore":39,"./utils/warning":41,"_process":8}],41:[function(require,module,exports){
+},{"./applyMiddleware":32,"./bindActionCreators":33,"./combineReducers":34,"./compose":35,"./createStore":36,"./utils/warning":38,"_process":8}],38:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -1968,7 +1844,127 @@ function warning(message) {
   } catch (e) {}
   /* eslint-enable no-empty */
 }
-},{}],42:[function(require,module,exports){
+},{}],39:[function(require,module,exports){
+/**
+ * Checks if `value` is a host object in IE < 9.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a host object, else `false`.
+ */
+function isHostObject(value) {
+  // Many host objects are `Object` objects that can coerce to strings
+  // despite having improperly defined `toString` methods.
+  var result = false;
+  if (value != null && typeof value.toString != 'function') {
+    try {
+      result = !!(value + '');
+    } catch (e) {}
+  }
+  return result;
+}
+
+module.exports = isHostObject;
+
+},{}],40:[function(require,module,exports){
+/**
+ * Checks if `value` is object-like. A value is object-like if it's not `null`
+ * and has a `typeof` result of "object".
+ *
+ * @static
+ * @memberOf _
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
+ * @example
+ *
+ * _.isObjectLike({});
+ * // => true
+ *
+ * _.isObjectLike([1, 2, 3]);
+ * // => true
+ *
+ * _.isObjectLike(_.noop);
+ * // => false
+ *
+ * _.isObjectLike(null);
+ * // => false
+ */
+function isObjectLike(value) {
+  return !!value && typeof value == 'object';
+}
+
+module.exports = isObjectLike;
+
+},{}],41:[function(require,module,exports){
+var isHostObject = require('./_isHostObject'),
+    isObjectLike = require('./isObjectLike');
+
+/** `Object#toString` result references. */
+var objectTag = '[object Object]';
+
+/** Used for built-in method references. */
+var objectProto = Object.prototype;
+
+/** Used to resolve the decompiled source of functions. */
+var funcToString = Function.prototype.toString;
+
+/** Used to infer the `Object` constructor. */
+var objectCtorString = funcToString.call(Object);
+
+/**
+ * Used to resolve the [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
+ * of values.
+ */
+var objectToString = objectProto.toString;
+
+/** Built-in value references. */
+var getPrototypeOf = Object.getPrototypeOf;
+
+/**
+ * Checks if `value` is a plain object, that is, an object created by the
+ * `Object` constructor or one with a `[[Prototype]]` of `null`.
+ *
+ * @static
+ * @memberOf _
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a plain object, else `false`.
+ * @example
+ *
+ * function Foo() {
+ *   this.a = 1;
+ * }
+ *
+ * _.isPlainObject(new Foo);
+ * // => false
+ *
+ * _.isPlainObject([1, 2, 3]);
+ * // => false
+ *
+ * _.isPlainObject({ 'x': 0, 'y': 0 });
+ * // => true
+ *
+ * _.isPlainObject(Object.create(null));
+ * // => true
+ */
+function isPlainObject(value) {
+  if (!isObjectLike(value) ||
+      objectToString.call(value) != objectTag || isHostObject(value)) {
+    return false;
+  }
+  var proto = getPrototypeOf(value);
+  if (proto === null) {
+    return true;
+  }
+  var Ctor = proto.constructor;
+  return (typeof Ctor == 'function' &&
+    Ctor instanceof Ctor && funcToString.call(Ctor) == objectCtorString);
+}
+
+module.exports = isPlainObject;
+
+},{"./_isHostObject":39,"./isObjectLike":40}],42:[function(require,module,exports){
 var createElement = require("./vdom/create-element.js")
 
 module.exports = createElement
