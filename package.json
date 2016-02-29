@@ -68,7 +68,7 @@
   "bugs": {
     "url": "https://github.com/wildlyinaccurate/plait/issues"
   },
-  "homepage": "https://wildlyinaccurate.com/plait/",
+  "homepage": "https://plait.js.org/",
   "keywords": [
     "plait",
     "isomorphic",

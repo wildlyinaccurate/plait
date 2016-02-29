@@ -1,4 +1,4 @@
-# [Plait](https://wildlyinaccurate.com/plait/)
+# [Plait](https://plait.js.org/)
 
 Plait is a minimal JavaScript framework for building isomorphic reactive web components. It is loosely based on <a href="https://github.com/evancz/elm-architecture-tutorial/">The Elm Architecture</a> and Elm's <a href="https://github.com/evancz/start-app"><code>StartApp</code></a>.
 
@@ -21,9 +21,9 @@ With minimal effort, component views can be written in JSX and compiled to virtu
 
 ## An Example Application
 
-The following is an example of an application composed of a single counter component. [View the demo](https://wildlyinaccurate.com/plait/examples/Counter.html)
+The following is an example of an application composed of a single counter component. [View the demo](https://plait.js.org/examples/Counter.html)
 
-> _Note: For more complex example applications, see [the Plait documentation](https://wildlyinaccurate.com/plait/docs/examples/index.html)._
+> _Note: For more complex example applications, see [the Plait documentation](https://plait.js.org/docs/examples/index.html)._
 
 ```jsx
 import h from 'virtual-dom/h'
