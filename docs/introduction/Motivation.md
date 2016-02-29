@@ -2,7 +2,7 @@
 
 Plait came from the idea that there are only really three key parts required to build a reactive JavaScript application: state management, event delegation, and virtual DOM rendering.
 
-Inspired by the model-view-update architecture of [Elm](http://elm-lang.org/), the goal of Plait was to provide a framework for creating reactive components &mdash; without actually writing a framework. In under 200 lines of code (including blank lines and comments!) Plait manages to achieve this by gluing together three libraries:
+Inspired by the model-view-update architecture of [Elm](http://elm-lang.org/), the goal of Plait was to provide a framework for creating reactive components &mdash; without actually writing a framework. In under 200 lines of code, Plait manages to achieve this by gluing together three libraries:
 
 * [**Redux**](https://github.com/rackt/redux), which provides state management and is the backbone of the reactive "update" cycle.
 * [**virtual-dom**](https://github.com/Matt-Esch/virtual-dom), which provides virtual DOM rendering.
