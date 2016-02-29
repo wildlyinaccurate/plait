@@ -1,7 +1,8 @@
 {
-  "gitbook": "2.x.x",
+  "gitbook": "3.0.0-pre.2",
   "plugins": [
     "-highlight",
+    "-sharing",
     "edit-link",
     "ga",
     "github",

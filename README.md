@@ -23,7 +23,7 @@ With minimal effort, component views can be written in JSX and compiled to virtu
 
 The following is an example of an application composed of a single counter component. [View the demo](https://plait.js.org/examples/Counter.html)
 
-> _Note: For more complex example applications, see [the Plait documentation](https://plait.js.org/docs/examples/index.html)._
+> _Note: For more complex example applications, see [the Plait documentation](https://plait.js.org/examples/index.html)._
 
 ```jsx
 import h from 'virtual-dom/h'

@@ -17,12 +17,13 @@
     "build": "gulp build",
     "test": "gulp test",
     "prepublish": "npm run build",
-    "docs:clean": "rm -rf _book",
+    "docs:clean": "rm -rf docs/_book",
     "docs:prepare": "gitbook install",
-    "docs:spellcheck": "./node_modules/.bin/mdspell docs/**/*.md",
-    "docs:build": "npm run docs:spellcheck && npm run docs:prepare && gitbook build -g wildlyinaccurate/plait && ./node_modules/.bin/gulp buildExamples && cp examples/dist/* _book/examples",
-    "docs:watch": "npm run docs:prepare && gitbook serve",
-    "docs:publish": "npm run docs:clean && npm run docs:build && cd _book && git init && git commit --allow-empty -m 'update book' && git checkout -b gh-pages && touch .nojekyll && git add . && git commit -am 'update book' && git push git@github.com:wildlyinaccurate/plait gh-pages --force"
+    "docs:spellcheck": "mdspell docs/**/*.md",
+    "docs:examples": "gulp buildExamples && mkdir -p docs/_book/examples && cp examples/dist/* docs/_book/examples",
+    "docs:build": "npm run docs:clean && npm run docs:spellcheck && npm run docs:prepare && gitbook build ./docs && npm run docs:examples",
+    "docs:watch": "npm run docs:prepare && gitbook serve ./docs",
+    "docs:publish": "npm run docs:build && cp CNAME docs/_book/CNAME && cd docs/_book && git init && git commit --allow-empty -m 'update book' && git checkout -b gh-pages && touch .nojekyll && git add . && git commit -am 'update book' && git push git@github.com:wildlyinaccurate/plait gh-pages --force"
   },
   "author": {
     "name": "Joseph Wynn",
