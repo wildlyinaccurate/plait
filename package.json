@@ -47,7 +47,7 @@
     "gulp": "^3.9.0",
     "gulp-babel": "^6.1.1",
     "gulp-connect": "^3.0.0",
-    "gulp-cucumber": "^0.0.17",
+    "gulp-cucumber": "^0.0.18",
     "gulp-eslint": "^2.0.0",
     "gulp-jasmine": "^2.2.1",
     "gulp-rename": "^1.2.2",
