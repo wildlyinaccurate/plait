@@ -127,6 +127,7 @@ function initializeComponent(_ref, dispatch) {
   var initialState = _handleInit4[0];
   var initialAction = _handleInit4[1];
 
+
   if (dispatch && initialAction) {
     dispatch(initialState)(initialAction)();
   }
@@ -1269,18 +1270,22 @@ module.exports = _curry2(function path(paths, obj) {
 },{"./internal/_curry2":25}],31:[function(require,module,exports){
 'use strict';
 
+exports.__esModule = true;
+exports['default'] = thunkMiddleware;
 function thunkMiddleware(_ref) {
   var dispatch = _ref.dispatch;
   var getState = _ref.getState;
 
   return function (next) {
     return function (action) {
-      return typeof action === 'function' ? action(dispatch, getState) : next(action);
+      if (typeof action === 'function') {
+        return action(dispatch, getState);
+      }
+
+      return next(action);
     };
   };
 }
-
-module.exports = thunkMiddleware;
 },{}],32:[function(require,module,exports){
 'use strict';
 
