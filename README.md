@@ -4,7 +4,7 @@ Plait is a minimal JavaScript framework for building isomorphic reactive web com
 
 [![build status](https://img.shields.io/travis/wildlyinaccurate/plait/master.svg?style=flat-square)](https://travis-ci.org/wildlyinaccurate/plait)
 [![npm version](https://img.shields.io/npm/v/plait.svg?style=flat-square)](https://www.npmjs.com/package/plait)
-[![dependency status](http://img.shields.io/david/wildlyinaccurate/plait.svg?style=flat-square)](http://david-dm.org/wildlyinaccurate/plait)
+[![dependency status](https://img.shields.io/david/wildlyinaccurate/plait.svg?style=flat-square)](http://david-dm.org/wildlyinaccurate/plait)
 ![stability-unstable](https://img.shields.io/badge/stability-unstable-yellow.svg?style=flat-square)
 
 ## The Basic Idea
