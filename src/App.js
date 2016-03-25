@@ -54,18 +54,16 @@ export function start (component) {
 // interface to store.dispatch, allowing views to express the _intent to dispatch_
 // without immediately triggering a dispatch.
 function makeDispatcher (store) {
-  return action => {
-    return event => {
-      if (event) {
-        action.$event = event
+  return action => event => {
+    if (event) {
+      action.$event = event
 
-        if (action.$fwdAction) {
-          action.$fwdAction.$event = event
-        }
+      if (action.$fwdAction) {
+        action.$fwdAction.$event = event
       }
-
-      store.dispatch(action)
     }
+
+    store.dispatch(action)
   }
 }
 
