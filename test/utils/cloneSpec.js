@@ -44,7 +44,7 @@ describe('utils/clone', () => {
     expect(o2.a.c.d).toBe(2)
   })
 
-  it('clone State objects', () => {
+  it('clones State objects', () => {
     const o1 = {
       m: new State({
         a: 1,
