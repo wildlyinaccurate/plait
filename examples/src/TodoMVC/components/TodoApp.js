@@ -34,8 +34,8 @@ export function update (state, action) {
         completed: action.$event.target.checked
       }
 
-      return state.update('todos', function (todos) {
-        return todos.map(todo => TodoItem.update(todo, todoAction))
+      return Object.assign({}, state, {
+        todos: state.todos.map(todo => TodoItem.update(todo, todoAction))
       })
   }
 }
@@ -46,7 +46,10 @@ function updateHeader (state, action) {
   if (wasEnterKey(action.$event) && value.length) {
     const newTodo = initComponent({ init: TodoItem.init(value) })
 
-    return state.update('todos', todos => todos.concat(newTodo)).set('inputValue', '')
+    return Object.assign({}, state, {
+      todos: [newTodo, ...state.todos],
+      inputValue: ''
+    })
   } else {
     return Header.update(state, action.$fwdAction)
   }
@@ -54,8 +57,8 @@ function updateHeader (state, action) {
 
 function updateFooter (state, action) {
   if (action.$fwdAction.type === 'CLEAR_COMPLETED') {
-    return state.update('todos', function(todos) {
-      return todos.filter(todo => !todo.get('completed'))
+    return Object.assign({}, state, {
+      todos: state.todos.filter(todo => !todo.completed)
     })
   }
 
@@ -74,9 +77,13 @@ function updateTodoItems (state, action) {
   if (action.$fwdAction.type === 'DELETE') {
     const idx = action.todoIdx
 
-    return state.update('todos', todos => todos.slice(0, idx).concat(todos.slice(idx + 1)))
+    return Object.assign({}, state, {
+      todos: state.todos.slice(0, idx).concat(state.todos.slice(idx + 1))
+    })
   } else {
-    return state.update('todos', todos => todos.map(updateTodoItem(action)))
+    return Object.assign({}, state, {
+      todos: state.todos.map(updateTodoItem(action))
+    })
   }
 }
 
@@ -110,13 +117,13 @@ function headerView (state, dispatch) {
 }
 
 function footerView (state, dispatch) {
-  if (state.get('todos').length) {
+  if (state.todos.length) {
     return Footer.view(state, fwd({ type: 'FOOTER_ACTION' }, dispatch, state))
   }
 }
 
 function todosView (state, dispatch) {
-  if (state.get('todos').length) {
+  if (state.todos.length) {
     return (
       <section className="main">
         <input className="toggle-all" ev-change={dispatch({ type: 'TOGGLE_ALL' })} type="checkbox" />
@@ -134,7 +141,7 @@ function todosView (state, dispatch) {
 }
 
 function todoItemsView (state, dispatch) {
-  const filteredTodos = filterTodos(state.get('todos'), state.get('filter'))
+  const filteredTodos = filterTodos(state.todos, state.filter)
 
   return filteredTodos.map((todoState, todoIdx) => {
     const modifiedDispatch = fwd(
@@ -157,9 +164,9 @@ function satisfiesFilter (filter, todo) {
       return true
 
     case FILTER_COMPLETED:
-      return todo.get('completed')
+      return todo.completed
 
     case FILTER_ACTIVE:
-      return !todo.get('completed')
+      return !todo.completed
   }
 }

@@ -9,12 +9,11 @@ const TestComponent = {
     }
   },
 
-  update: () => {},
+  update: state => state,
 
   view: (state, dispatch) => {
     dispatch({ type: '^_^' })
-
-    return h('ul', state.get('likes').map(like => h('li', [like])))
+    return h('ul', state.likes.map(like => h('li', [like])))
   }
 }
 
@@ -27,7 +26,9 @@ describe('Static', () => {
   it('should allow state to be manipulated', (done) => {
     const update = (state, cb) => {
       setTimeout(() => {
-        cb(state.update('likes', map(toUpper)))
+        cb(Object.assign({}, state, {
+          likes: map(toUpper, state.likes)
+        }))
       }, 100)
     }
 

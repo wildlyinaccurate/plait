@@ -25,10 +25,6 @@ var _virtualDom = require('./dom/virtual-dom');
 
 var _virtualDom2 = _interopRequireDefault(_virtualDom);
 
-var _State = require('./State');
-
-var _State2 = _interopRequireDefault(_State);
-
 var _delegator = require('./dom/delegator');
 
 var delegator = _interopRequireWildcard(_delegator);
@@ -131,9 +127,8 @@ function initializeComponent(_ref, dispatch) {
 
 function handleInit(init) {
   var _res = init();
-  var res = Array.isArray(_res) ? _res : [_res];
 
-  return [new _State2.default(res[0]), res[1]];
+  return Array.isArray(_res) ? _res : [_res];
 }
 
 // Wrap a dispatcher, forwarding any actions onto the specified action by attaching
@@ -160,99 +155,7 @@ var forwardDispatch = exports.forwardDispatch = (0, _curry2.default)(function (a
     return dispatch(Object.assign({}, action, { $fwdAction: forwardAction }));
   };
 });
-},{"./State":2,"./dom/delegator":3,"./dom/virtual-dom":5,"ramda/src/curry":22,"redux":38,"redux-thunk":32}],2:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _assocPath = require('ramda/src/assocPath');
-
-var _assocPath2 = _interopRequireDefault(_assocPath);
-
-var _path = require('ramda/src/path');
-
-var _path2 = _interopRequireDefault(_path);
-
-var _clone = require('./utils/clone');
-
-var _clone2 = _interopRequireDefault(_clone);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var State = function () {
-  function State(obj) {
-    _classCallCheck(this, State);
-
-    if ((typeof obj === 'undefined' ? 'undefined' : _typeof(obj)) !== 'object') {
-      throw new TypeError(obj, 'is not an object');
-    }
-
-    this.obj = (0, _clone2.default)(obj);
-    this['@@Plait/State'] = 1;
-  }
-
-  _createClass(State, [{
-    key: 'clone',
-    value: function clone() {
-      return new State(this.obj);
-    }
-  }, {
-    key: 'toObject',
-    value: function toObject() {
-      return (0, _clone2.default)(this.obj);
-    }
-  }, {
-    key: 'set',
-    value: function set(prop, val) {
-      var newObj = {};
-
-      newObj[prop] = val;
-
-      return new State(Object.assign({}, this.obj, newObj));
-    }
-  }, {
-    key: 'get',
-    value: function get(prop) {
-      var val = this.obj[prop];
-
-      if ((typeof val === 'undefined' ? 'undefined' : _typeof(val)) === 'object' && !val.hasOwnProperty('@@Plait/State')) {
-        return (0, _clone2.default)(val);
-      }
-
-      return val;
-    }
-  }, {
-    key: 'update',
-    value: function update(prop, updater) {
-      return this.set(prop, updater(this.get(prop)));
-    }
-  }, {
-    key: 'setIn',
-    value: function setIn(propPath, val) {
-      var obj = (0, _assocPath2.default)(propPath, val, this.obj);
-
-      return new State(obj);
-    }
-  }, {
-    key: 'getIn',
-    value: function getIn(propPath) {
-      return (0, _path2.default)(propPath, this.obj);
-    }
-  }]);
-
-  return State;
-}();
-
-exports.default = State;
-},{"./utils/clone":7,"ramda/src/assocPath":21,"ramda/src/path":31}],3:[function(require,module,exports){
+},{"./dom/delegator":2,"./dom/virtual-dom":4,"ramda/src/curry":18,"redux":31,"redux-thunk":25}],2:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -277,14 +180,14 @@ function listen() {
     return delegator.listenTo(event);
   });
 }
-},{"./events":4,"dom-delegator/dom-delegator":11}],4:[function(require,module,exports){
+},{"./events":3,"dom-delegator/dom-delegator":9}],3:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = ['blur', 'change', 'click', 'contextmenu', 'dblclick', 'error', 'focus', 'focusin', 'focusout', 'input', 'keydown', 'keypress', 'keyup', 'load', 'mousedown', 'mouseup', 'resize', 'select', 'submit', 'touchcancel', 'touchend', 'touchstart', 'unload'];
-},{}],5:[function(require,module,exports){
+},{}],4:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -336,60 +239,24 @@ function VirtualDom(state, render, raf) {
 
   return { rootNode: rootNode, update: update };
 }
-},{"virtual-dom/create-element":43,"virtual-dom/diff":44,"virtual-dom/patch":45}],6:[function(require,module,exports){
+},{"virtual-dom/create-element":36,"virtual-dom/diff":37,"virtual-dom/patch":38}],5:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.State = exports.App = undefined;
+exports.App = undefined;
 
 var _App = require('./App');
 
 var App = _interopRequireWildcard(_App);
 
-var _State = require('./State');
-
-var _State2 = _interopRequireDefault(_State);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 exports.App = App;
-exports.State = _State2.default;
-},{"./App":1,"./State":2}],7:[function(require,module,exports){
-'use strict';
+},{"./App":1}],6:[function(require,module,exports){
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
-
-exports.default = clone;
-function clone(obj) {
-  var newObj = Array.isArray(obj) ? [] : {};
-
-  for (var k in obj) {
-    var val = obj[k];
-
-    if ((typeof val === 'undefined' ? 'undefined' : _typeof(val)) === 'object') {
-      if (val.hasOwnProperty('@@Plait/State')) {
-        newObj[k] = val.clone();
-      } else {
-        newObj[k] = clone(val);
-      }
-    } else {
-      newObj[k] = val;
-    }
-  }
-
-  return newObj;
-}
-},{}],8:[function(require,module,exports){
-
-},{}],9:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -482,7 +349,7 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],10:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 var EvStore = require("ev-store")
 
 module.exports = addEvent
@@ -502,7 +369,7 @@ function addEvent(target, type, handler) {
     }
 }
 
-},{"ev-store":14}],11:[function(require,module,exports){
+},{"ev-store":12}],9:[function(require,module,exports){
 var globalDocument = require("global/document")
 var EvStore = require("ev-store")
 var createStore = require("weakmap-shim/create-store")
@@ -691,7 +558,7 @@ function Handle() {
     this.type = "dom-delegator-handle"
 }
 
-},{"./add-event.js":10,"./proxy-event.js":12,"./remove-event.js":13,"ev-store":14,"global/document":17,"weakmap-shim/create-store":62}],12:[function(require,module,exports){
+},{"./add-event.js":8,"./proxy-event.js":10,"./remove-event.js":11,"ev-store":12,"global/document":15,"weakmap-shim/create-store":55}],10:[function(require,module,exports){
 var inherits = require("inherits")
 
 var ALL_PROPS = [
@@ -771,7 +638,7 @@ function KeyEvent(ev) {
 
 inherits(KeyEvent, ProxyEvent)
 
-},{"inherits":18}],13:[function(require,module,exports){
+},{"inherits":16}],11:[function(require,module,exports){
 var EvStore = require("ev-store")
 
 module.exports = removeEvent
@@ -792,7 +659,7 @@ function removeEvent(target, type, handler) {
     }
 }
 
-},{"ev-store":14}],14:[function(require,module,exports){
+},{"ev-store":12}],12:[function(require,module,exports){
 'use strict';
 
 var OneVersionConstraint = require('individual/one-version');
@@ -814,7 +681,7 @@ function EvStore(elem) {
     return hash;
 }
 
-},{"individual/one-version":16}],15:[function(require,module,exports){
+},{"individual/one-version":14}],13:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -838,7 +705,7 @@ function Individual(key, value) {
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 
-},{}],16:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 'use strict';
 
 var Individual = require('./index.js');
@@ -862,7 +729,7 @@ function OneVersion(moduleName, version, defaultValue) {
     return Individual(key, defaultValue);
 }
 
-},{"./index.js":15}],17:[function(require,module,exports){
+},{"./index.js":13}],15:[function(require,module,exports){
 (function (global){
 var topLevel = typeof global !== 'undefined' ? global :
     typeof window !== 'undefined' ? window : {}
@@ -882,7 +749,7 @@ if (typeof document !== 'undefined') {
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 
-},{"min-document":8}],18:[function(require,module,exports){
+},{"min-document":6}],16:[function(require,module,exports){
 if (typeof Object.create === 'function') {
   // implementation from standard node.js 'util' module
   module.exports = function inherits(ctor, superCtor) {
@@ -907,84 +774,14 @@ if (typeof Object.create === 'function') {
   }
 }
 
-},{}],19:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 "use strict";
 
 module.exports = function isObject(x) {
 	return typeof x === "object" && x !== null;
 };
 
-},{}],20:[function(require,module,exports){
-var _curry3 = require('./internal/_curry3');
-
-
-/**
- * Makes a shallow clone of an object, setting or overriding the specified
- * property with the given value. Note that this copies and flattens prototype
- * properties onto the new object as well. All non-primitive properties are
- * copied by reference.
- *
- * @func
- * @memberOf R
- * @since v0.8.0
- * @category Object
- * @sig String -> a -> {k: v} -> {k: v}
- * @param {String} prop the property name to set
- * @param {*} val the new value
- * @param {Object} obj the object to clone
- * @return {Object} a new object similar to the original except for the specified property.
- * @see R.dissoc
- * @example
- *
- *      R.assoc('c', 3, {a: 1, b: 2}); //=> {a: 1, b: 2, c: 3}
- */
-module.exports = _curry3(function assoc(prop, val, obj) {
-  var result = {};
-  for (var p in obj) {
-    result[p] = obj[p];
-  }
-  result[prop] = val;
-  return result;
-});
-
-},{"./internal/_curry3":27}],21:[function(require,module,exports){
-var _curry3 = require('./internal/_curry3');
-var _slice = require('./internal/_slice');
-var assoc = require('./assoc');
-
-
-/**
- * Makes a shallow clone of an object, setting or overriding the nodes required
- * to create the given path, and placing the specific value at the tail end of
- * that path. Note that this copies and flattens prototype properties onto the
- * new object as well. All non-primitive properties are copied by reference.
- *
- * @func
- * @memberOf R
- * @since v0.8.0
- * @category Object
- * @sig [String] -> a -> {k: v} -> {k: v}
- * @param {Array} path the path to set
- * @param {*} val the new value
- * @param {Object} obj the object to clone
- * @return {Object} a new object similar to the original except along the specified path.
- * @see R.dissocPath
- * @example
- *
- *      R.assocPath(['a', 'b', 'c'], 42, {a: {b: {c: 0}}}); //=> {a: {b: {c: 42}}}
- */
-module.exports = _curry3(function assocPath(path, val, obj) {
-  switch (path.length) {
-    case 0:
-      return val;
-    case 1:
-      return assoc(path[0], val, obj);
-    default:
-      return assoc(path[0], assocPath(_slice(path, 1), val, Object(obj[path[0]])), obj);
-  }
-});
-
-},{"./assoc":20,"./internal/_curry3":27,"./internal/_slice":30}],22:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 var _curry1 = require('./internal/_curry1');
 var curryN = require('./curryN');
 
@@ -1034,7 +831,7 @@ module.exports = _curry1(function curry(fn) {
   return curryN(fn.length, fn);
 });
 
-},{"./curryN":23,"./internal/_curry1":25}],23:[function(require,module,exports){
+},{"./curryN":19,"./internal/_curry1":21}],19:[function(require,module,exports){
 var _arity = require('./internal/_arity');
 var _curry1 = require('./internal/_curry1');
 var _curry2 = require('./internal/_curry2');
@@ -1090,7 +887,7 @@ module.exports = _curry2(function curryN(length, fn) {
   return _arity(length, _curryN(length, [], fn));
 });
 
-},{"./internal/_arity":24,"./internal/_curry1":25,"./internal/_curry2":26,"./internal/_curryN":28}],24:[function(require,module,exports){
+},{"./internal/_arity":20,"./internal/_curry1":21,"./internal/_curry2":22,"./internal/_curryN":23}],20:[function(require,module,exports){
 module.exports = function _arity(n, fn) {
   /* eslint-disable no-unused-vars */
   switch (n) {
@@ -1109,7 +906,7 @@ module.exports = function _arity(n, fn) {
   }
 };
 
-},{}],25:[function(require,module,exports){
+},{}],21:[function(require,module,exports){
 var _isPlaceholder = require('./_isPlaceholder');
 
 
@@ -1131,7 +928,7 @@ module.exports = function _curry1(fn) {
   };
 };
 
-},{"./_isPlaceholder":29}],26:[function(require,module,exports){
+},{"./_isPlaceholder":24}],22:[function(require,module,exports){
 var _curry1 = require('./_curry1');
 var _isPlaceholder = require('./_isPlaceholder');
 
@@ -1161,47 +958,7 @@ module.exports = function _curry2(fn) {
   };
 };
 
-},{"./_curry1":25,"./_isPlaceholder":29}],27:[function(require,module,exports){
-var _curry1 = require('./_curry1');
-var _curry2 = require('./_curry2');
-var _isPlaceholder = require('./_isPlaceholder');
-
-
-/**
- * Optimized internal three-arity curry function.
- *
- * @private
- * @category Function
- * @param {Function} fn The function to curry.
- * @return {Function} The curried function.
- */
-module.exports = function _curry3(fn) {
-  return function f3(a, b, c) {
-    switch (arguments.length) {
-      case 0:
-        return f3;
-      case 1:
-        return _isPlaceholder(a) ? f3
-             : _curry2(function(_b, _c) { return fn(a, _b, _c); });
-      case 2:
-        return _isPlaceholder(a) && _isPlaceholder(b) ? f3
-             : _isPlaceholder(a) ? _curry2(function(_a, _c) { return fn(_a, b, _c); })
-             : _isPlaceholder(b) ? _curry2(function(_b, _c) { return fn(a, _b, _c); })
-             : _curry1(function(_c) { return fn(a, b, _c); });
-      default:
-        return _isPlaceholder(a) && _isPlaceholder(b) && _isPlaceholder(c) ? f3
-             : _isPlaceholder(a) && _isPlaceholder(b) ? _curry2(function(_a, _b) { return fn(_a, _b, c); })
-             : _isPlaceholder(a) && _isPlaceholder(c) ? _curry2(function(_a, _c) { return fn(_a, b, _c); })
-             : _isPlaceholder(b) && _isPlaceholder(c) ? _curry2(function(_b, _c) { return fn(a, _b, _c); })
-             : _isPlaceholder(a) ? _curry1(function(_a) { return fn(_a, b, c); })
-             : _isPlaceholder(b) ? _curry1(function(_b) { return fn(a, _b, c); })
-             : _isPlaceholder(c) ? _curry1(function(_c) { return fn(a, b, _c); })
-             : fn(a, b, c);
-    }
-  };
-};
-
-},{"./_curry1":25,"./_curry2":26,"./_isPlaceholder":29}],28:[function(require,module,exports){
+},{"./_curry1":21,"./_isPlaceholder":24}],23:[function(require,module,exports){
 var _arity = require('./_arity');
 var _isPlaceholder = require('./_isPlaceholder');
 
@@ -1243,81 +1000,14 @@ module.exports = function _curryN(length, received, fn) {
   };
 };
 
-},{"./_arity":24,"./_isPlaceholder":29}],29:[function(require,module,exports){
+},{"./_arity":20,"./_isPlaceholder":24}],24:[function(require,module,exports){
 module.exports = function _isPlaceholder(a) {
   return a != null &&
          typeof a === 'object' &&
          a['@@functional/placeholder'] === true;
 };
 
-},{}],30:[function(require,module,exports){
-/**
- * An optimized, private array `slice` implementation.
- *
- * @private
- * @param {Arguments|Array} args The array or arguments object to consider.
- * @param {Number} [from=0] The array index to slice from, inclusive.
- * @param {Number} [to=args.length] The array index to slice to, exclusive.
- * @return {Array} A new, sliced array.
- * @example
- *
- *      _slice([1, 2, 3, 4, 5], 1, 3); //=> [2, 3]
- *
- *      var firstThreeArgs = function(a, b, c, d) {
- *        return _slice(arguments, 0, 3);
- *      };
- *      firstThreeArgs(1, 2, 3, 4); //=> [1, 2, 3]
- */
-module.exports = function _slice(args, from, to) {
-  switch (arguments.length) {
-    case 1: return _slice(args, 0, args.length);
-    case 2: return _slice(args, from, args.length);
-    default:
-      var list = [];
-      var idx = 0;
-      var len = Math.max(0, Math.min(args.length, to) - from);
-      while (idx < len) {
-        list[idx] = args[from + idx];
-        idx += 1;
-      }
-      return list;
-  }
-};
-
-},{}],31:[function(require,module,exports){
-var _curry2 = require('./internal/_curry2');
-
-
-/**
- * Retrieve the value at a given path.
- *
- * @func
- * @memberOf R
- * @since v0.2.0
- * @category Object
- * @sig [String] -> {k: v} -> v | Undefined
- * @param {Array} path The path to use.
- * @param {Object} obj The object to retrieve the nested property from.
- * @return {*} The data at `path`.
- * @example
- *
- *      R.path(['a', 'b'], {a: {b: 2}}); //=> 2
- *      R.path(['a', 'b'], {c: {b: 2}}); //=> undefined
- */
-module.exports = _curry2(function path(paths, obj) {
-  var val = obj;
-  var idx = 0;
-  while (idx < paths.length) {
-    if (val == null) {
-      return;
-    }
-    val = val[paths[idx]];
-    idx += 1;
-  }
-  return val;
-});
-
-},{"./internal/_curry2":26}],32:[function(require,module,exports){
+},{}],25:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -1336,7 +1026,7 @@ function thunkMiddleware(_ref) {
     };
   };
 }
-},{}],33:[function(require,module,exports){
+},{}],26:[function(require,module,exports){
 'use strict';
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
@@ -1394,7 +1084,7 @@ function applyMiddleware() {
     };
   };
 }
-},{"./compose":36}],34:[function(require,module,exports){
+},{"./compose":29}],27:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -1446,7 +1136,7 @@ function bindActionCreators(actionCreators, dispatch) {
   }
   return boundActionCreators;
 }
-},{}],35:[function(require,module,exports){
+},{}],28:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -1577,7 +1267,7 @@ function combineReducers(reducers) {
 }
 }).call(this,require('_process'))
 
-},{"./createStore":37,"./utils/warning":39,"_process":9,"lodash/isPlainObject":42}],36:[function(require,module,exports){
+},{"./createStore":30,"./utils/warning":32,"_process":7,"lodash/isPlainObject":35}],29:[function(require,module,exports){
 "use strict";
 
 exports.__esModule = true;
@@ -1607,7 +1297,7 @@ function compose() {
     }, last.apply(undefined, arguments));
   };
 }
-},{}],37:[function(require,module,exports){
+},{}],30:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -1824,7 +1514,7 @@ function createStore(reducer, initialState, enhancer) {
     replaceReducer: replaceReducer
   };
 }
-},{"lodash/isPlainObject":42}],38:[function(require,module,exports){
+},{"lodash/isPlainObject":35}],31:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -1874,7 +1564,7 @@ exports.applyMiddleware = _applyMiddleware2["default"];
 exports.compose = _compose2["default"];
 }).call(this,require('_process'))
 
-},{"./applyMiddleware":33,"./bindActionCreators":34,"./combineReducers":35,"./compose":36,"./createStore":37,"./utils/warning":39,"_process":9}],39:[function(require,module,exports){
+},{"./applyMiddleware":26,"./bindActionCreators":27,"./combineReducers":28,"./compose":29,"./createStore":30,"./utils/warning":32,"_process":7}],32:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -1899,7 +1589,7 @@ function warning(message) {
   } catch (e) {}
   /* eslint-enable no-empty */
 }
-},{}],40:[function(require,module,exports){
+},{}],33:[function(require,module,exports){
 /**
  * Checks if `value` is a host object in IE < 9.
  *
@@ -1921,7 +1611,7 @@ function isHostObject(value) {
 
 module.exports = isHostObject;
 
-},{}],41:[function(require,module,exports){
+},{}],34:[function(require,module,exports){
 /**
  * Checks if `value` is object-like. A value is object-like if it's not `null`
  * and has a `typeof` result of "object".
@@ -1951,7 +1641,7 @@ function isObjectLike(value) {
 
 module.exports = isObjectLike;
 
-},{}],42:[function(require,module,exports){
+},{}],35:[function(require,module,exports){
 var isHostObject = require('./_isHostObject'),
     isObjectLike = require('./isObjectLike');
 
@@ -2019,22 +1709,22 @@ function isPlainObject(value) {
 
 module.exports = isPlainObject;
 
-},{"./_isHostObject":40,"./isObjectLike":41}],43:[function(require,module,exports){
+},{"./_isHostObject":33,"./isObjectLike":34}],36:[function(require,module,exports){
 var createElement = require("./vdom/create-element.js")
 
 module.exports = createElement
 
-},{"./vdom/create-element.js":47}],44:[function(require,module,exports){
+},{"./vdom/create-element.js":40}],37:[function(require,module,exports){
 var diff = require("./vtree/diff.js")
 
 module.exports = diff
 
-},{"./vtree/diff.js":61}],45:[function(require,module,exports){
+},{"./vtree/diff.js":54}],38:[function(require,module,exports){
 var patch = require("./vdom/patch.js")
 
 module.exports = patch
 
-},{"./vdom/patch.js":50}],46:[function(require,module,exports){
+},{"./vdom/patch.js":43}],39:[function(require,module,exports){
 var isObject = require("is-object")
 var isHook = require("../vnode/is-vhook.js")
 
@@ -2133,7 +1823,7 @@ function getPrototype(value) {
     }
 }
 
-},{"../vnode/is-vhook.js":54,"is-object":19}],47:[function(require,module,exports){
+},{"../vnode/is-vhook.js":47,"is-object":17}],40:[function(require,module,exports){
 var document = require("global/document")
 
 var applyProperties = require("./apply-properties")
@@ -2181,7 +1871,7 @@ function createElement(vnode, opts) {
     return node
 }
 
-},{"../vnode/handle-thunk.js":52,"../vnode/is-vnode.js":55,"../vnode/is-vtext.js":56,"../vnode/is-widget.js":57,"./apply-properties":46,"global/document":17}],48:[function(require,module,exports){
+},{"../vnode/handle-thunk.js":45,"../vnode/is-vnode.js":48,"../vnode/is-vtext.js":49,"../vnode/is-widget.js":50,"./apply-properties":39,"global/document":15}],41:[function(require,module,exports){
 // Maps a virtual DOM tree onto a real DOM tree in an efficient manner.
 // We don't want to read all of the DOM nodes in the tree so we use
 // the in-order tree indexing to eliminate recursion down certain branches.
@@ -2268,7 +1958,7 @@ function ascending(a, b) {
     return a > b ? 1 : -1
 }
 
-},{}],49:[function(require,module,exports){
+},{}],42:[function(require,module,exports){
 var applyProperties = require("./apply-properties")
 
 var isWidget = require("../vnode/is-widget.js")
@@ -2421,7 +2111,7 @@ function replaceRoot(oldRoot, newRoot) {
     return newRoot;
 }
 
-},{"../vnode/is-widget.js":57,"../vnode/vpatch.js":59,"./apply-properties":46,"./update-widget":51}],50:[function(require,module,exports){
+},{"../vnode/is-widget.js":50,"../vnode/vpatch.js":52,"./apply-properties":39,"./update-widget":44}],43:[function(require,module,exports){
 var document = require("global/document")
 var isArray = require("x-is-array")
 
@@ -2503,7 +2193,7 @@ function patchIndices(patches) {
     return indices
 }
 
-},{"./create-element":47,"./dom-index":48,"./patch-op":49,"global/document":17,"x-is-array":64}],51:[function(require,module,exports){
+},{"./create-element":40,"./dom-index":41,"./patch-op":42,"global/document":15,"x-is-array":57}],44:[function(require,module,exports){
 var isWidget = require("../vnode/is-widget.js")
 
 module.exports = updateWidget
@@ -2520,7 +2210,7 @@ function updateWidget(a, b) {
     return false
 }
 
-},{"../vnode/is-widget.js":57}],52:[function(require,module,exports){
+},{"../vnode/is-widget.js":50}],45:[function(require,module,exports){
 var isVNode = require("./is-vnode")
 var isVText = require("./is-vtext")
 var isWidget = require("./is-widget")
@@ -2562,14 +2252,14 @@ function renderThunk(thunk, previous) {
     return renderedThunk
 }
 
-},{"./is-thunk":53,"./is-vnode":55,"./is-vtext":56,"./is-widget":57}],53:[function(require,module,exports){
+},{"./is-thunk":46,"./is-vnode":48,"./is-vtext":49,"./is-widget":50}],46:[function(require,module,exports){
 module.exports = isThunk
 
 function isThunk(t) {
     return t && t.type === "Thunk"
 }
 
-},{}],54:[function(require,module,exports){
+},{}],47:[function(require,module,exports){
 module.exports = isHook
 
 function isHook(hook) {
@@ -2578,7 +2268,7 @@ function isHook(hook) {
        typeof hook.unhook === "function" && !hook.hasOwnProperty("unhook"))
 }
 
-},{}],55:[function(require,module,exports){
+},{}],48:[function(require,module,exports){
 var version = require("./version")
 
 module.exports = isVirtualNode
@@ -2587,7 +2277,7 @@ function isVirtualNode(x) {
     return x && x.type === "VirtualNode" && x.version === version
 }
 
-},{"./version":58}],56:[function(require,module,exports){
+},{"./version":51}],49:[function(require,module,exports){
 var version = require("./version")
 
 module.exports = isVirtualText
@@ -2596,17 +2286,17 @@ function isVirtualText(x) {
     return x && x.type === "VirtualText" && x.version === version
 }
 
-},{"./version":58}],57:[function(require,module,exports){
+},{"./version":51}],50:[function(require,module,exports){
 module.exports = isWidget
 
 function isWidget(w) {
     return w && w.type === "Widget"
 }
 
-},{}],58:[function(require,module,exports){
+},{}],51:[function(require,module,exports){
 module.exports = "2"
 
-},{}],59:[function(require,module,exports){
+},{}],52:[function(require,module,exports){
 var version = require("./version")
 
 VirtualPatch.NONE = 0
@@ -2630,7 +2320,7 @@ function VirtualPatch(type, vNode, patch) {
 VirtualPatch.prototype.version = version
 VirtualPatch.prototype.type = "VirtualPatch"
 
-},{"./version":58}],60:[function(require,module,exports){
+},{"./version":51}],53:[function(require,module,exports){
 var isObject = require("is-object")
 var isHook = require("../vnode/is-vhook")
 
@@ -2690,7 +2380,7 @@ function getPrototype(value) {
   }
 }
 
-},{"../vnode/is-vhook":54,"is-object":19}],61:[function(require,module,exports){
+},{"../vnode/is-vhook":47,"is-object":17}],54:[function(require,module,exports){
 var isArray = require("x-is-array")
 
 var VPatch = require("../vnode/vpatch")
@@ -3119,7 +2809,7 @@ function appendPatch(apply, patch) {
     }
 }
 
-},{"../vnode/handle-thunk":52,"../vnode/is-thunk":53,"../vnode/is-vnode":55,"../vnode/is-vtext":56,"../vnode/is-widget":57,"../vnode/vpatch":59,"./diff-props":60,"x-is-array":64}],62:[function(require,module,exports){
+},{"../vnode/handle-thunk":45,"../vnode/is-thunk":46,"../vnode/is-vnode":48,"../vnode/is-vtext":49,"../vnode/is-widget":50,"../vnode/vpatch":52,"./diff-props":53,"x-is-array":57}],55:[function(require,module,exports){
 var hiddenStore = require('./hidden-store.js');
 
 module.exports = createStore;
@@ -3140,7 +2830,7 @@ function createStore() {
     };
 }
 
-},{"./hidden-store.js":63}],63:[function(require,module,exports){
+},{"./hidden-store.js":56}],56:[function(require,module,exports){
 module.exports = hiddenStore;
 
 function hiddenStore(obj, key) {
@@ -3158,7 +2848,7 @@ function hiddenStore(obj, key) {
     return store;
 }
 
-},{}],64:[function(require,module,exports){
+},{}],57:[function(require,module,exports){
 var nativeIsArray = Array.isArray
 var toString = Object.prototype.toString
 
@@ -3168,7 +2858,7 @@ function isArray(obj) {
     return toString.call(obj) === "[object Array]"
 }
 
-},{}]},{},[6])(6)
+},{}]},{},[5])(5)
 });
 
 

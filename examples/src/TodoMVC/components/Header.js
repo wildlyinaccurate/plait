@@ -11,7 +11,9 @@ export function init () {
 export function update (state, action) {
   switch (action.type) {
     case 'VALUE_CHANGED':
-      return state.set('inputValue', action.$event.target.value)
+      return Object.assign({}, state, {
+        inputValue: action.$event.target.value
+      })
   }
 }
 
@@ -29,7 +31,7 @@ export function view (state, dispatch) {
         ev-change={dispatchChangeAction}
         ev-keyup={dispatchChangeAction}
         placeholder="What needs to be done?"
-        value={state.get('inputValue')}
+        value={state.inputValue}
       />
     </header>
   )

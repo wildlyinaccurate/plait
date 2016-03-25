@@ -4,7 +4,6 @@ import { createStore, applyMiddleware } from 'redux'
 import thunk from 'redux-thunk'
 
 import vdom from './dom/virtual-dom'
-import State from './State'
 import * as delegator from './dom/delegator'
 
 
@@ -74,9 +73,8 @@ export function initializeComponent ({ init }, dispatch) {
 
 function handleInit (init) {
   const _res = init()
-  const res = Array.isArray(_res) ? _res : [_res]
 
-  return [new State(res[0]), res[1]]
+  return Array.isArray(_res) ? _res : [_res]
 }
 
 

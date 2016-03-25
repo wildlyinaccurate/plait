@@ -1,11 +1,10 @@
 import raf from 'raf'
 
 import { start } from './App'
-import State from './State'
 
 const componentWithState = (component, state) => {
   return Object.assign({}, component, {
-    init: () => state.toObject()
+    init: () => state
   })
 }
 
@@ -22,7 +21,7 @@ const componentToString = component => {
 export function render (component, update) {
   if (typeof update === 'function') {
     return new Promise(resolve => {
-      const initialState = new State(component.init())
+      const initialState = component.init()
 
       update(initialState, newState => {
         const newComponent = componentWithState(component, newState)

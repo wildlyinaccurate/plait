@@ -17,7 +17,9 @@ export function init (title) {
 export function update (state, action) {
   switch (action.type) {
     case 'SET_COMPLETED':
-      return state.set('completed', action.completed)
+      return Object.assign({}, state, {
+        completed: action.completed
+      })
 
     case 'START_EDIT':
       setTimeout(
@@ -25,13 +27,19 @@ export function update (state, action) {
         20
       )
 
-      return state.set('editing', true)
+      return Object.assign({}, state, {
+        editing: true
+      })
 
     case 'STOP_EDIT':
       if (!wasKeyEvent(action.$event) || wasEnterKey(action.$event)) {
-        return state.set('editing', false)
+        return Object.assign({}, state, {
+          editing: false
+        })
       } else {
-        return state.set('title', action.$event.target.value)
+        return Object.assign({}, state, {
+          title: action.$event.target.value
+        })
       }
   }
 }
@@ -39,15 +47,15 @@ export function update (state, action) {
 
 export function view (state, dispatch) {
   const itemClasses = [
-    state.get('completed') ? 'completed' : '',
-    state.get('editing') ? 'editing' : ''
+    state.completed ? 'completed' : '',
+    state.editing ? 'editing' : ''
   ].join(' ')
 
   return (
     <li className={itemClasses} ev-dblclick={dispatch({ type: 'START_EDIT' })}>
       <div className="view">
         {checkboxView(state, dispatch)}
-        <label>{state.get('title')}</label>
+        <label>{state.title}</label>
         <button className="destroy" ev-click={dispatch({ type: 'DELETE' })}></button>
       </div>
 
@@ -55,14 +63,14 @@ export function view (state, dispatch) {
         className="edit"
         ev-blur={dispatch({ type: 'STOP_EDIT' })}
         ev-keyup={dispatch({ type: 'STOP_EDIT' })}
-        value={state.get('title')}
+        value={state.title}
       />
     </li>
   )
 }
 
 function checkboxView (state, dispatch) {
-  if (state.get('completed')) {
+  if (state.completed) {
     return <input checked className="toggle" ev-change={dispatch(setCompleted(false))} type="checkbox" />
   } else {
     return <input className="toggle" ev-change={dispatch(setCompleted(true))} type="checkbox" />

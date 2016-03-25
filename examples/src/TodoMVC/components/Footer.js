@@ -14,14 +14,16 @@ export function init () {
 export function update (state, action) {
   switch (action.type) {
     case 'CHANGE_FILTER':
-      return state.set('filter', action.filter)
+      return Object.assign({}, state, {
+        filter: action.filter
+      })
   }
 }
 
 
 export function view (state, dispatch) {
-  const todos = state.get('todos')
-  const remaining = todos.filter(todo => !todo.get('completed'))
+  const todos = state.todos
+  const remaining = todos.filter(todo => !todo.completed)
   const items = remaining.length === 1 ? 'item' : 'items'
 
   return (
@@ -49,7 +51,7 @@ export function view (state, dispatch) {
 
 function filterLink (state, dispatch, filter) {
   const href = `#/${filter.toLowerCase()}`
-  const className = state.get('filter') === filter ? 'selected' : ''
+  const className = state.filter === filter ? 'selected' : ''
 
   return (
     <a className={className} ev-click={dispatch({ type: 'CHANGE_FILTER', filter })} href={href}>
