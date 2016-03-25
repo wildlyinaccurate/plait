@@ -208,7 +208,7 @@ var State = function () {
   _createClass(State, [{
     key: 'clone',
     value: function clone() {
-      return new State(this.toObject());
+      return new State(this.obj);
     }
   }, {
     key: 'toObject',
@@ -218,18 +218,22 @@ var State = function () {
   }, {
     key: 'set',
     value: function set(prop, val) {
-      var obj = this.toObject();
+      var newObj = {};
 
-      obj[prop] = val;
+      newObj[prop] = val;
 
-      return new State(obj);
+      return new State(Object.assign({}, this.obj, newObj));
     }
   }, {
     key: 'get',
     value: function get(prop) {
-      var obj = this.toObject();
+      var val = this.obj[prop];
 
-      return obj[prop];
+      if ((typeof val === 'undefined' ? 'undefined' : _typeof(val)) === 'object' && !val.hasOwnProperty('@@Plait/State')) {
+        return (0, _clone2.default)(val);
+      }
+
+      return val;
     }
   }, {
     key: 'update',
@@ -321,7 +325,7 @@ exports.default = clone;
 function clone(obj) {
   var newObj = Array.isArray(obj) ? [] : {};
 
-  Object.keys(obj).map(function (k) {
+  for (var k in obj) {
     var val = obj[k];
 
     if ((typeof val === 'undefined' ? 'undefined' : _typeof(val)) === 'object') {
@@ -333,7 +337,7 @@ function clone(obj) {
     } else {
       newObj[k] = val;
     }
-  });
+  }
 
   return newObj;
 }

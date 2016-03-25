@@ -1,7 +1,7 @@
 export default function clone (obj) {
   const newObj = Array.isArray(obj) ? [] : {}
 
-  Object.keys(obj).map(k => {
+  for (const k in obj) {
     const val = obj[k]
 
     if (typeof val === 'object') {
@@ -13,7 +13,7 @@ export default function clone (obj) {
     } else {
       newObj[k] = val
     }
-  })
+  }
 
   return newObj
 }

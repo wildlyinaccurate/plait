@@ -14,7 +14,7 @@ class State {
   }
 
   clone () {
-    return new State(this.toObject())
+    return new State(this.obj)
   }
 
   toObject () {
@@ -22,17 +22,21 @@ class State {
   }
 
   set (prop, val) {
-    const obj = this.toObject()
+    const newObj = {}
 
-    obj[prop] = val
+    newObj[prop] = val
 
-    return new State(obj)
+    return new State(Object.assign({}, this.obj, newObj))
   }
 
   get (prop) {
-    const obj = this.toObject()
+    const val = this.obj[prop]
 
-    return obj[prop]
+    if (typeof val === 'object' && !val.hasOwnProperty('@@Plait/State')) {
+      return clone(val)
+    }
+
+    return val
   }
 
   update (prop, updater) {

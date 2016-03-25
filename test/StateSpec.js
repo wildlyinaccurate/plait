@@ -24,12 +24,15 @@ describe('State', () => {
   })
 
   it('is actually immutable', () => {
-    const obj = { a: 1 }
+    const nestedObj = { a: { nested: 1 } }
+    const obj = { a: 1, deep: nestedObj }
     const state = new State(obj)
 
     obj.a = 2
+    state.get('deep').a.nested = 2
 
     expect(state.get('a')).toBe(1)
+    expect(state.get('deep').a.nested).toBe(1)
   })
 
   it('is deeply immutable', () => {
