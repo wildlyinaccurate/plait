@@ -1,3 +1,5 @@
+import raf from 'raf'
+
 import { start } from './App'
 import State from './State'
 
@@ -8,7 +10,7 @@ const componentWithState = (component, state) => {
 }
 
 const componentToString = component => {
-  const node = start(component)
+  const node = start(component, raf)
 
   if (node.outerHTML) {
     return node.outerHTML
