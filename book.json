@@ -1,5 +1,7 @@
 {
-  "gitbook": "3.0.0-pre.2",
+  "gitbook": "3.0.0-pre.5",
+  "root": "./docs",
+  "title": "Plait",
   "plugins": [
     "-highlight",
     "-sharing",
@@ -10,7 +12,7 @@
   ],
   "pluginsConfig": {
     "edit-link": {
-      "base": "https://github.com/wildlyinaccurate/plait/tree/master",
+      "base": "https://github.com/wildlyinaccurate/plait/tree/master/docs",
       "label": "Edit This Page"
     },
     "github": {
