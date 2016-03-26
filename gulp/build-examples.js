@@ -15,7 +15,7 @@ const jsxify = jsxTransform.browserifyTransform.configure({
 })
 
 function copyExamples () {
-  return gulp.src(`${src}/style.css`)
+  return gulp.src([`${src}/style.css`, `${src}/es5-shim.js`, `${src}/es6-shim.js`])
     .pipe(gulp.dest(dest))
 }
 

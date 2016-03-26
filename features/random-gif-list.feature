@@ -10,7 +10,7 @@ Feature: RandomGifList Component
     And I hit enter
     Then there should be a new cat gif
 
-    When I press the "More Please!" button
+    When I press the 1st "more" button
     Then there should be a new cat gif
     And there should be 2 total requests for "cats" gifs
 

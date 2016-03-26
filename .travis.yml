@@ -1,14 +1,17 @@
-language: node_js
+# Gambling on the fact that Node.js is present on all environments
+language: ruby
 
-node_js:
-  - node
+rvm:
+  - 2.2
 
-env:
-  - CXX=g++-4.8
+before_install:
+  - nvm install node
 
-addons:
-  apt:
-    sources:
-      - ubuntu-toolchain-r-test
-    packages:
-      - g++-4.8
+install:
+  - npm install
+  - bundle install
+
+before_script:
+  - cd examples/dist && python -m SimpleHTTPServer 8888 &
+
+script: npm run test
