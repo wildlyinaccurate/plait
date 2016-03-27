@@ -12,6 +12,7 @@ import browserify from './gulp/browserify'
 import buildExamples from './gulp/build-examples'
 
 gulp.task('build', ['compile', 'browserify', 'buildExamples', 'minify'])
+gulp.task('buildExamples', ['browserifyExamples', 'minifyExamples'])
 gulp.task('test', ['lint', 'jasmine', 'maxSize'])
 gulp.task('default', ['build', 'test'])
 
@@ -62,4 +63,10 @@ gulp.task('maxSize', ['browserify'], done => {
   })
 })
 
-gulp.task('buildExamples', buildExamples)
+gulp.task('browserifyExamples', buildExamples)
+
+gulp.task('minifyExamples', ['browserifyExamples'], () => {
+  return gulp.src('examples/dist/*.js')
+    .pipe(uglify())
+    .pipe(gulp.dest('examples/dist'))
+})

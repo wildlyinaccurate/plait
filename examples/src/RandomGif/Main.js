@@ -1,14 +1,7 @@
-import { start } from 'App'
+import startExampleApp from '../ExampleApp'
 import { init, update, view } from './RandomGif'
 
-const appNode = start({
-  init: init('funny cats'),
-  update,
-  view
-})
-
-document.getElementById('app').appendChild(appNode)
-
-document.querySelector('.description').innerHTML = `
-    This page demonstrates a single <a href="https://github.com/wildlyinaccurate/plait/blob/master/examples/src/RandomGif/RandomGif.js"><code>RandomGif</code></a> component.
-`
+startExampleApp(
+  { init: init('funny cats'), update, view },
+  `This page demonstrates a single <a href="https://github.com/wildlyinaccurate/plait/blob/master/examples/src/RandomGif/RandomGif.js"><code>RandomGif</code></a> component.`
+)

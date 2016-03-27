@@ -7,6 +7,7 @@ HOST = 'http://localhost:8888'
 
 Capybara.app = HOST
 Capybara.app_host = HOST
+Capybara.default_max_wait_time = 5
 
 Capybara.default_driver = :poltergeist
 Capybara.javascript_driver = :poltergeist
@@ -21,7 +22,10 @@ def first_input
   all('input').select { |i| i[:type] == 'text' }.first
 end
 
+def nth_element(className, nth)
+  find(:xpath, "(//*[@class='#{className}'])[#{nth}]", :visible => :all)
+end
+
 def click_nth_button(className, nth)
-  button = all(".#{className}", :visible => :all)[nth.to_i - 1]
-  button.trigger('click')
+  nth_element(className, nth).trigger('click')
 end
