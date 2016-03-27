@@ -12,6 +12,8 @@ install:
   - bundle install
 
 before_script:
+  - node --version
+  - phantomjs --version
   - cd examples/dist && python -m SimpleHTTPServer 8888 &
 
 script: npm run test
