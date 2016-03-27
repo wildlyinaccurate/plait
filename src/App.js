@@ -3,10 +3,7 @@ import curry from 'ramda/src/curry'
 import { createStore, applyMiddleware } from 'redux'
 import thunk from 'redux-thunk'
 
-import diff from 'virtual-dom/diff'
-import patch from 'virtual-dom/patch'
-import createElement from 'virtual-dom/create-element'
-
+import vdom from './dom/virtual-dom'
 import State from './State'
 import * as delegator from './dom/delegator'
 
@@ -16,7 +13,7 @@ delegator.listen()
 const createStoreWithMiddleware = applyMiddleware(thunk)(createStore)
 
 
-export function start (component) {
+export function start (component, raf = window.requestAnimationFrame) {
   const { init, update, view } = component
   const [initialState, initialAction] = handleInit(init)
 
@@ -35,15 +32,11 @@ export function start (component) {
     store.dispatch(initialAction)
   }
 
-  let tree = view(initialState, dispatch)
-  const rootNode = createElement(tree)
+  const render = state => view(state, dispatch)
+  const { rootNode, update: updateTree } = vdom(initialState, render, raf)
 
   store.subscribe(() => {
-    tree = patchTree(
-      rootNode,
-      tree,
-      view(store.getState(), dispatch)
-    )
+    updateTree(store.getState())
   })
 
   return rootNode
@@ -65,13 +58,6 @@ function makeDispatcher (store) {
 
     store.dispatch(action)
   }
-}
-
-
-function patchTree (rootNode, oldTree, newTree) {
-  patch(rootNode, diff(oldTree, newTree))
-
-  return newTree
 }
 
 
