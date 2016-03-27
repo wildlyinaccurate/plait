@@ -1,7 +1,7 @@
 last_image = nil
 
 Then(/^there should be a new cat gif$/) do
-  sleep(1.2)
+  sleep(1.6)
 
   current_image = find('img')[:src]
 
