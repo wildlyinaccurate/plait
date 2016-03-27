@@ -60,6 +60,14 @@ function view (state, dispatch) {
 }
 ```
 
+## Plait is Fast
+
+Plait is extremely fast compared to other popular JavaScript frameworks. Like [Mercury](https://github.com/Raynos/mercury) and [Elm](http://elm-lang.org/), this is in large part due to the use of [virtual-dom](https://github.com/Matt-Esch/virtual-dom) as well as a focus on **immutability** and **purity**.
+
+Using the [TodoMVC app](https://plait.js.org/examples/TodoMVC.html) as a benchmark, Plait performs better than Elm and almost as well as Mercury. You can [run the benchmark](https://wildlyinaccurate.com/todomvc-perf-comparison/) yourself to see.
+
+![](./performance-comparison.png)
+
 ## License
 
 The MIT License (MIT)
