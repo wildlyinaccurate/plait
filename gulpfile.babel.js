@@ -7,14 +7,12 @@ import uglify from 'gulp-uglify'
 import sourcemaps from 'gulp-sourcemaps'
 import eslint from 'gulp-eslint'
 import jasmine from 'gulp-jasmine'
-import cucumber from 'gulp-cucumber'
-import connect from 'gulp-connect'
 
 import browserify from './gulp/browserify'
 import buildExamples from './gulp/build-examples'
 
 gulp.task('build', ['compile', 'browserify', 'buildExamples', 'minify'])
-gulp.task('test', ['lint', 'jasmine', 'testExamples', 'maxSize'])
+gulp.task('test', ['lint', 'jasmine', 'maxSize'])
 gulp.task('default', ['build', 'test'])
 
 const MAX_BUILD_SIZE = 35000
@@ -50,22 +48,6 @@ gulp.task('lint', () => {
 gulp.task('jasmine', () => {
   return gulp.src('test/**/*.js')
     .pipe(jasmine())
-})
-
-gulp.task('connect', () => {
-  connect.server({
-    root: 'examples/dist',
-    port: 8888
-  })
-})
-
-gulp.task('testExamples', ['buildExamples', 'connect'], done => {
-  const cukes = cucumber({ 'steps': 'features/steps/steps.js' })
-    .on('end', connect.serverClose)
-    .on('error', done)
-
-  return gulp.src('features/*')
-    .pipe(cukes)
 })
 
 gulp.task('maxSize', ['browserify'], done => {
