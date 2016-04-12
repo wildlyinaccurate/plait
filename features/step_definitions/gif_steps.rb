@@ -1,7 +1,9 @@
 last_image = nil
 
 Then(/^there should be a new cat gif$/) do
-  sleep(1.6)
+  Timeout.timeout(Capybara.default_max_wait_time) do
+    loop until is_giphy_media_request?(page.driver.network_traffic.last)
+  end
 
   current_image = find('img')[:src]
 
@@ -15,7 +17,7 @@ end
 Then(/^there should be (\d+) total requests for "([^"]*)" gifs$/) do |n, topic|
   sleep(0.1)
 
-  is_topic_gif = self.method(:is_gif_request).curry.call(topic)
+  is_topic_gif = self.method(:is_giphy_api_request?).curry.call(topic)
   gifs = page.driver.network_traffic.select(&is_topic_gif)
 
   if (gifs.length != n.to_i) then
@@ -23,6 +25,10 @@ Then(/^there should be (\d+) total requests for "([^"]*)" gifs$/) do |n, topic|
   end
 end
 
-def is_gif_request(topic, request)
-  request.url.include?("&tag=#{topic}")
+def is_giphy_api_request?(topic, request)
+  request.url.include?('//api.giphy.com/') and request.url.include?("&tag=#{topic}")
+end
+
+def is_giphy_media_request?(request)
+  not request.url.index(/\/\/media[\d]+\.giphy\.com\//).nil?
 end
