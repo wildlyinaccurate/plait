@@ -2,6 +2,14 @@ import State from '../src/State'
 
 describe('State', () => {
 
+  it('should throw a TypeError when initialized without an object', () => {
+    const newState = x => () => new State(x)
+
+    expect(newState(10)).toThrowError(TypeError)
+    expect(newState('wahoo!')).toThrowError(TypeError)
+    expect(newState(x => x)).toThrowError(TypeError)
+  })
+
   it('should return the correct values', () => {
     const state1 = new State({ a: 1, b: 2 })
 
