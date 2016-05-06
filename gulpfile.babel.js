@@ -16,7 +16,7 @@ gulp.task('buildExamples', ['browserifyExamples', 'minifyExamples'])
 gulp.task('test', ['lint', 'jasmine', 'maxSize'])
 gulp.task('default', ['build', 'test'])
 
-const MAX_BUILD_SIZE = 35840
+const MAX_BUILD_SIZE = 40960
 
 gulp.task('compile', () => {
   return gulp.src('src/**/*.js')
