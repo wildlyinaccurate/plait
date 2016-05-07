@@ -27,11 +27,11 @@ The following is an example of an application composed of a single counter compo
 
 ```jsx
 import h from 'virtual-dom/h'
-import { App } from 'plait'
+import Plait from 'plait'
 
-const appNode = App.start({ init, update, view })
+const app = Plait.start({ init, update, view })
 
-document.getElementById('app').appendChild(appNode)
+Plait.render(document.getElementById('app'), app)
 
 function init () {
   return {

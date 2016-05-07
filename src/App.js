@@ -5,14 +5,17 @@ import thunk from 'redux-thunk'
 
 import vdom from './dom/virtual-dom'
 import State from './State'
-import * as delegator from './dom/delegator'
 
+import * as delegator from './dom/delegator'
 
 delegator.listen()
 
+
+const ROOT_IDENTIFIER = 'data-plaitroot'
 const createStoreWithMiddleware = applyMiddleware(thunk)(createStore)
 
 
+// Start a Plait app from a root component
 export function start (component, raf = window.requestAnimationFrame) {
   const { init, update, view } = component
   const [initialState, initialAction] = handleInit(init)
@@ -32,12 +35,28 @@ export function start (component, raf = window.requestAnimationFrame) {
     store.dispatch(initialAction)
   }
 
-  const render = state => view(state, dispatch)
-  const { rootNode, update: updateTree } = vdom(initialState, render, raf)
+  const renderComponent = state => view(state, dispatch)
+  const { rootNode, update: updateTree } = vdom(initialState, renderComponent, raf)
+
+  rootNode.setAttribute(ROOT_IDENTIFIER, '')
 
   store.subscribe(() => {
     updateTree(store.getState())
   })
+
+  return rootNode
+}
+
+
+// Render a Plait app node to a root DOM node
+export function render (appNode, rootNode) {
+  const staticNode = rootNode.querySelector(`[${ROOT_IDENTIFIER}]`)
+
+  if (staticNode) {
+    rootNode.replaceChild(appNode, staticNode)
+  } else {
+    rootNode.appendChild(appNode)
+  }
 
   return rootNode
 }

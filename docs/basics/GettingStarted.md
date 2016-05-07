@@ -9,11 +9,12 @@ The easiest way to get started with Plait is to clone the [Plait Skeleton App](h
 The recommended way to use Plait is with a CommonJS module loader like [Browserify](http://browserify.org/) or [webpack](https://webpack.github.io/). All of the examples in this documentation are written in [ES2015](http://babeljs.io/docs/learn-es2015/), which is recommended but not necessary.
 
 ```js
-import { App } from 'plait'
+import Plait from 'plait'
 import h from 'virtual-dom/h'
 
-const appNode = App.start({ init, update, view })
-document.getElementById('app').appendChild(appNode)
+const app = Plait.start({ init, update, view })
+
+Plait.render(document.getElementById('app'), app)
 
 function init () {
   return { name: 'Plait' }
@@ -82,8 +83,9 @@ It's still easy to use Plait without npm. Just take one of the [prebuilt Plait p
         }
       }
 
-      var appNode = plait.App.start(Component)
-      document.getElementById('app').appendChild(appNode)
+      var app = Plait.start(Component)
+
+      Plait.render(document.getElementById('app'), app)
     </script>
   </body>
 </html>

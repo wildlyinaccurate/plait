@@ -7,10 +7,12 @@ import buffer from 'vinyl-buffer'
 import sourcemaps from 'gulp-sourcemaps'
 import browserify from 'browserify'
 
+const ucfirst = text => text.substr(0, 1).toUpperCase() + text.substr(1)
+
 export default function (src, dest, name = src, transforms = []) {
   const b = browserify(src, {
     debug: true,
-    standalone: path.basename(name, '.js'),
+    standalone: ucfirst(path.basename(name, '.js')),
     transform: transforms,
     paths: ['./src']
   })
