@@ -24,11 +24,13 @@ describe('State', () => {
   })
 
   it('is immutable', () => {
-    const state1 = new State({ a: 1 })
+    const state1 = new State({ a: 1, b: null })
     const state2 = state1.set('a', 2)
 
     expect(state1.get('a')).toBe(1)
     expect(state2.get('a')).toBe(2)
+    expect(state1.get('b')).toBe(null)
+    expect(state2.get('b')).toBe(null)
   })
 
   it('is actually immutable', () => {
@@ -44,15 +46,17 @@ describe('State', () => {
   })
 
   it('is deeply immutable', () => {
-    const state1 = new State({
+    const obj = {
       foo: {
         baz: {
           bing: 1
         }
       }
-    })
+    }
 
+    const state1 = new State(obj)
     const state2 = state1.setIn(['foo', 'baz', 'bing'], 3)
+    obj.foo.baz = 'oops!'
 
     expect(state1.getIn(['foo', 'baz', 'bing'])).toBe(1)
     expect(state2.getIn(['foo', 'baz', 'bing'])).toBe(3)

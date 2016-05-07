@@ -1,4 +1,5 @@
 import assocPath from 'ramda/src/assocPath'
+import is from 'ramda/src/is'
 import path from 'ramda/src/path'
 
 import clone from './utils/clone'
@@ -32,7 +33,7 @@ class State {
   get (prop) {
     const val = this.obj[prop]
 
-    if (typeof val === 'object' && !val.hasOwnProperty('@@Plait/State')) {
+    if (is(Object, val) && !val.hasOwnProperty('@@Plait/State')) {
       return clone(val)
     }
 
