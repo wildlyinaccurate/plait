@@ -1,4 +1,4 @@
-(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.plait = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.Plait = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -9,6 +9,7 @@ exports.forwardDispatch = undefined;
 var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
 
 exports.start = start;
+exports.render = render;
 exports.initializeComponent = initializeComponent;
 
 var _curry = require('ramda/src/curry');
@@ -39,8 +40,10 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 delegator.listen();
 
+var ROOT_IDENTIFIER = 'data-plaitroot';
 var createStoreWithMiddleware = (0, _redux.applyMiddleware)(_reduxThunk2.default)(_redux.createStore);
 
+// Start a Plait app from a root component
 function start(component) {
   var raf = arguments.length <= 1 || arguments[1] === undefined ? window.requestAnimationFrame : arguments[1];
   var init = component.init;
@@ -75,19 +78,34 @@ function start(component) {
     store.dispatch(initialAction);
   }
 
-  var render = function render(state) {
+  var renderComponent = function renderComponent(state) {
     return view(state, dispatch);
   };
 
-  var _vdom = (0, _virtualDom2.default)(initialState, render, raf);
+  var _vdom = (0, _virtualDom2.default)(initialState, renderComponent, raf);
 
   var rootNode = _vdom.rootNode;
   var updateTree = _vdom.update;
 
 
+  rootNode.setAttribute(ROOT_IDENTIFIER, '');
+
   store.subscribe(function () {
     updateTree(store.getState());
   });
+
+  return rootNode;
+}
+
+// Render a Plait app node to a root DOM node
+function render(appNode, rootNode) {
+  var staticNode = rootNode.querySelector('[' + ROOT_IDENTIFIER + ']');
+
+  if (staticNode) {
+    rootNode.replaceChild(appNode, staticNode);
+  } else {
+    rootNode.appendChild(appNode);
+  }
 
   return rootNode;
 }
@@ -344,13 +362,11 @@ function VirtualDom(state, render, raf) {
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+    value: true
 });
-exports.State = exports.App = undefined;
+exports.State = exports.forwardDispatch = exports.initializeComponent = exports.render = exports.start = undefined;
 
 var _App = require('./App');
-
-var App = _interopRequireWildcard(_App);
 
 var _State = require('./State');
 
@@ -358,9 +374,10 @@ var _State2 = _interopRequireDefault(_State);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-exports.App = App;
+exports.start = _App.start;
+exports.render = _App.render;
+exports.initializeComponent = _App.initializeComponent;
+exports.forwardDispatch = _App.forwardDispatch;
 exports.State = _State2.default;
 },{"./App":1,"./State":2}],7:[function(require,module,exports){
 'use strict';
