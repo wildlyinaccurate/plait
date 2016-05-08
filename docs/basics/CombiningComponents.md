@@ -66,9 +66,9 @@ Since this component doesn't have any behaviour of its own, all it needs to do i
 Finally, this component needs a view.
 
 ```jsx
-import { App } from 'plait'
+import Plait from 'plait'
 
-const fwd = App.forwardDispatch
+const fwd = Plait.forwardDispatch
 
 export function view (state, dispatch) {
   const c1State = state.get('counter1')
@@ -88,4 +88,4 @@ export function view (state, dispatch) {
 
 Similar to the `update` function, this component only needs to pass each counter's state to `Counter.view` and let the `Counter` component worry about doing the rendering.
 
-In order to send actions from the `Counter` component to this component's `update` function, each counter needs a forwarder. This can be created with [`App.forwardDispatch`](../API/App.md#forwardDispatch). These forwarders will intercept any action from the `Counter` component and instead dispatch a new action directly to this component. The original action is stored in a special property, `$fwdAction`, so that it can be used later.
+In order to send actions from the `Counter` component to this component's `update` function, each counter needs a forwarder. This can be created with [`Plait.forwardDispatch`](../API/App.md#forwardDispatch). These forwarders will intercept any action from the `Counter` component and instead dispatch a new action directly to this component. The original action is stored in a special property, `$fwdAction`, so that it can be used later.

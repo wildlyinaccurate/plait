@@ -3,6 +3,7 @@
 The App object is the bread and butter of a Plait application. Even so, its API is tiny.
 
 * [`start(component)`](#start)
+* [`render(appNode, rootNode)`](#render)
 * [`initializeComponent(component, [dispatch])`](#initializeComponent)
 * [`forwardDispatch(action, dispatch, state)`](#forwardDispatch)
 
@@ -25,8 +26,28 @@ A [component object](../basics/Components.md) which has _all_ of the following p
 
 #### Returns
 
-([VirtualNode](https://github.com/Matt-Esch/virtual-dom/blob/v2.1.1/vnode/vnode.js)): The root node of the application. This can be inserted into the document to render an application on the page.
+(DOMNode): The root node of the application. This can be inserted into the document to render an application on the page.
 
+
+<hr>
+
+### <a id="render"></a> [`render(appNode, rootNode)`](#render)
+
+Renders a Plait application node to a DOM node.
+
+#### Arguments
+
+##### `appNode` (DOMNode)
+
+A Plait application node returned from `start(component)`.
+
+##### `rootNode` (DOMNode)
+
+The DOM node which the application node should be rendered to.
+
+#### Returns
+
+(DOMNode): The root DOM node.
 
 <hr>
 

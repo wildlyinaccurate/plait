@@ -1,4 +1,10 @@
-import * as App from './App'
+import { start, render, initializeComponent, forwardDispatch } from './App'
 import State from './State'
 
-export { App, State }
+export {
+    start,
+    render,
+    initializeComponent,
+    forwardDispatch,
+    State
+}
