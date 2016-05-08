@@ -1,0 +1,594 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <title>Asynchronous Actions · Plait</title>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.0.0-pre.13">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-prism/prism.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="StaticRendering.html" />
+    
+    
+    <link rel="prev" href="./" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        <li class="header">Table of Contents</li>
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../">
+            
+                <a href="../">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="../about/">
+            
+                <a href="../about/">
+            
+                    
+                    About
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.1" data-path="../about/Motivation.html">
+            
+                <a href="../about/Motivation.html">
+            
+                    
+                    Motivation
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="../basics/">
+            
+                <a href="../basics/">
+            
+                    
+                    Basics
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.1" data-path="../basics/GettingStarted.html">
+            
+                <a href="../basics/GettingStarted.html">
+            
+                    
+                    Getting Started
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.2" data-path="../basics/Components.html">
+            
+                <a href="../basics/Components.html">
+            
+                    
+                    Components
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3" data-path="../basics/Actions.html">
+            
+                <a href="../basics/Actions.html">
+            
+                    
+                    Actions
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.4" data-path="../basics/CombiningComponents.html">
+            
+                <a href="../basics/CombiningComponents.html">
+            
+                    
+                    Combining Components
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" data-path="../examples/">
+            
+                <a href="../examples/">
+            
+                    
+                    Examples
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.4.1" data-path="../examples/Counter.html">
+            
+                <a href="../examples/Counter.html">
+            
+                    
+                    Counter
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.2" data-path="../examples/CounterList.html">
+            
+                <a href="../examples/CounterList.html">
+            
+                    
+                    Dynamic List of Counters
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.3" data-path="../examples/RandomGif.html">
+            
+                <a href="../examples/RandomGif.html">
+            
+                    
+                    Random GIF Generators
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.4" data-path="../examples/RandomGifList.html">
+            
+                <a href="../examples/RandomGifList.html">
+            
+                    
+                    Dynamic List of Random GIF Generators
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.5" data-path="../examples/TodoMVC.html">
+            
+                <a href="../examples/TodoMVC.html">
+            
+                    
+                    TodoMVC App
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5" data-path="./">
+            
+                <a href="./">
+            
+                    
+                    Advanced Topics
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter active" data-level="1.5.1" data-path="AsynchronousActions.html">
+            
+                <a href="AsynchronousActions.html">
+            
+                    
+                    Asynchronous Actions
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.2" data-path="StaticRendering.html">
+            
+                <a href="StaticRendering.html">
+            
+                    
+                    Static Rendering
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6" data-path="../API/">
+            
+                <a href="../API/">
+            
+                    
+                    API Reference
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.6.1" data-path="../API/App.html">
+            
+                <a href="../API/App.html">
+            
+                    
+                    App
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.2" data-path="../API/State.html">
+            
+                <a href="../API/State.html">
+            
+                    
+                    State
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.3" data-path="../API/Static.html">
+            
+                <a href="../API/Static.html">
+            
+                    
+                    Static
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href=".." >Asynchronous Actions</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="asynchronous-actions">Asynchronous Actions</h1>
+<p>Components can perform asynchronous actions by dispatching a <a href="https://en.wikipedia.org/wiki/Thunk" _target="blank">thunk</a> instead of an action object.</p>
+<h2 id="whats-a-thunk">What&apos;s a thunk?</h2>
+<p>A thunk is just a function which can dispatch an action. You can do anything you like inside the function, and dispatch the action at any point. Some common use cases are:</p>
+<ul>
+<li>Fetching data</li>
+<li>Performing animations</li>
+<li>Setting timeouts</li>
+</ul>
+<p>Thunks take two arguments:</p>
+<ul>
+<li><code>dispatch</code> (Function) - a regular dispatcher function.</li>
+<li><code>getState</code> (Function) - a function which returns the current state of the component</li>
+</ul>
+<p>Since a thunk can dispatch an action, it is possible to chain asynchronous actions. This allows for much more complex scenarios where you need fine grained control over how actions flow through your component.</p>
+<h2 id="examples">Examples</h2>
+<p>Below are some examples of how to use asynchronous actions. The <a href="../examples/RandomGif.html">RandomGif example</a> also makes use of asynchronous actions.</p>
+<h3 id="wait-before-dispatching-an-action">Wait before dispatching an action</h3>
+<p>In this example, the <code>HELLO</code> action is dispatched one second after the Hello! button is clicked.</p>
+<pre><code class="lang-jsx"><span class="token comment" spellcheck="true">// Thunks can be dispatched in the normal way from view()</span>
+<span class="token keyword">function</span> view <span class="token punctuation">(</span>state<span class="token punctuation">,</span> dispatch<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">return</span> <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>button</span> <span class="token attr-name">ev-click</span><span class="token script language-javascript"><span class="token punctuation">=</span><span class="token punctuation">{</span><span class="token function">hello</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">}</span></span><span class="token punctuation">&gt;</span></span>Hello<span class="token operator">!</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>button</span><span class="token punctuation">&gt;</span></span>
+<span class="token punctuation">}</span>
+
+<span class="token comment" spellcheck="true">// The thunk can dispatch a regular action object</span>
+<span class="token keyword">function</span> hello <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">return</span> dispatch <span class="token operator">=</span><span class="token operator">&gt;</span> <span class="token punctuation">{</span>
+    <span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">&gt;</span> <span class="token punctuation">{</span>
+      <span class="token function">dispatch</span><span class="token punctuation">(</span><span class="token punctuation">{</span> type<span class="token punctuation">:</span> <span class="token string">&apos;HELLO&apos;</span> <span class="token punctuation">}</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token number">1000</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h3 id="fetching-data-before-dispatching-an-action">Fetching data before dispatching an action</h3>
+<p>In this example, the <code>RECEIVE_GIF</code> action is dispatched after the response from a <code>fetch</code> is returned.</p>
+<pre><code class="lang-jsx"><span class="token comment" spellcheck="true">// Use dispatch() in the view to dispatch a thunk</span>
+<span class="token keyword">function</span> view <span class="token punctuation">(</span>state<span class="token punctuation">,</span> dispatch<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">return</span> <span class="token punctuation">(</span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>button</span> <span class="token attr-name">ev-click</span><span class="token script language-javascript"><span class="token punctuation">=</span><span class="token punctuation">{</span><span class="token function">dispatch</span><span class="token punctuation">(</span><span class="token function">getGifs</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">}</span></span><span class="token punctuation">&gt;</span></span>
+      Get another GIF<span class="token operator">!</span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>button</span><span class="token punctuation">&gt;</span></span>
+  <span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment" spellcheck="true">// Return a thunk which fetches some data, builds an action from the response,</span>
+<span class="token comment" spellcheck="true">// and then dispatches that action</span>
+<span class="token keyword">function</span> getGifs <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">return</span> dispatch <span class="token operator">=</span><span class="token operator">&gt;</span> <span class="token punctuation">{</span>
+    <span class="token function">fetch</span><span class="token punctuation">(</span><span class="token string">&apos;https://api.giphy.com/v1/gifs/random&apos;</span><span class="token punctuation">)</span>
+      <span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span>response <span class="token operator">=</span><span class="token operator">&gt;</span> response<span class="token punctuation">.</span><span class="token function">json</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+      <span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span>response <span class="token operator">=</span><span class="token operator">&gt;</span> <span class="token function">dispatch</span><span class="token punctuation">(</span><span class="token function">receiveGif</span><span class="token punctuation">(</span>response<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment" spellcheck="true">// Create a plain action object out of the response</span>
+<span class="token keyword">function</span> receiveGif <span class="token punctuation">(</span>response<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">return</span> <span class="token punctuation">{</span>
+    type<span class="token punctuation">:</span> <span class="token string">&apos;RECEIVE_GIF&apos;</span><span class="token punctuation">,</span>
+    url<span class="token punctuation">:</span> response<span class="token punctuation">.</span>data<span class="token punctuation">.</span>fixed_height_small_url
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<blockquote>
+<p><strong>Note</strong>: Under the hood, Plait uses <a href="https://github.com/gaearon/redux-thunk" _target="blank">Thunk middleware for Redux</a> to enable asynchronous actions.</p>
+</blockquote>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="./" class="navigation navigation-prev " aria-label="Previous page: Advanced Topics">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="StaticRendering.html" class="navigation navigation-next " aria-label="Next page: Static Rendering">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"Asynchronous Actions","level":"1.5.1","depth":3,"next":{"title":"Static Rendering","level":"1.5.2","depth":3,"path":"advanced/StaticRendering.md","articles":[]},"previous":{"title":"Advanced Topics","level":"1.5","depth":2,"path":"advanced/README.md","articles":[{"title":"Asynchronous Actions","level":"1.5.1","depth":3,"path":"advanced/AsynchronousActions.md","articles":[]},{"title":"Static Rendering","level":"1.5.2","depth":3,"path":"advanced/StaticRendering.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["-highlight","-sharing","edit-link","ga","github","prism"],"root":"./docs","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"edit-link":{"base":"https://github.com/wildlyinaccurate/plait/tree/master/docs","label":"Edit This Page"},"github":{"url":"https://github.com/wildlyinaccurate/plait"},"ga":{"token":"UA-72072909-1","configuration":{"siteSpeedSampleRate":10}},"prism":{},"search":{},"lunr":{"maxIndexSize":1000000},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Plait","gitbook":"3.0.0-pre.13"},"file":{"path":"advanced/AsynchronousActions.md","mtime":"2016-02-05T23:23:41.000Z","type":"markdown"},"gitbook":{"version":"3.0.0-pre.13","time":"2016-05-08T10:22:05.943Z"},"basePath":"..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../gitbook/gitbook.js"></script>
+    <script src="../gitbook/theme.js"></script>
+    
+        
+        <script src="../gitbook/gitbook-plugin-edit-link/plugin.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-ga/plugin.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-github/plugin.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-fontsettings/buttons.js"></script>
+        
+    
+
+    </body>
+</html>
+
