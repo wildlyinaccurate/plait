@@ -14,9 +14,9 @@ const componentToString = component => {
 
   if (node.outerHTML) {
     return node.outerHTML
-  } else {
-    return node.toString()
   }
+
+  return node.toString()
 }
 
 export function render (component, update) {
@@ -30,7 +30,7 @@ export function render (component, update) {
         resolve(componentToString(newComponent))
       })
     })
-  } else {
-    return componentToString(component)
   }
+
+  return componentToString(component)
 }

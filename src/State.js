@@ -44,13 +44,13 @@ class State {
     return this.set(prop, updater(this.get(prop)))
   }
 
-  setIn(propPath, val) {
+  setIn (propPath, val) {
     const obj = assocPath(propPath, val, this.obj)
 
     return new State(obj)
   }
 
-  getIn(propPath) {
+  getIn (propPath) {
     return path(propPath, this.obj)
   }
 }

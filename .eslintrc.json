@@ -4,15 +4,13 @@
     "node": true,
     "browser": true
   },
-  "extends": "eslint:recommended",
+  "extends": "standard",
   "parserOptions": {
     "sourceType": "module"
   },
   "rules": {
-    "indent": [2, 2],
-    "linebreak-style": [2, "unix"],
-    "quotes": [2, "single"],
-    "semi": [2, "never"],
-    "arrow-parens": [2, "as-needed"]
+    "arrow-parens": ["error", "as-needed"],
+    "no-else-return": "error",
+    "no-multiple-empty-lines": "off"
   }
 }

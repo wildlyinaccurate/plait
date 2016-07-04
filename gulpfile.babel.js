@@ -56,7 +56,7 @@ gulp.task('jasmine', () => {
 })
 
 gulp.task('maxSize', ['browserify'], done => {
-  fs.stat('dist/plait.min.js', (err, stats) => {
+  fs.stat('dist/plait.min.js', (_, stats) => {
     const kb = b => Math.floor(b / 1000)
 
     if (stats.size > MAX_BUILD_SIZE) {
