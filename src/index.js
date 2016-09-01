@@ -1,5 +1,5 @@
-import { start, render, initializeComponent, forwardDispatch } from './App'
-import State from './State'
+import { start, render, initializeComponent, forwardDispatch } from './app'
+import State from './state'
 
 export {
     start,

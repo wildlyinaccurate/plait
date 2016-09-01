@@ -1,5 +1,5 @@
 import h from 'virtual-dom/h'
-import { initializeComponent, forwardDispatch } from 'App'
+import { initializeComponent, forwardDispatch } from 'app'
 
 import * as Counter from '../Counter/Counter'
 

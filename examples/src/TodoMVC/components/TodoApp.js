@@ -1,5 +1,5 @@
 import h from 'virtual-dom/h'
-import * as App from 'App'
+import * as Plait from 'app'
 
 import * as Header from './Header'
 import * as TodoItem from './TodoItem'
@@ -10,7 +10,7 @@ import { FILTER_ALL, FILTER_ACTIVE, FILTER_COMPLETED } from '../utils/filters'
 import merge from '../utils/merge'
 
 
-const [fwd, initComponent] = [App.forwardDispatch, App.initializeComponent]
+const [fwd, initComponent] = [Plait.forwardDispatch, Plait.initializeComponent]
 
 export function init () {
   return merge({ todos: [] }, Header.init(), Footer.init())

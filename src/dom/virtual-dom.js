@@ -2,13 +2,23 @@ import create from 'virtual-dom/create-element'
 import diff from 'virtual-dom/diff'
 import patch from 'virtual-dom/patch'
 
-export default function VirtualDom (state, render, raf) {
+import domToVdom from './dom-to-vdom'
+
+export const createRoot = tree => create(tree)
+
+export function patchDomNode (oldNode, newNode) {
+  const oldVNode = domToVdom(oldNode)
+  const newVNode = domToVdom(newNode)
+  const patches = diff(oldVNode, newVNode)
+
+  return patch(oldVNode, patches)
+}
+
+export function createRenderCycle (rootNode, tree, render, raf) {
   let renderScheduled = false
   let latestState = null
-  let tree = render(state)
-  const rootNode = create(tree)
 
-  const update = newState => {
+  return newState => {
     if (latestState === null && renderScheduled === false) {
       renderScheduled = true
 
@@ -29,6 +39,4 @@ export default function VirtualDom (state, render, raf) {
 
     latestState = newState
   }
-
-  return { rootNode, update }
 }

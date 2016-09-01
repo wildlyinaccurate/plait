@@ -1,4 +1,4 @@
-import State from '../src/State'
+import State from '../src/state'
 
 describe('State', () => {
 

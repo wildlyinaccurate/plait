@@ -1,4 +1,4 @@
-import { start, render } from 'App'
+import { start, render } from 'app'
 
 import es5 from 'es5-shim'
 import es6 from 'es6-shim'

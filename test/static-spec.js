@@ -1,4 +1,4 @@
-import { render } from '../src/Static'
+import { render } from '../src/static'
 import h from 'virtual-dom/h'
 import { map, toUpper } from 'ramda'
 

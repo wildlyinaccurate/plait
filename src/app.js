@@ -3,9 +3,8 @@ import curry from 'ramda/src/curry'
 import { createStore, applyMiddleware } from 'redux'
 import thunk from 'redux-thunk'
 
-import vdom from './dom/virtual-dom'
 import State from './State'
-
+import * as vdom from './dom/virtual-dom'
 import * as delegator from './dom/delegator'
 
 delegator.listen()
@@ -36,7 +35,9 @@ export function start (component, raf = window.requestAnimationFrame) {
   }
 
   const renderComponent = state => view(state, dispatch)
-  const { rootNode, update: updateTree } = vdom(initialState, renderComponent, raf)
+  const initialTree = renderComponent(initialState)
+  const rootNode = vdom.createRoot(initialTree)
+  const updateTree = vdom.createRenderCycle(rootNode, initialTree, renderComponent, raf)
 
   rootNode.setAttribute(ROOT_IDENTIFIER, '')
 
@@ -53,7 +54,7 @@ export function render (appNode, rootNode) {
   const staticNode = rootNode.querySelector(`[${ROOT_IDENTIFIER}]`)
 
   if (staticNode) {
-    rootNode.replaceChild(appNode, staticNode)
+    vdom.patchDomNode(appNode, staticNode)
   } else {
     rootNode.appendChild(appNode)
   }

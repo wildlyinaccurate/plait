@@ -1,7 +1,7 @@
 import raf from 'raf'
 
 import { start } from './App'
-import State from './State'
+import State from './state'
 
 const componentWithState = (component, state) => {
   return Object.assign({}, component, {
