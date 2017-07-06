@@ -11,7 +11,7 @@ import jasmine from 'gulp-jasmine'
 import browserify from './gulp/browserify'
 import buildExamples from './gulp/build-examples'
 
-gulp.task('build', ['apply-production-env', 'compile', 'browserify', 'buildExamples', 'minify'])
+gulp.task('build', ['apply-production-env', 'compile', 'buildExamples', 'minify'])
 gulp.task('buildExamples', ['apply-production-env', 'browserifyExamples', 'minifyExamples'])
 gulp.task('test', ['lint', 'jasmine', 'maxSize'])
 gulp.task('default', ['build', 'test'])

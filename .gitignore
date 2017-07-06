@@ -1,3 +1,5 @@
 node_modules/
 _book/
 examples/dist/
+package-lock.json
+dist/webpack-bundle-analyzer.html
