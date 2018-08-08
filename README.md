@@ -2,10 +2,9 @@
 
 Plait is a minimal JavaScript framework for building isomorphic reactive web components. It is loosely based on <a href="https://github.com/evancz/elm-architecture-tutorial/">The Elm Architecture</a> and Elm's <a href="https://github.com/evancz/start-app"><code>StartApp</code></a>.
 
-[![build status](https://img.shields.io/travis/wildlyinaccurate/plait/master.svg?style=flat-square)](https://travis-ci.org/wildlyinaccurate/plait)
-[![npm version](https://img.shields.io/npm/v/plait.svg?style=flat-square)](https://www.npmjs.com/package/plait)
-[![dependency status](https://img.shields.io/david/wildlyinaccurate/plait.svg?style=flat-square)](http://david-dm.org/wildlyinaccurate/plait)
-![stability-unstable](https://img.shields.io/badge/stability-unstable-yellow.svg?style=flat-square)
+![npm bundle size (minified + gzip)](https://img.shields.io/bundlephobia/minzip/plait.svg?style=for-the-badge)
+![Build Status](https://img.shields.io/travis/wildlyinaccurate/plait.svg?style=for-the-badge)
+![stability-unstable](https://img.shields.io/badge/stability-unstable-yellow.svg?style=for-the-badge)
 
 ## The Basic Idea
 
