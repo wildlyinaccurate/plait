@@ -5,7 +5,6 @@ require 'capybara/rspec'
 
 HOST = 'http://localhost:8888'
 
-Capybara.app = HOST
 Capybara.app_host = HOST
 Capybara.default_max_wait_time = 5
 
