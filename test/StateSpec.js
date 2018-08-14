@@ -1,7 +1,6 @@
 import State from '../src/State'
 
 describe('State', () => {
-
   it('should throw a TypeError when initialized without an object', () => {
     const newState = x => () => new State(x)
 
@@ -79,5 +78,4 @@ describe('State', () => {
       expect(state2.get('a')).toBe(2)
     })
   })
-
 })

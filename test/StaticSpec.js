@@ -19,12 +19,14 @@ const TestComponent = {
 }
 
 describe('Static', () => {
-
-  it('should render a component with its initial state by default', () => {
-    expect(render(TestComponent)).toBe('<ul data-plaitroot=""><li>Fish</li><li>Cookies</li><li>Halloumi</li></ul>')
+  it('should render a component with its initial state by default', done => {
+    render(TestComponent).then(html => {
+      expect(html).toBe('<ul data-plaitroot=""><li>Fish</li><li>Cookies</li><li>Halloumi</li></ul>')
+      done()
+    })
   })
 
-  it('should allow state to be manipulated', (done) => {
+  it('should allow state to be manipulated', done => {
     const update = (state, cb) => {
       setTimeout(() => {
         cb(state.update('likes', map(toUpper)))
@@ -33,9 +35,7 @@ describe('Static', () => {
 
     render(TestComponent, update).then(html => {
       expect(html).toBe('<ul data-plaitroot=""><li>FISH</li><li>COOKIES</li><li>HALLOUMI</li></ul>')
-
       done()
     })
   })
-
 })

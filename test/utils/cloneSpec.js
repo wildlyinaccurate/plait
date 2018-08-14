@@ -2,7 +2,6 @@ import clone from '../../src/utils/clone'
 import State from '../../src/State'
 
 describe('utils/clone', () => {
-
   it('performs a shallow clone', () => {
     const o1 = { a: 1 }
     const o2 = clone(o1)
@@ -10,7 +9,7 @@ describe('utils/clone', () => {
     o2.a = 2
 
     expect(o1.a).toBe(1)
-    expect(o2).toEqual({ a: 2})
+    expect(o2).toEqual({ a: 2 })
   })
 
   it('clones arrays', () => {
@@ -61,5 +60,4 @@ describe('utils/clone', () => {
     expect(o2.m.get('a')).toBe(2)
     expect(o2.m.get('m').get('b')).toBe(1)
   })
-
 })

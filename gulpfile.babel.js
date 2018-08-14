@@ -12,7 +12,7 @@ gulp.task('default', ['test'])
 const MAX_BUILD_SIZE = 40960
 
 gulp.task('lint', () => {
-  return gulp.src(['src/**/*.js', 'examples/src/**/*.js', 'features/**/*.js', 'gulpfile.babel.js', 'gulp/*.js'])
+  return gulp.src(['src/**/*.js', 'examples/src/**/*.js', 'test/**/*.js', 'gulpfile.babel.js', 'gulp/*.js'])
     .pipe(eslint())
     .pipe(eslint.format())
     .pipe(eslint.failAfterError())
