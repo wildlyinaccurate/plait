@@ -1,4 +1,4 @@
-import h from 'virtual-dom/h'
+import { h } from 'plait'
 
 
 export function init () {

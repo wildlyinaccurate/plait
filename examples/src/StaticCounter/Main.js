@@ -15,7 +15,7 @@ $qs('.description').innerHTML = description
 // Render the static component
 const updater = (state, done) => done(state.set('count', 9999))
 
-render(StaticCounter, updater).then((html) => {
+render(StaticCounter, updater).then(html => {
   appNode.innerHTML = html
 })
 
@@ -32,4 +32,4 @@ btn.addEventListener('click', () => {
   )
 })
 
-appNode.parentNode.insertBefore(btn, appNode);
+appNode.parentNode.insertBefore(btn, appNode)

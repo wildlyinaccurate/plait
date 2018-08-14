@@ -1,4 +1,4 @@
-import h from 'virtual-dom/h'
+import { h } from 'plait'
 
 import { wasEnterKey, wasKeyEvent } from '../utils/input'
 
@@ -30,9 +30,9 @@ export function update (state, action) {
     case 'STOP_EDIT':
       if (!wasKeyEvent(action.$event) || wasEnterKey(action.$event)) {
         return state.set('editing', false)
-      } else {
-        return state.set('title', action.$event.target.value)
       }
+
+      return state.set('title', action.$event.target.value)
   }
 }
 
@@ -64,9 +64,9 @@ export function view (state, dispatch) {
 function checkboxView (state, dispatch) {
   if (state.get('completed')) {
     return <input checked className="toggle" ev-change={dispatch(setCompleted(false))} type="checkbox" />
-  } else {
-    return <input className="toggle" ev-change={dispatch(setCompleted(true))} type="checkbox" />
   }
+
+  return <input className="toggle" ev-change={dispatch(setCompleted(true))} type="checkbox" />
 }
 
 function setCompleted (completed) {

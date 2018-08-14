@@ -1,5 +1,4 @@
-import h from 'virtual-dom/h'
-import { initializeComponent, forwardDispatch } from 'App'
+import { h, initializeComponent, forwardDispatch } from 'plait'
 
 import * as RandomGif from '../RandomGif/RandomGif'
 
@@ -28,9 +27,9 @@ export function update (state, action, dispatch) {
         )
 
         return state.update('gifs', gifs => gifs.concat(randomGif))
-      } else {
-        return state.set('topic', value)
       }
+
+      return state.set('topic', value)
 
     case 'MODIFY':
       return state.update('gifs', gifs => gifs.map(updateGif(action)))
@@ -41,9 +40,9 @@ function updateGif (action) {
   return (gifState, idx) => {
     if (idx === action.gifIdx) {
       return RandomGif.update(gifState, action.$fwdAction)
-    } else {
-      return gifState
     }
+
+    return gifState
   }
 }
 

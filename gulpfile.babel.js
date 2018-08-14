@@ -1,50 +1,18 @@
 import fs from 'fs'
-
 import gulp from 'gulp'
-import rename from 'gulp-rename'
-import babel from 'gulp-babel'
-import uglify from 'gulp-uglify'
-import sourcemaps from 'gulp-sourcemaps'
 import eslint from 'gulp-eslint'
 import jasmine from 'gulp-jasmine'
+import rename from 'gulp-rename'
+import replace from 'gulp-replace'
+import merge from 'merge-stream'
 
-import browserify from './gulp/browserify'
-import buildExamples from './gulp/build-examples'
-
-gulp.task('build', ['apply-production-env', 'compile', 'buildExamples', 'minify'])
-gulp.task('buildExamples', ['apply-production-env', 'browserifyExamples', 'minifyExamples'])
 gulp.task('test', ['lint', 'jasmine', 'maxSize'])
-gulp.task('default', ['build', 'test'])
+gulp.task('default', ['test'])
 
 const MAX_BUILD_SIZE = 40960
 
-gulp.task('apply-production-env', () => {
-  process.env.NODE_ENV = 'production'
-})
-
-gulp.task('compile', () => {
-  return gulp.src('src/**/*.js')
-    .pipe(babel({
-      presets: 'es2015'
-    }))
-    .pipe(gulp.dest('lib'))
-})
-
-gulp.task('browserify', ['compile'], () => {
-  return browserify('lib/index.js', 'dist', 'plait.js')
-})
-
-gulp.task('minify', ['browserify'], () => {
-  return gulp.src('dist/plait.js')
-    .pipe(rename('plait.min.js'))
-    .pipe(sourcemaps.init({ loadMaps: true }))
-    .pipe(uglify())
-    .pipe(sourcemaps.write('.'))
-    .pipe(gulp.dest('dist'))
-})
-
 gulp.task('lint', () => {
-  return gulp.src(['src/**/*.js', 'features/**/*.js', 'gulpfile.babel.js', 'gulp/*.js'])
+  return gulp.src(['src/**/*.js', 'examples/src/**/*.js', 'features/**/*.js', 'gulpfile.babel.js', 'gulp/*.js'])
     .pipe(eslint())
     .pipe(eslint.format())
     .pipe(eslint.failAfterError())
@@ -55,7 +23,7 @@ gulp.task('jasmine', () => {
     .pipe(jasmine())
 })
 
-gulp.task('maxSize', ['browserify'], done => {
+gulp.task('maxSize', done => {
   fs.stat('dist/plait.min.js', (_, stats) => {
     const kb = b => Math.floor(b / 1000)
 
@@ -67,10 +35,25 @@ gulp.task('maxSize', ['browserify'], done => {
   })
 })
 
-gulp.task('browserifyExamples', buildExamples)
+gulp.task('buildExamples', () => {
+  const streams = merge(copyExamples())
+  const examples = fs.readdirSync('examples/src').filter(f => fs.statSync(`examples/src/${f}`).isDirectory())
 
-gulp.task('minifyExamples', ['browserifyExamples'], () => {
-  return gulp.src('examples/dist/*.js')
-    .pipe(uglify())
-    .pipe(gulp.dest('examples/dist'))
+  examples.forEach(example => {
+    streams.add(buildPage(example))
+  })
+
+  return streams
 })
+
+function copyExamples () {
+  return gulp.src(['examples/src/style.css'])
+    .pipe(gulp.dest('examples/dist'))
+}
+
+function buildPage (example) {
+  return gulp.src('examples/src/example.tmpl.html')
+    .pipe(replace('{{component}}', example))
+    .pipe(rename(`${example}.html`))
+    .pipe(gulp.dest('examples/dist'))
+}

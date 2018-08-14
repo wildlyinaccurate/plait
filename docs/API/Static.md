@@ -29,6 +29,4 @@ See [Static Rendering](../advanced/StaticRendering.md) for more information.
 
 #### Returns
 
-If `updater` **is not** supplied: (String) The rendered HTML.
-
-If `updater` **is** supplied: (Promise) A promise which resolves with the rendered HTML after the updater has been run.
+(Promise) A promise which resolves with the rendered HTML after the updater has been run (if one was provided).

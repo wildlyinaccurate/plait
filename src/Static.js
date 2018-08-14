@@ -20,8 +20,8 @@ const componentToString = component => {
 }
 
 export function render (component, update) {
-  if (typeof update === 'function') {
-    return new Promise(resolve => {
+  return new Promise(resolve => {
+    if (typeof update === 'function') {
       const initialState = new State(component.init())
 
       update(initialState, newState => {
@@ -29,8 +29,8 @@ export function render (component, update) {
 
         resolve(componentToString(newComponent))
       })
-    })
-  }
-
-  return componentToString(component)
+    } else {
+      resolve(componentToString(component))
+    }
+  })
 }

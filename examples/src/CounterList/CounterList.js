@@ -1,5 +1,4 @@
-import h from 'virtual-dom/h'
-import { initializeComponent, forwardDispatch } from 'App'
+import { h, initializeComponent, forwardDispatch } from 'plait'
 
 import * as Counter from '../Counter/Counter'
 
@@ -14,9 +13,9 @@ export function init () {
 const updateCounter = action => (counterState, idx) => {
   if (idx === action.counterIdx) {
     return Counter.update(counterState, action.$fwdAction)
-  } else {
-    return counterState
   }
+
+  return counterState
 }
 
 export function update (state, action) {

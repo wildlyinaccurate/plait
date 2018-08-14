@@ -1,5 +1,4 @@
-import h from 'virtual-dom/h'
-import * as App from 'App'
+import { h, forwardDispatch, initializeComponent } from 'plait'
 
 import * as Header from './Header'
 import * as TodoItem from './TodoItem'
@@ -10,7 +9,7 @@ import { FILTER_ALL, FILTER_ACTIVE, FILTER_COMPLETED } from '../utils/filters'
 import merge from '../utils/merge'
 
 
-const [fwd, initComponent] = [App.forwardDispatch, App.initializeComponent]
+const [fwd, initComponent] = [forwardDispatch, initializeComponent]
 
 export function init () {
   return merge({ todos: [] }, Header.init(), Footer.init())
@@ -47,16 +46,14 @@ function updateHeader (state, action) {
     const newTodo = initComponent({ init: TodoItem.init(value) })
 
     return state.update('todos', todos => todos.concat(newTodo)).set('inputValue', '')
-  } else {
-    return Header.update(state, action.$fwdAction)
   }
+
+  return Header.update(state, action.$fwdAction)
 }
 
 function updateFooter (state, action) {
   if (action.$fwdAction.type === 'CLEAR_COMPLETED') {
-    return state.update('todos', function(todos) {
-      return todos.filter(todo => !todo.get('completed'))
-    })
+    return state.update('todos', todos => todos.filter(todo => !todo.get('completed')))
   }
 
   return Footer.update(state, action.$fwdAction)
@@ -65,9 +62,9 @@ function updateFooter (state, action) {
 const updateTodoItem = action => (state, idx) => {
   if (idx === action.todoIdx) {
     return TodoItem.update(state, action.$fwdAction)
-  } else {
-    return state
   }
+
+  return state
 }
 
 function updateTodoItems (state, action) {
@@ -75,9 +72,9 @@ function updateTodoItems (state, action) {
     const idx = action.todoIdx
 
     return state.update('todos', todos => todos.slice(0, idx).concat(todos.slice(idx + 1)))
-  } else {
-    return state.update('todos', todos => todos.map(updateTodoItem(action)))
   }
+
+  return state.update('todos', todos => todos.map(updateTodoItem(action)))
 }
 
 
