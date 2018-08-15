@@ -59,7 +59,7 @@ const configs = [
   }
 ]
 
-glob.sync('./examples/src/StaticCounter/Main.js').forEach(exampleEntry => {
+glob.sync('./examples/src/*/Main.js').forEach(exampleEntry => {
   configs.push({
     mode: 'development',
     entry: exampleEntry,
