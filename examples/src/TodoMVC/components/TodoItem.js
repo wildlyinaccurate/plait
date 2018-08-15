@@ -48,7 +48,7 @@ export function view (state, dispatch) {
       <div className="view">
         {checkboxView(state, dispatch)}
         <label>{state.get('title')}</label>
-        <button className="destroy" ev-click={dispatch({ type: 'DELETE' })}></button>
+        <button className="destroy" ev-click={dispatch({ type: 'DELETE' })} />
       </div>
 
       <input

@@ -1,16 +1,19 @@
 {
   "env": {
-    "es6": true,
     "node": true,
     "browser": true,
     "jasmine": true
   },
-  "extends": "standard",
+  "extends": [
+    "standard",
+    "standard-jsx"
+  ],
   "parserOptions": {
     "sourceType": "module"
   },
   "rules": {
     "arrow-parens": ["error", "as-needed"],
+    "jsx-quotes": ["error", "prefer-double"],
     "no-else-return": "error",
     "no-multiple-empty-lines": "off",
     "no-unused-vars": ["error", { "varsIgnorePattern": "(h|es6)" }]
